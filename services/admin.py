@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Services, Category, Skills
+from .models import *
 
 # Register your models here.
+admin.site.register(JobSkills)
 admin.site.register(Category)
-admin.site.register(Skills)
 admin.site.register(Services)
