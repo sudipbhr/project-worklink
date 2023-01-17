@@ -1,62 +1,54 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-	
+
 <head>
-		<meta charset="utf-8" />
-		<meta name="author" content="Themezhub" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-        <title>{% block title %}{% endblock title %}| WorkLink: Connecting Job Seeker and Job Provider</title>
-		 
-        <!-- Custom CSS -->
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-		<link rel="stylesheet" href="{% static 'css/toastr.min.css' %}">
+    <meta charset="utf-8" />
+    <meta name="author" content="Project WorkLink Members" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="WorkLink is a web application that connects job seekers and job providers.">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <title>{% block title %}{% endblock title %}| WorkLink: Connecting Job Seeker and Job Provider</title>
 
-        {% block extra_css %} {% endblock extra_css %}
-		
-    </head>
-	
-    <body>
-	
+    <!-- Custom CSS -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/toastr.min.css' %}"> {% block extra_css %} {% endblock extra_css %}
 
-        <!-- Preloader - style you can find in spinners.css -->
-       <div class="preloader"></div>
-		
-        <!-- Main wrapper - style you can find in pages.scss -->
-        <div id="main-wrapper">
+</head>
 
-                <!-- Top header  -->
-
-            {% include 'includes/header.html' %}
-
-			<div class="clearfix"></div>
-			
-            {% block content %} {% endblock content %}
-
-			
-            {% include 'includes/footer.html' %}
-			
-			{% include './authentication/login.html' %}
-			
-			<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
-			
-
-		</div>
+<body>
 
 
-		<script src="{% static 'js/jquery.min.js' %}"></script>
-		<script src="{% static 'js/popper.min.js' %}"></script>
-		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'js/slick.js' %}"></script>
-		<script src="{% static 'js/slider-bg.js' %}"></script>
-		<script src="{% static 'js/toastr.min.js'%}"></script>
-		<script src="{% static 'js/smoothproducts.js' %}"></script>
-		<script src="{% static 'js/jQuery.style.switcher.js' %}"></script>
-		<script src="{% static 'js/custom.js' %}"></script>
-        {% block extra_js %} {% endblock extra_js %}
-		
+    <div class="preloader"></div>
 
-	</body>
+    <div id="main-wrapper">
+
+        <!-- Top header  -->
+
+        {% include 'includes/header.html' %}
+
+        <div class="clearfix"></div>
+
+        {% block content %} {% endblock content %} {% include 'includes/footer.html' %} {% include './authentication/login.html' %}
+
+        <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+
+
+    </div>
+
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/slick.js' %}"></script>
+    <script src="{% static 'js/slider-bg.js' %}"></script>
+    <script src="{% static 'js/toastr.min.js'%}"></script>
+    <script src="{% static 'js/smoothproducts.js' %}"></script>
+    <script src="{% static 'js/jQuery.style.switcher.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    {% block extra_js %} {% endblock extra_js %}
+
+
+</body>
 
 </html>

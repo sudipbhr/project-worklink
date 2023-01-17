@@ -1,0 +1,9 @@
+create templates for the following pages:
+1. job detail page = sudip
+2. job search using map = anusha
+3. candidate detail page= anusha
+4. all Categories page = asha 
+5. about us pages =  asha
+6. contact us page= asha
+7. 404 pages =anusha
+8. dashboard :

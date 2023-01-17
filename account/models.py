@@ -12,19 +12,19 @@ class User(AbstractUser):
         ('servicer', 'Service Seeker'),
         ('admin', 'Admin')
     )
-    role= models.CharField(max_length=20, choices = ROLES_CHOICES, default='servicee')
+    role = models.CharField(max_length=20, choices = ROLES_CHOICES, default='servicee')
     USER_STATUS_CHOICES= (
         ('active', 'Active'),
         ('suspended', 'Suspended')
     )
-    user_status = models.CharField(max_length=20, choices= USER_STATUS_CHOICES, default='active')
+    user_status = models.CharField(max_length=20, choices = USER_STATUS_CHOICES, default='active')
     GENDER_CHOICES= (
         ('male', 'Male'),
         ('female', 'Female'),
         ('other', 'Do not specify')
     )
     gender = models.CharField(max_length=20, choices= GENDER_CHOICES, blank=True)
-    avatar = models.ImageField(upload_to='avatar/', default='avatar/img/default.webp', blank=True)
+    avatar = models.ImageField(upload_to='avatar/', default='avatar/default.webp', blank=True)
     experience = models.IntegerField(default=0, help_text="Duration in years", blank=True)
     address = models.CharField(max_length=100, blank=True)
     REQUIRED_FIELDS=[]
@@ -62,7 +62,7 @@ class UserEducation(models.Model):
     add_degree= models.CharField(max_length=50, blank=True)
 
     def __str__(self):
-        return self.user.get_full_name()
+        return self.user.get_full_name() + ' has ' + self.level + ' education'
 
     class Meta:
         verbose_name_plural = "User Education"
