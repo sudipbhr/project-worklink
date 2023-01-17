@@ -4,7 +4,7 @@
 				<div class="container">
 					<nav id="navigation" class="navigation navigation-landscape">
 						<div class="nav-header">
-							<a class="nav-brand" href="#">
+							<a class="nav-brand" href="{% url 'home-page' %}">
 								<img src="{% static 'img/logo.png' %}" class="logo" alt="" />
 							</a>
 							<div class="nav-toggle"></div>
@@ -30,7 +30,8 @@
 								
 								<li><a href="{% url 'job-search' %}">Find Job</a>
 								</li>
-								
+								<li><a href="{% url 'job-detail' %}"> Job Details</a>
+								</li>
 								<li><a href="{% url 'job-search' %}">Candidates</a>
 								</li>
 								
