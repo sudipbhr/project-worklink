@@ -7,24 +7,65 @@ from django.contrib import messages
 
 # Create your views here.
 
-def login(request):
+def user_login(request):
     if request.method == "POST":
         user_email = request.POST["email"]
         user_password = request.POST["password"]
 
         user_exists = User.objects.filter(Q(email=user_email) | Q(phone_number=user_email)).first()
         if user_exists:
-            user=authenticate(request, email=user_exists.email, password=user_password)
-            login(request, user)
-            messages.success(request, "Logged in successfully")
-            print("Logged in successfully")
-            return redirect('home-page')
+            user = authenticate(request, username=user_exists.username, password=user_password)
+            if user:
+                login(request, user)
+                messages.success(request, "Logged in successfully")
+                return redirect('home-page')
+            else:
+                messages.error(request, "Invalid credentials")
+                return redirect('home-page')
         else:
-            messages.error(request, "User does not exist")
+            messages.error(request, "User does not exist with this email or phone number")
             print("User does not exist")
             return redirect('home-page')
 
-        template_name = "authentication/login.html"
-        context = {}
-        return render(request, template_name, context)
+    template_name = "services/home.html"
+    context = {}
+    return render(request, template_name, context)
 
+def user_register(request):
+    if request.method == "POST":
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        user_email = request.POST["email"]
+        user_phone= request.POST["phone"]
+        user_password = request.POST["password1"]
+        user_password2 = request.POST["password2"]
+        user_exists = User.objects.filter(Q(email=user_email), Q(first_name=first_name), Q(last_name=last_name) 
+                            | Q(phone_number=user_phone), Q(first_name=first_name), Q(last_name=last_name)).exists()
+        if user_exists:
+            messages.error(request, "User already exists")
+            return redirect('home-page')
+        elif (user_password != user_password2):
+            messages.error(request, "Passwords don't match")
+            return redirect('home-page')
+        elif user_email=="" and user_phone=="":
+            messages.error(request, "Email or phone number is required")
+            return redirect('home-page')
+        else:
+            if user_email:
+                username = user_email.lower()
+            else:
+                username = user_phone
+            user = User.objects.create_user(first_name=first_name, last_name=last_name,  username=username, email=user_email, password=user_password, phone_number=user_phone)
+            user.save()
+            messages.success(request, "User created successfully")
+            return redirect('home-page')
+
+    template_name = "services/home.html"
+    context = {}
+    return render(request, template_name, context)
+
+
+def user_logout(request):
+    logout(request)
+    messages.success(request, "Logged out successfully")
+    return redirect('home-page')

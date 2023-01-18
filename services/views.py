@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Services, Category
-
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
@@ -15,11 +15,17 @@ def home(request):
 def services_search(request):
     services = Services.objects.all()
     context={
-        'text': "Good evening everyone",
         'services': services
     }
     return render(request, 'services/services-search.html', context)
 
 
 def services_detail(request):
-    return render(request, 'services/service-detail.html', context={})
+    template_name='services/service-detail.html'
+    context={}
+    return render(request, template_name, context)
+
+def user_dashboard(request):
+    template_name='services/dashboard.html'
+    context={}
+    return render(request, template_name, context)

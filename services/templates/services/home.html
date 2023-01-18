@@ -68,7 +68,7 @@
                      
 						{% for service in services %}
 						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 service-link">
 							<div class="job_grid border rounded ">
 								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
 								<div class="position-absolute ab-right"><span class="medium bg-light-warning text-warning px-2 py-1 rounded">{{service.duration}} days</span></div>
@@ -149,5 +149,13 @@
 					
 				</div>
 			</section>
-			<!-- ======================= All category ======================== -->
 {% endblock content %}
+{% block extra_js %}
+<script>
+	$(document).ready(function(){
+		$('.service-link'. onclick(function(){
+			location.href = {% url 'service-detail' service.id %}
+		}))
+	})
+</script>
+{% endblock extra_js%}
