@@ -1,7 +1,7 @@
 {% if messages %}
 {% for message in messages %}
 <script>
-    toastr.options = { positionClass: "toast-bottom-right", }
+    toastr.options = { positionClass: "toast-top-right", }
 </script>
 {% if message.tags == 'success'%}
 <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
