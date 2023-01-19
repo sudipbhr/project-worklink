@@ -20,6 +20,21 @@ def services_search(request):
     return render(request, 'services/services-search.html', context)
 
 
+def service_search_map(request):
+    template_name='services/service-search-map.html'
+    context={}
+    return render(request, template_name, context)
+
+
+def candidate_detail(request):
+    template_name='services/candidate-detail.html'
+    context={}
+    return render(request, template_name, context)
+
+def error_page(request):
+  return render(request, 'services/error-page.html', context={})
+  
+  
 def services_detail(request, id):
     services = get_object_or_404(Services, id=id)
 
@@ -32,4 +47,4 @@ def services_detail(request, id):
 def user_dashboard(request):
     template_name='services/dashboard.html'
     context={}
-    return render(request, template_name, context)
+
