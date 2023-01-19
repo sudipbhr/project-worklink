@@ -7,3 +7,4 @@ create templates for the following pages:
 6. contact us page= asha
 7. 404 pages =anusha
 8. dashboard :
+chat, review, user details = asha
