@@ -151,11 +151,4 @@
 			</section>
 {% endblock content %}
 {% block extra_js %}
-<script>
-	$(document).ready(function(){
-		$('.service-link'. onclick(function(){
-			location.href = {% url 'service-detail' service.id %}
-		}))
-	})
-</script>
 {% endblock extra_js%}
