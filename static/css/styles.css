@@ -5,9 +5,6 @@
 # Global Settings
 # Header Navigation Styles
 # Homes Banner
-# Ecommerce Elements    2759
-# General Features
-# Blog Designs
 # Footer Start
 # Responsiveness Start
 # Bottom To top Scroll
@@ -18,14 +15,7 @@
 
 @import url(plugins/animation.css);
 @import url(plugins/bootstrap.min.css);
-@import url(plugins/snackbar.min.css);
-@import url(plugins/slick.css);
-@import url(plugins/slick-theme.css);
-@import url(plugins/themify.css);
-@import url(plugins/line-icons.css);
-@import url(plugins/iconfont.css);
 @import url(plugins/font-awesome.css);
-@import url(plugins/flaticon.css);
 
 /*------------------------------------
 	Fonts
