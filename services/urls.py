@@ -10,4 +10,8 @@ urlpatterns = [
     path('candidates/candidate-detail/', views.candidate_detail, name="candidate-detail"),
     path('error-page/', views.error_page, name="404-page"),
     path('dashboard/', views.user_dashboard, name="dashboard"),
+    path('about-us/', views.about_us, name="about-us"),
+    path('contact-us/', views.contact_us, name="contact-us"),
+    path('categories/', views.categories, name="categories"),
+
 

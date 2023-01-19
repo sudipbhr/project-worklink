@@ -47,4 +47,19 @@ def services_detail(request, id):
 def user_dashboard(request):
     template_name='services/dashboard.html'
     context={}
+    return render(request, template_name, context)
 
+def about_us(request):
+    template_name = 'about-us.html'
+    context={}
+    return render(request, template_name, context)
+
+def contact_us(request):
+    template_name= 'contact-us.html'
+    context={}
+    return render (request, template_name, context)
+
+def categories(request):
+    template_name= 'services/categories.html'
+    context={}
+    return render (request, template_name, context)
