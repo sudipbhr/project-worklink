@@ -3,11 +3,11 @@
 {% block title %} Home {% endblock title %}
 {% block content %}
 <!-- ======================= Home Banner ======================== -->
-			<div class="home-banner margin-bottom-0" style="background:url({% static 'img/banner-1.jpg' %});repeat: no-repeat;" data-overlay="4">
+			<div class="home-banner" style="background:url({% static 'img/banner-1.jpg' %});repeat: no-repeat;" data-overlay="4">
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="banner_caption text-center mb-5">
+							<div class="text-center mb-5">
 								<h1 class="banner_title ft-bold mb-1">The Most Exciting Jobs</h1>
 								<p class="fs-md ft-medium">Connecting Service Seeker and Service Provider </p>
 							</div>
@@ -68,25 +68,21 @@
                      
 						{% for service in services %}
 						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 service-link" data-link={% url 'service-detail' service.id %}>
 							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
 								<div class="position-absolute ab-right"><span class="medium bg-light-warning text-warning px-2 py-1 rounded">{{service.duration}} days</span></div>
 								<div class="job_grid_thumb mb-2 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="{{service.image.url}}" class="img-fluid" width="70" alt="" /></a>
+									<img src="{{service.image.url}}" class="d-block m-auto img-fluid text-center" width="70" alt="" />
 								</div>
 								<div class="job_grid_caption text-center pb-3 px-3">
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">{{ service.title}}</a></h4>
+									<h4 class="mb-0 ft-medium medium text-dark fs-md">{{ service.title}}</h4>
 									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>{{ service.location }}</span></div>
 								</div>
 								<div class="job_grid_footer pb-4 px-3">
 									<ul class="p-0 skills_tag text-center">
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{service.skills}}</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">WordPress</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Javascript</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">PHP</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">HTML5</span></li>
-										<li><span class="px-2 py-1 medium theme-bg rounded text-light">+3 More</span></li>
+										{% for skill in service.skills.all %}
+										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill}}</span></li>
+										{% endfor %}
 									</ul>
 								</div>
 							</div>
@@ -127,14 +123,14 @@
 							<div class="cats-wrap text-center">
 								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white px-2 py-4">
 									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle">
-										<i class="lni lni-laptop-phone fs-lg theme-cl"></i>
+										<i class="fs-lg theme-cl">{{category.name | slice:1}}</i>
 									</div>
 									<div class="cats-box-caption">
 										<h4 class="fs-md mb-0 ft-medium m-catrio">{{category.name}}</h4>
-										<span class="text-muted">607 Jobs</span>
+										<span class="text-muted">{{category.no_of_jobs}} Jobs</span>
 									</div>
 								</a>
-							</div>
+					</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -149,5 +145,17 @@
 					
 				</div>
 			</section>
-			<!-- ======================= All category ======================== -->
 {% endblock content %}
+{% block extra_js %}
+<script>
+	var card_div = document.querySelectorAll('.service-link')
+    for (var i = 0; i < card_div.length; i++) {
+        card_div[i].addEventListener('click', function () {
+            var url = this.getAttribute('data-link')
+            if (url) {
+                window.location.href = url
+            }
+        })
+    }
+</script>
+{% endblock extra_js%}

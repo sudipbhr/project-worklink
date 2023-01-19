@@ -26,6 +26,9 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
+    def no_of_jobs(self):
+        return self.services_set.all().count()
+
 
 class Services(models.Model):
     # model for jobs in online job portal

@@ -11,10 +11,11 @@ class MyUserAdmin(UserAdmin):
     model = User
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'role', 'avatar')}),
+        ('Personal', {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'role', 'avatar')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')})
     )
+    # this is for update view
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -25,8 +26,9 @@ class MyUserAdmin(UserAdmin):
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
 
     )
+    # this is for create view
     ordering = ('first_name',)
-    list_display = ['first_name', 'last_name', 'role', 'phone_number']
+    list_display = ['first_name', 'last_name', 'role', 'phone_number', 'email']
 
 
 

@@ -6,7 +6,7 @@
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
-							<div class="banner_caption text-center mb-2">
+							<div class="text-center mb-2">
 								<h1 class="ft-bold mb-4">The Most Exciting Jobs</h1>
 							</div>
 							
@@ -44,20 +44,20 @@
 					<div class="row">
 						
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-						
 							<div class="bg-white rounded px-3 py-4 mb-4">
 								<div class="jbd-01 d-flex align-items-center justify-content-between">
 									<div class="jbd-flex d-flex align-items-center justify-content-start">
-										<div class="jbd-01-thumb">
-											<img src="assets/img/c-1.png" class="img-fluid" width="90" alt="" />
+										<div class="">
+											<img src="{{ services.image.url }}" class="img-fluid" width="90" alt="" />
 										</div>
 										<div class="jbd-01-caption pl-3">
-											<div class="tbd-title"><h4 class="mb-0 ft-medium fs-md">Senior UI/UX Web Designer in USA</h4></div>
-											<div class="jbl_location mb-3"><span><i class="lni lni-map-marker mr-1"></i>San Francisco, USA</span><span class="medium ft-medium text-warning ml-3">Part Time</span></div>
+											<div class="tbd-title"><h4 class="mb-0 ft-medium fs-md">{{services.title}}</h4></div>
+											<div class="mb-3"><span><i class="lni lni-map-marker mr-1"></i>{{services.location}}</span><span class="medium ft-medium text-warning ml-3">{{services.duration}} days</span></div>
 											<div class="jbl_info01">
-												<span class="px-2 py-1 ft-medium medium rounded theme-cl theme-bg-light mr-2">Magento</span>
-												<span class="px-2 py-1 ft-medium medium rounded text-danger bg-light-danger mr-2">WordPress</span>
-												<span class="px-2 py-1 ft-medium medium rounded text-purple bg-light-purple">Laravel</span>												
+												{% for skill in services.skills.all %}
+												<span class="px-2 py-1 ft-medium medium rounded theme-cl theme-bg-light mr-2">{{skill}}</span>
+												{% endfor %}
+																							
 											</div>
 										</div>
 									</div>
@@ -72,11 +72,10 @@
 								<div class="jbd-01 px-3 py-4">
 									<div class="jbd-details mb-4">
 										<h5 class="ft-medium fs-md">Job description</h5>
-										<p>We are looking for a PHP Developer responsible for managing back-end services and the interchange of data between the server and the users. Your primary focus will be the development of all server-side logic, definition and maintenance of the central database</p>
-										<p>Across our network, we strive to provide rapid, performance-based, industry-focused and technology-enabled services, which reflect a shared knowledge of global and local industries and our experience of the Indian business environment.</p>
+										<p>{{services.description}}</p>
 									</div>
 									
-									<div class="jbd-details mb-3">
+									{% comment %} <div class="jbd-details mb-3">
 										<h5>Requirements:</h5>
 										<div class="position-relative row">
 											<div class="col-lg-12 col-md-12 col-12">
@@ -138,9 +137,9 @@
 												</div>
 											</div>
 										</div>
-									</div>
+									</div> {% endcomment %}
 									
-									<div class="jbd-details mb-4">
+									{% comment %} <div class="jbd-details mb-4">
 										<h5 class="ft-medium fs-md">Skills Required</h5>
 										<div class="other-details">
 											<div class="details ft-medium"><label class="text-muted">Role</label><span class="text-dark">Database Architect / Designer</span></div>
@@ -149,9 +148,9 @@
 											<div class="details ft-medium"><label class="text-muted">Employment Type</label><span class="text-dark">Full Time, Permanent</span></div>
 											<div class="details ft-medium"><label class="text-muted">Role Category</label><span class="text-dark">DBA / Data warehousing</span></div>
 										</div>
-									</div>
+									</div> {% endcomment %}
 									
-									<div class="jbd-details mb-1">
+									{% comment %} <div class="jbd-details mb-1">
 										<h5 class="ft-medium fs-md">Key Skills</h5>
 										<ul class="p-0 skills_tag text-left">
 											<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Joomla</span></li>
@@ -164,7 +163,7 @@
 											<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Dynamod</span></li>
 											<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Database</span></li>
 										</ul>
-									</div>
+									</div> {% endcomment %}
 									
 								</div>
 								

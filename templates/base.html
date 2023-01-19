@@ -26,10 +26,11 @@
         <!-- Top header  -->
 
         {% include 'includes/header.html' %}
-
+         
         <div class="clearfix"></div>
 
         {% block content %} {% endblock content %} {% include 'includes/footer.html' %} {% include './authentication/login.html' %}
+        {% include './authentication/register.html' %}
 
         <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
 
@@ -48,6 +49,7 @@
     <script src="{% static 'js/custom.js' %}"></script>
     
     {% block extra_js %} {% endblock extra_js %}
+    {% include 'includes/messages.html' %}
 
 
 </body>
