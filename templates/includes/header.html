@@ -36,7 +36,7 @@
                 <ul class="nav-menu nav-menu-social align-to-right">
                     <li>
                         <a href="#" class="theme-cl ft-medium">
-                             {% if request.user.is_authenticated %}<i class="fas fa-user"></i> {{ request.user.get_full_name}}
+                             {% if request.user.is_authenticated %}<i class="fa-solid fa-user"></i> {{ request.user.get_full_name}}
                             <ul class="nav-dropdown nav-submenu">
                                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     <li><a href="{% url 'logout' %}" class="text-danger">Logout</a></li>
@@ -44,10 +44,10 @@
                 </a>
                 {% else %}
                 <a href="#" data-toggle="modal" data-target="#login" class="theme-cl ft-medium">
-                    <i class="fas fa-user"></i> Sign in
+                    <i class="fa fa-user"></i> Sign in
                 </a>
                 <a href="#" data-toggle="modal" data-target="#register" class="theme-cl ft-medium">
-                    <i class="fas fa-user"></i> Register
+                    <i class="fa-solid fa-user"></i> Register
                 </a> {% endif %}
 
                 </li>
