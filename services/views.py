@@ -63,3 +63,9 @@ def categories(request):
     template_name= 'services/categories.html'
     context={}
     return render (request, template_name, context)
+
+
+def post_job(request):
+    template_name='services/post-job.html'
+    context={}
+    return render(request, template_name, context)
