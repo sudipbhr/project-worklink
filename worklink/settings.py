@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'geolocation',
     'payment',
     'reviews',
+    'chat',
     
 
 ]
