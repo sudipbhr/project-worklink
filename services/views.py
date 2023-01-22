@@ -10,7 +10,8 @@ def home(request):
         'categories': categories,
         'services': services,
     }
-    return render(request, 'services/home.html', context)
+    template_name='services/home.html'
+    return render(request, template_name, context)
 
 def services_search(request):
     services = Services.objects.all()
