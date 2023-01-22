@@ -35,16 +35,18 @@ def user_login(request):
     if request.user.is_authenticated:
         return redirect('home-page')
 
-    template_name = "authentication/join-as.html"
+    template_name = "authentication/login.html"
     context = {}
     return render(request, template_name, context)
 
 def user_register(request):
+    user_type=[]
     if request.method == "POST":
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
         user_email = request.POST["email"]
         user_phone= request.POST["phone"]
+        user_type= request.POST['user_type']
         user_password = request.POST["password1"]
         user_password2 = request.POST["password2"]
         user_exists = User.objects.filter(Q(email=user_email), Q(first_name=first_name), Q(last_name=last_name) 
@@ -63,7 +65,7 @@ def user_register(request):
                 username = user_email.lower()
             else:
                 username = user_phone
-            user = User.objects.create_user(first_name=first_name, last_name=last_name,  username=username, email=user_email, password=user_password, phone_number=user_phone)
+            user = User.objects.create_user(first_name=first_name, last_name=last_name,  username=username, email=user_email, password=user_password, phone_number=user_phone, role=user_type)
             user.save()
             user_verification = UserVerification.objects.create(user=user)
             user_verification.save()
