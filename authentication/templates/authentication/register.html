@@ -1,58 +1,102 @@
-			 {% extends 'base.html' %}
-             {% load static %}
-            {% block title %}Register{% endblock %}
-             {% block content %}
-            <section class="middle">
-				<div class="container">
-					<div class="row d-flex align-items-center justify-content-center ht-100">
-						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                            <form class="border p-3 rounded" action="{% url 'register' %}" method="POST">
-                                <h3 class="text-center ft-bold p-2">Register to WorkLink</h3>
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label>First Name *</label>
-                                        <input type="text" name="first_name" class="form-control" placeholder="First Name">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Last Name *</label>
-                                        <input type="text" name="last_name" class="form-control" placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <p class="text-warning">**Either email or phone number is required**</p>
-                                <div class="row">
-                                <div class="form-group col-md-7">
-                                    <label>Email(optional)</label>
-                                    <input type="text" name="email" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="form-group col-md-5">
-                                    <label>Phone number(optional)</label>
-                                    <input type="number" name="phone" class="form-control" placeholder="Phone number">
-                                </div>
-                                </div>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create an account {% endblock %}
+{% block extra_css %}
+<style>
+label:hover{
+    cursor: pointer;
+}
+input[type=checkbox]:checked + label {
+    border: 1px solid #28b661;
+}
+</style>
+{% endblock extra_css%}
+{% block content %}
+<section class="middle">
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center ht-100">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                <h3 class="text-center ft-bold pb-4">Join as Service Provider or Service Seeker</h3>
+                <form class="border p-3 rounded" action="{% url 'register' %}" method="POST">
+                        {% csrf_token %}
+                    <ul class="d-flex">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <li>
+                                <input type="checkbox" id="myCheckbox1" name="user_type" value="servicee"/>
+                                <label for="myCheckbox1" class="d-flex flex-column justify-content-center align-items-center">
+                                    <img src="{% static 'img/service-seeker.png' %}" style="height:100px; width:100px" />
+                                    <h4>Service Provider</h4>
+                                </label>
+                            </li>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <li>
+                                <input type="checkbox" id="myCheckbox2" name="user_type" value="servicer"/>
+                                <label for="myCheckbox2" class="d-flex flex-column justify-content-center align-items-center">
+                                    <img src="{% static 'img/service-provider.png' %}" style="height:100px; width:100px" />
+                                    <h4>Service Seeker</h4>
+                                </label>
+                            </li>
+                        </div>
+                    </ul>               
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>First Name *</label>
+                            <input type="text" name="first_name" class="form-control" placeholder="First Name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Last Name *</label>
+                            <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <p class="text-warning">**Either email or phone number is required**</p>
+                    <div class="row">
+                        <div class="form-group col-md-7">
+                            <label>Email(optional)</label>
+                            <input type="text" name="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label>Phone number(optional)</label>
+                            <input type="number" name="phone" class="form-control" placeholder="Phone number">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Password *</label>
+                            <input type="password" name="password1" class="form-control" placeholder="Password*">
+                        </div>
 
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label>Password *</label>
-                                        <input type="password" name="password1" class="form-control" placeholder="Password*">
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label>Confirm Password *</label>
-                                        <input type="password" name="password2" class="form-control" placeholder="Confirm Password*">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <p>By registering your details, you agree with our Terms & Conditions, and Privacy Policy.</p>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Create An Account</button>
-                                </div>
-                            </form>
-						</div>
-							
-					</div>
-				</div>
-			</section>
-            {% endblock %}
+                        <div class="form-group col-md-6">
+                            <label>Confirm Password *</label>
+                            <input type="password" name="password2" class="form-control" placeholder="Confirm Password*">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p>By registering your details, you agree with our Terms & Conditions, and Privacy Policy.</p>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Create An Account</button>
+                    </div>
+                </div>
+                </form>
+			</div>
+         </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function(){
+            $('#myCheckbox1').click(function(){
+                if($(this).is(':checked')){
+                    $('#myCheckbox2').prop('checked', false);
+                }
+            });
+            $('#myCheckbox2').click(function(){
+                if($(this).is(':checked')){
+                    $('#myCheckbox1').prop('checked', false);
+                }
+            });
+        });
+    </script>
+{% endblock extra_js %}
