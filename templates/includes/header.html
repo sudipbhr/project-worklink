@@ -36,7 +36,8 @@
                 <ul class="nav-menu nav-menu-social align-to-right">
                     <li>
                         <a href="#" class="theme-cl ft-medium">
-                             {% if request.user.is_authenticated %}<i class="fa-solid fa-user"></i> {{ request.user.get_full_name}}
+                             {% if request.user.is_authenticated %}
+                             <i class="fa fa-user"></i> {{ request.user.get_full_name}}
                             <ul class="nav-dropdown nav-submenu">
                                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     <li><a href="{% url 'logout' %}" class="text-danger">Logout</a></li>
@@ -47,7 +48,7 @@
                     <i class="fa fa-user"></i> Sign in
                 </a>
                 <a href="{% url 'register' %}" class="theme-cl ft-medium">
-                    <i class="fa-solid fa-user"></i> Register
+                    <i class="fas fa-plus-circle"></i> Register
                 </a> {% endif %}
 
                 </li>
