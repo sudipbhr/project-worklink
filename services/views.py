@@ -69,3 +69,18 @@ def post_job(request):
     template_name='services/post-job.html'
     context={}
     return render(request, template_name, context)
+
+
+def manage_job(request):
+    template_name='services/manage-job.html'
+    context={}
+    return render(request, template_name, context)
+
+def sidebar(request):
+    template_name='services/sidebar.html'
+    context={}
+    return render(request, template_name, context)
+
+        
+    
+    
