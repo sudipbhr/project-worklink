@@ -42,10 +42,10 @@
                 </ul>
                 </a>
                 {% else %}
-                <a href="#" data-toggle="modal" data-target="#login" class="theme-cl ft-medium">
+                <a href="{% url 'login' %}" class="theme-cl ft-medium">
                     <i class="fa fa-user"></i> Sign in
                 </a>
-                <a href="#" data-toggle="modal" data-target="#register" class="theme-cl ft-medium">
+                <a href="{% url 'register' %}" class="theme-cl ft-medium">
                     <i class="fa-solid fa-user"></i> Register
                 </a> {% endif %}
 
