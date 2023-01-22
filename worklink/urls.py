@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('services.urls')),
     path('auth/', include('authentication.urls')),
     path('chat/', include('chat.urls')),
+    path('resume/', include('resume.urls')),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
