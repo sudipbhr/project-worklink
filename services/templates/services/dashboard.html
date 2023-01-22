@@ -1,252 +1,307 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Dashboard {% endblock title %}
-{% block content %}
-<div class="dashboard-wrap bg-light">
-	<a class="mobNavigation" data-toggle="collapse" href="#MobNav" role="button" aria-expanded="false" aria-controls="MobNav">
-		<i class="fas fa-bars mr-2"></i>Dashboard Navigation
-	</a>
-		 <div class="collapse" id="MobNav">
-			<div class="dashboard-nav">
-				<div class="dashboard-inner">
-					<ul data-submenu-title="Main Navigation">
-						<li class="active"><a href="employer-dashboard.html"><i class="lni lni-dashboard mr-2"></i>Dashboard</a></li>
-						<li><a href="{% url 'post-job' %}"><i class="lni lni-files mr-2"></i>Post jobs</a></li>
-						<li><a href="{% url 'manage-job' %}"><i class="lni lni-add-files mr-2"></i>Manage Jobs</a></li>
-						<li><a href="dashboard-manage-applications.html"><i class="lni lni-briefcase mr-2"></i>Manage Applicants</a></li>
-						<li><a href="dashboard-shortlisted-resume.html"><i class="lni lni-bookmark mr-2"></i>BookmarkResumes<span class="count-tag bg-warning">4</span></a></li>
-						<li><a href="dashboard-packages.html"><i class="lni lni-mastercard mr-2"></i>Packages</a></li>
-						<li><a href="dashboard-messages.html"><i class="lni lni-envelope mr-2"></i>Messages<span class="count-tag">4</span></a></li>
-					</ul>
-					<ul data-submenu-title="My Accounts">
-						<li><a href="dashboard-my-profile.html"><i class="lni lni-user mr-2"></i>My Profile </a></li>
-						<li><a href="dashboard-change-password.html"><i class="lni lni-lock-alt mr-2"></i>Change Password</a></li>
-						<li><a href="javascript:void(0);"><i class="lni lni-trash-can mr-2"></i>Delete Account</a></li>
-						<li><a href="index.html"><i class="lni lni-power-switch mr-2"></i>Log Out</a></li>
-					</ul>
-				</div>					
-			</div>
-		</div>
-		
-		<!-- ============================================================== -->
-			<!-- Top header  -->
-			<!-- ============================================================== -->
-			
-			<!-- ======================= dashboard Detail ======================== -->
-			
+{% block title %} Dashboard {% endblock %}
+			{% block content %}
 			<div class="dashboard-wrap bg-light">
-				<a class="mobNavigation" data-toggle="collapse" href="#MobNav" role="button" aria-expanded="false" aria-controls="MobNav">
-					<i class="fas fa-bars mr-2"></i>Dashboard Navigation
-				</a>
-					 <div class="collapse" id="MobNav">
-						<div class="dashboard-nav">
-							<div class="dashboard-inner">
-								<ul data-submenu-title="Main Navigation">
-									<li class="active"><a href="employer-dashboard.html"><i class="lni lni-dashboard mr-2"></i>Dashboard</a></li>
-									<li><a href="{% url 'post-job' %}"><i class="lni lni-files mr-2"></i>Post New Job</a></li>
-									<li><a href="{% url 'manage-job' %}"><i class="lni lni-add-files mr-2"></i>Manage Jobs</a></li>
-									<li><a href="dashboard-manage-applications.html"><i class="lni lni-briefcase mr-2"></i>Manage Applicants</a></li>
-									<li><a href="dashboard-shortlisted-resume.html"><i class="lni lni-bookmark mr-2"></i>BookmarkResumes<span class="count-tag bg-warning">4</span></a></li>
-									<li><a href="dashboard-packages.html"><i class="lni lni-mastercard mr-2"></i>Packages</a></li>
-									<li><a href="dashboard-messages.html"><i class="lni lni-envelope mr-2"></i>Messages<span class="count-tag">4</span></a></li>
-								</ul>
-								<ul data-submenu-title="My Accounts">
-									<li><a href="dashboard-my-profile.html"><i class="lni lni-user mr-2"></i>My Profile </a></li>
-									<li><a href="dashboard-change-password.html"><i class="lni lni-lock-alt mr-2"></i>Change Password</a></li>
-									<li><a href="javascript:void(0);"><i class="lni lni-trash-can mr-2"></i>Delete Account</a></li>
-									<li><a href="index.html"><i class="lni lni-power-switch mr-2"></i>Log Out</a></li>
-								</ul>
-							</div>					
-						</div>
-					</div>
-					
-					<div class="dashboard-content">
-						<div class="dashboard-tlbar d-block mb-5">
-							<div class="row">
-								<div class="colxl-12 col-lg-12 col-md-12">
-									<h1 class="ft-medium">Hello, Adam Jesuf</h1>
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb">
-											<li class="breadcrumb-item text-muted"><a href="#">Home</a></li>
-											<li class="breadcrumb-item"><a href="#" class="theme-cl">Dashboard</a></li>
-										</ol>
-									</nav>
-								</div>
-							</div>
-						</div>
-						
-						<div class="dashboard-widg-bar d-block">
-							<div class="row">
-								<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-									<div class="dash-widgets py-5 px-4 bg-success rounded">
-										<h2 class="ft-medium mb-1 fs-xl text-light">46</h2>
-										<p class="p-0 m-0 text-light fs-md">Submit Jobs</p>
-										<i class="lni lni-empty-file"></i>
-									</div>
-								</div>
-								<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-									<div class="dash-widgets py-5 px-4 bg-purple rounded">
-										<h2 class="ft-medium mb-1 fs-xl text-light">87</h2>
-										<p class="p-0 m-0 text-light fs-md">Applications</p>
-										<i class="lni lni-users"></i>
-									</div>
-								</div>
-								<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-									<div class="dash-widgets py-5 px-4 bg-danger rounded">
-										<h2 class="ft-medium mb-1 fs-xl text-light">312</h2>
-										<p class="p-0 m-0 text-light fs-md">Notifications</p>
-										<i class="lni lni-bar-chart"></i>
-									</div>
-								</div>
-								<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-									<div class="dash-widgets py-5 px-4 bg-blue rounded">
-										<h2 class="ft-medium mb-1 fs-xl text-light">32</h2>
-										<p class="p-0 m-0 text-light fs-md">Bookmark</p>
-										<i class="lni lni-heart"></i>
-									</div>
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-lg-6 col-md-12">
-									<div class="dashboard-gravity-list with-icons">
-										<h4 class="mb-0 ft-medium">Recent Activities</h4>
-										<ul>
-											<li>
-												<i class="dash-icon-box ti-layers text-purple bg-light-purple"></i> Your job for <strong class="ft-medium text-dark"><a href="#">IOS Developer</a></strong> has been approved!
-												<a href="#" class="close-list-item"><i class="fas fa-times"></i></a>
-											</li>
-	
-											<li>
-												<i class="dash-icon-box ti-star text-success bg-light-success"></i> Jodie Farrell left a review <div class="numerical-rating high" data-rating="5.0"></div> for<strong class="ft-medium text-dark"><a href="#"> Real Estate Logo</a></strong>
-												<a href="#" class="close-list-item"><i class="fas fa-times"></i></a>
-											</li>
-	
-											<li>
-												<i class="dash-icon-box ti-heart text-warning bg-light-warning"></i> Someone bookmarked your <strong class="ft-medium text-dark"><a href="#">SEO Expert Job</a></strong> listing!
-												<a href="#" class="close-list-item"><i class="fas fa-times"></i></a>
-											</li>
-	
-											<li>
-												<i class="dash-icon-box ti-star text-info bg-light-info"></i> Gracie Mahmood left a review <div class="numerical-rating mid" data-rating="3.8"></div> on <strong class="ft-medium text-dark"><a href="#">Product Design</a></strong>
-												<a href="#" class="close-list-item"><i class="fas fa-times"></i></a>
-											</li>
-	
-											<li>
-												<i class="dash-icon-box ti-heart text-danger bg-light-danger"></i> Your Magento Developer job expire<strong class="ft-medium text-dark"><a href="#">Renew</a></strong> now it!
-												<a href="#" class="close-list-item"><i class="fas fa-times"></i></a>
-											</li>
-	
-											<li>
-												<i class="dash-icon-box ti-star text-success bg-light-success"></i> Ethan Barrett left a review <div class="numerical-rating high" data-rating="4.7"></div> on <strong class="ft-medium text-dark"><a href="#">New Logo</a></strong>
-												<a href="#" class="close-list-item"><i class="fas fa-times"></i></a>
-											</li>
-	
-											<li>
-												<i class="dash-icon-box ti-star text-purple bg-light-purple"></i> Your Magento Developer job expire <strong class="ft-medium text-dark"><a href="#">Renew</a></strong> now it.
-												<a href="#" class="close-list-item"><i class="fas fa-times"></i></a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								
-								<div class="col-lg-6 col-md-12">
-									<div class="dashboard-gravity-list invoices with-icons">
-										<h4 class="mb-0 ft-medium">Invoices</h4>
-										<ul>
-											
-											<li><i class="dash-icon-box ti-files text-warning bg-light-warning"></i>
-												<strong class="ft-medium text-dark">Starter Plan</strong>
-												<ul>
-													<li class="unpaid">Unpaid</li>
-													<li>Order: #20551</li>
-													<li>Date: 01/08/2019</li>
-												</ul>
-												<div class="buttons-to-right">
-													<a href="javascript:void(0);" class="button text-light bg-warning">View Invoice</a>
-												</div>
-											</li>
-											
-											<li><i class="dash-icon-box ti-files text-success bg-light-success"></i>
-												<strong class="ft-medium text-dark">Basic Plan</strong>
-												<ul>
-													<li class="paid">Paid</li>
-													<li>Order: #20550</li>
-													<li>Date: 01/07/2019</li>
-												</ul>
-												<div class="buttons-to-right">
-													<a href="javascript:void(0);" class="button text-light bg-warning">View Invoice</a>
-												</div>
-											</li>
-	
-											<li><i class="dash-icon-box ti-files text-danger bg-light-danger"></i>
-												<strong class="ft-medium text-dark">Extended Plan</strong>
-												<ul>
-													<li class="paid">Paid</li>
-													<li>Order: #20549</li>
-													<li>Date: 01/06/2019</li>
-												</ul>
-												<div class="buttons-to-right">
-													<a href="javascript:void(0);" class="button text-light bg-warning">View Invoice</a>
-												</div>
-											</li>
-											
-											<li><i class="dash-icon-box ti-files text-success bg-light-success"></i>
-												<strong class="ft-medium text-dark">Platinum Plan</strong>
-												<ul>
-													<li class="paid">Paid</li>
-													<li>Order: #20548</li>
-													<li>Date: 01/05/2019</li>
-												</ul>
-												<div class="buttons-to-right">
-													<a href="javascript:void(0);" class="button text-light bg-warning">View Invoice</a>
-												</div>
-											</li>
-											
-											<li><i class="dash-icon-box ti-files text-warning bg-light-warning"></i>
-												<strong class="ft-medium text-dark">Extended Plan</strong>
-												<ul>
-													<li class="paid">Paid</li>
-													<li>Order: #20547</li>
-													<li>Date: 01/04/2019</li>
-												</ul>
-												<div class="buttons-to-right">
-													<a href="javascript:void(0);" class="button text-light bg-warning">View Invoice</a>
-												</div>
-											</li>
-											
-											<li><i class="dash-icon-box ti-files text-info bg-light-info"></i>
-												<strong class="ft-medium text-dark">Platinum Plan</strong>
-												<ul>
-													<li class="paid">Paid</li>
-													<li>Order: #20546</li>
-													<li>Date: 01/03/2019</li>
-												</ul>
-												<div class="buttons-to-right">
-													<a href="javascript:void(0);" class="button text-light bg-warning">View Invoice</a>
-												</div>
-											</li>
-	
-										</ul>
-									</div>
-								</div>	
-							</div>	
-								
-						</div>
-						
-						<!-- footer -->
+				{% include 'services/includes/sidebar.html' %}
+				
+				<div class="dashboard-content">
+					<div class="dashboard-tlbar d-block mb-5">
 						<div class="row">
-							<div class="col-md-12">
-								<div class="py-3">© 2022 Workplex. Designd By ThemezHub.</div>
+							<div class="colxl-12 col-lg-12 col-md-12">
+								<h1 class="ft-medium">Shortlisted Resume</h1>
 							</div>
 						</div>
-			
 					</div>
 					
+					<div class="dashboard-widg-bar d-block">
+						<div class="row">
+							<div class="col-xl-12 col-lg-12 col-md-12">
+							
+								<div class="px-3 py-2 br-bottom br-top bg-white rounded mb-3">
+									<div class="flixors">
+										<div class="row align-items-center justify-content-between">
+											<div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
+												<h6 class="mb-0 ft-medium fs-sm">07 Shortlisted Resume</h6>
+											</div>
+											
+											<div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
+												<div class="filter_wraps elspo_wrap d-flex align-items-center justify-content-end">
+													<div class="single_fitres mr-2">
+														<select class="custom-select simple">
+														  <option value="1" selected="">Default Sorting</option>
+														  <option value="2">Short By Name</option>
+														  <option value="3">Short By Rating</option>
+														  <option value="4">Short By Trending</option>
+														  <option value="5">Shot By Recent</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+								</div>
+								
+								<div class="data-responsive">
+									
+									<!-- Single List -->
+									<div class="dashed-list-wrap bg-white rounded mb-3">
+										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+											<div class="dashed-list-short d-flex align-items-center">
+												<div class="dashed-list-short-first">
+													<div class="dashed-avater"><img src="assets/img/t-3.png" class="img-fluid circle" width="70" alt="" /></div>
+												</div>
+												<div class="dashed-list-short-last">
+													<div class="cats-box-caption px-2">
+														<h4 class="fs-lg mb-0 ft-medium theme-cl">Sign Karan</h4>
+														<div class="d-block mb-2 position-relative">
+															<span><i class="lni lni-map-marker mr-1"></i>United States</span>
+															<span class="ml-2"><i class="lni lni-briefcase mr-1"></i>Web Designer</span>
+														</div>
+														<div class="ico-content">
+															<ul>
+																<li><a href="javascript:void(0);" class="px-2 py-1 medium bg-light-success rounded text-success"><i class="lni lni-download mr-1"></i>Download CV</a></li>
+																<li><a href="#" data-toggle="modal" data-target="#message" class="px-2 py-1 medium bg-light-info rounded text-info"><i class="lni lni-envelope mr-1"></i>Message</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="dashed-list-last">
+												<div class="dash-action">
+													<a href="javascript:void(0);" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="lni lni-eye"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="lni lni-checkmark"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="lni lni-trash-can"></i></a>
+												</div>
+											</div>
+										</div>
+										<div class="dashed-list-footer p-3 br-top">
+											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+											</div>
+											<div class="ico-content">
+												<ul>
+													<li><span><i class="lni lni-calendar mr-1"></i>07 July 2017</span></li>
+													<li><span><i class="lni lni-add-files mr-1"></i>Recent</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Single List -->
+									<div class="dashed-list-wrap bg-white rounded mb-3">
+										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+											<div class="dashed-list-short d-flex align-items-center">
+												<div class="dashed-list-short-first">
+													<div class="dashed-avater"><img src="assets/img/t-4.png" class="img-fluid circle" width="70" alt="" /></div>
+												</div>
+												<div class="dashed-list-short-last">
+													<div class="cats-box-caption px-2">
+														<h4 class="fs-lg mb-0 ft-medium theme-cl">Charles T. Gerena</h4>
+														<div class="d-block mb-2 position-relative">
+															<span><i class="lni lni-map-marker mr-1"></i>United States</span>
+															<span class="ml-2"><i class="lni lni-briefcase mr-1"></i>UI/UX Designer</span>
+														</div>
+														<div class="ico-content">
+															<ul>
+																<li><a href="javascript:void(0);" class="px-2 py-1 medium bg-light-success rounded text-success"><i class="lni lni-download mr-1"></i>Download CV</a></li>
+																<li><a href="#" data-toggle="modal" data-target="#message" class="px-2 py-1 medium bg-light-info rounded text-info"><i class="lni lni-envelope mr-1"></i>Message</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="dashed-list-last">
+												<div class="dash-action">
+													<a href="javascript:void(0);" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="lni lni-eye"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="lni lni-checkmark"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="lni lni-trash-can"></i></a>
+												</div>
+											</div>
+										</div>
+										<div class="dashed-list-footer p-3 br-top">
+											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+											</div>
+											<div class="ico-content">
+												<ul>
+													<li><span><i class="lni lni-calendar mr-1"></i>07 July 2017</span></li>
+													<li><span><i class="lni lni-add-files mr-1"></i>Recent</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Single List -->
+									<div class="dashed-list-wrap bg-white rounded mb-3">
+										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+											<div class="dashed-list-short d-flex align-items-center">
+												<div class="dashed-list-short-first">
+													<div class="dashed-avater"><img src="assets/img/t-1.png" class="img-fluid circle" width="70" alt="" /></div>
+												</div>
+												<div class="dashed-list-short-last">
+													<div class="cats-box-caption px-2">
+														<h4 class="fs-lg mb-0 ft-medium theme-cl">Julie D. Morales</h4>
+														<div class="d-block mb-2 position-relative">
+															<span><i class="lni lni-map-marker mr-1"></i>United States</span>
+															<span class="ml-2"><i class="lni lni-briefcase mr-1"></i>Web Designer</span>
+														</div>
+														<div class="ico-content">
+															<ul>
+																<li><a href="javascript:void(0);" class="px-2 py-1 medium bg-light-success rounded text-success"><i class="lni lni-download mr-1"></i>Download CV</a></li>
+																<li><a href="#" data-toggle="modal" data-target="#message" class="px-2 py-1 medium bg-light-info rounded text-info"><i class="lni lni-envelope mr-1"></i>Message</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="dashed-list-last">
+												<div class="dash-action">
+													<a href="javascript:void(0);" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="lni lni-eye"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="lni lni-checkmark"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="lni lni-trash-can"></i></a>
+												</div>
+											</div>
+										</div>
+										<div class="dashed-list-footer p-3 br-top">
+											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+											</div>
+											<div class="ico-content">
+												<ul>
+													<li><span><i class="lni lni-calendar mr-1"></i>07 July 2017</span></li>
+													<li><span><i class="lni lni-add-files mr-1"></i>Recent</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Single List -->
+									<div class="dashed-list-wrap bg-white rounded mb-3">
+										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+											<div class="dashed-list-short d-flex align-items-center">
+												<div class="dashed-list-short-first">
+													<div class="dashed-avater"><img src="assets/img/t-5.png" class="img-fluid circle" width="70" alt="" /></div>
+												</div>
+												<div class="dashed-list-short-last">
+													<div class="cats-box-caption px-2">
+														<h4 class="fs-lg mb-0 ft-medium theme-cl">Samantha D. Hebert</h4>
+														<div class="d-block mb-2 position-relative">
+															<span><i class="lni lni-map-marker mr-1"></i>United States</span>
+															<span class="ml-2"><i class="lni lni-briefcase mr-1"></i>PHP Developer</span>
+														</div>
+														<div class="ico-content">
+															<ul>
+																<li><a href="javascript:void(0);" class="px-2 py-1 medium bg-light-success rounded text-success"><i class="lni lni-download mr-1"></i>Download CV</a></li>
+																<li><a href="#" data-toggle="modal" data-target="#message" class="px-2 py-1 medium bg-light-info rounded text-info"><i class="lni lni-envelope mr-1"></i>Message</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="dashed-list-last">
+												<div class="dash-action">
+													<a href="javascript:void(0);" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="lni lni-eye"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="lni lni-checkmark"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="lni lni-trash-can"></i></a>
+												</div>
+											</div>
+										</div>
+										<div class="dashed-list-footer p-3 br-top">
+											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+											</div>
+											<div class="ico-content">
+												<ul>
+													<li><span><i class="lni lni-calendar mr-1"></i>07 July 2017</span></li>
+													<li><span><i class="lni lni-add-files mr-1"></i>Recent</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Single List -->
+									<div class="dashed-list-wrap bg-white rounded">
+										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+											<div class="dashed-list-short d-flex align-items-center">
+												<div class="dashed-list-short-first">
+													<div class="dashed-avater"><img src="assets/img/t-2.png" class="img-fluid circle" width="70" alt="" /></div>
+												</div>
+												<div class="dashed-list-short-last">
+													<div class="cats-box-caption px-2">
+														<h4 class="fs-lg mb-0 ft-medium theme-cl">Patricia B. North</h4>
+														<div class="d-block mb-2 position-relative">
+															<span><i class="lni lni-map-marker mr-1"></i>United States</span>
+															<span class="ml-2"><i class="lni lni-briefcase mr-1"></i>IOS Developer</span>
+														</div>
+														<div class="ico-content">
+															<ul>
+																<li><a href="javascript:void(0);" class="px-2 py-1 medium bg-light-success rounded text-success"><i class="lni lni-download mr-1"></i>Download CV</a></li>
+																<li><a href="#" data-toggle="modal" data-target="#message" class="px-2 py-1 medium bg-light-info rounded text-info"><i class="lni lni-envelope mr-1"></i>Message</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="dashed-list-last">
+												<div class="dash-action">
+													<a href="javascript:void(0);" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="lni lni-eye"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="lni lni-checkmark"></i></a>
+													<a href="javascript:void(0);" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="lni lni-trash-can"></i></a>
+												</div>
+											</div>
+										</div>
+										<div class="dashed-list-footer p-3 br-top">
+											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+											</div>
+											<div class="ico-content">
+												<ul>
+													<li><span><i class="lni lni-calendar mr-1"></i>07 July 2017</span></li>
+													<li><span><i class="lni lni-add-files mr-1"></i>Recent</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+							
+					</div>
+					
+					<!-- footer -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="py-3">© 2022 Workplex. Designd By ThemezHub.</div>
+						</div>
+					</div>
+		
 				</div>
-				<!-- ======================= dashboard Detail End ======================== -->
-			
-		
-		
-	</div>
-{% endblock  %}
+				
+			</div>
+			<!-- ======================= dashboard Detail End ======================== -->
+			{% endblock content %}
+{% block extra_js %}
+{% endblock %}
