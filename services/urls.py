@@ -14,4 +14,6 @@ urlpatterns = [
     path('contact-us/', views.contact_us, name="contact-us"),
     path('categories/', views.categories, name="categories"),
     path('post-job/', views.post_job, name="post-job"),
+    path('manage-job/', views.manage_job, name="manage-job"),
+    path('sidebar/', views.sidebar, name="sidebar"),
 ]
