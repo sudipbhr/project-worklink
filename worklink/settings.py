@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'reviews',
     'chat',
     'resume',
-    
 
 ]
 
