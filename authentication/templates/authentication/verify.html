@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}User Verification{% endblock %}
+{% block content %}
+				<div class="container">
+					<div class="row d-flex align-items-center justify-content-center ht-100">
+						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+							<form class="border p-3 rounded" action="{% url 'verification' %}" method="POST" >	
+								<h3 class="text-center ft-bold p-2">User Verification</h3>
+                                <p>Verifying <b>{{user}}</b></p>
+								{% csrf_token %}
+                                <input type="hidden" value="{{user.id}}" name="user">	
+								<div class="form-group">
+									<label>Enter OTP</label>
+									<input type="text" class="form-control" name="otp" placeholder="Enter OTP*">
+								</div>
+
+								
+								<div class="form-group">
+									<button type="submit" class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Submit</button>
+								</div>
+							</form>
+						</div>
+							
+					</div>
+				</div>
+
+{% endblock %}
