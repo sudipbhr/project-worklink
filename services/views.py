@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Services, Category
 from django.contrib import messages
+from .forms import PostJobForm
 # Create your views here.
 
 def home(request):
@@ -67,8 +68,21 @@ def categories(request):
 
 
 def post_job(request):
+    form = PostJobForm()
+    if request.method == 'POST':
+        form = PostJobForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Job posted successfully')
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Error posting job')
+            return redirect('post-job')
+
     template_name='services/post-job.html'
-    context={}
+    context={
+        'form':form
+    }
     return render(request, template_name, context)
 
 
