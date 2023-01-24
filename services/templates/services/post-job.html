@@ -27,8 +27,10 @@
                         </div>
                         
                         <div class="_dashboard_content_body py-3 px-3">
-                            <form class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12">
+                            <form  action="{% url 'post-job' %}" method="POST" enctype="multipart/form-data">
+                                {{form.as_p}}
+                                {% csrf_token %}
+                                {% comment %} <div class="col-xl-12 col-lg-12 col-md-12">
                                     <div class="row">
                                     
                                         <div class="col-xl-12 col-lg-12 col-md-12">
@@ -215,14 +217,15 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="col-12">
+                                        
+                                        
+                                    </div>
+                                </div> {% endcomment %}
+                                <div class="col-12">
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg">Publish Job</button>
                                             </div>
                                         </div>
-                                        
-                                    </div>
-                                </div>
                             </form>
                         </div>
                     </div>
