@@ -24,6 +24,8 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('chat/', include('chat.urls')),
     path('resume/', include('resume.urls')),
+    path ('user/', include('account.urls')),
+   
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
