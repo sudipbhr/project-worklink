@@ -35,7 +35,7 @@ class User(AbstractUser):
         return self.email
 
 class Points(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name='points')
+    user=models.OneToOneField(User, on_delete=models.CASCADE, related_name='points')
     points = models.IntegerField(default='0')
     remarks = models.CharField(max_length=200, blank=True)
     updated_on= models.DateTimeField(auto_now=True)
