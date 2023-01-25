@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Buy points {% endblock %}
+{% block content %}
+				<div class="container">
+					<div class="row d-flex align-items-center justify-content-center ht-100">
+						<div class="col-xl-6 col-lg-6 col-md-8 col-sm-8">
+                            <p class="fs-md ft-regular">Your Good Balance : <span class="text-primary">{{request.user.user_balance.balance}}</span></p>
+							<form class="border p-3 rounded" action="{% url 'buy-points' %}" method="POST" >	
+								<h3 class="text-center ft-bold p-2">Buy points</h3>
+                                <p>Buying points for <b>{{request.user}}</b></p>
+								{% csrf_token %}
+                                <input type="hidden" value="{{request.user.id}}" name="user">	
+								<div class="form-group">
+									<label>Enter amount(Rs.)</label>
+									<input type="number" class="form-control" name="amount" placeholder="Enter amount in Rs.">
+								</div>
+                                <div class="form-group">
+                                    <label>Equivalent points</label>
+                                    <input type="text" class="form-control" disabled>
+                                </div>
+
+								<div class="form-group">
+									<button type="submit" class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Submit</button>
+								</div>
+							</form>
+						</div>
+							
+					</div>
+				</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+    $(document).ready(function(){
+        $('input[name="amount"]').keyup(function(){
+            var amount = $(this).val();
+            var points = amount + ' points';
+            $('input[type="text"][disabled]').val(points);
+        });
+    });
+</script>
+
+{% endblock extra_js%}

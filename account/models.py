@@ -8,9 +8,9 @@ from .degree_list import DEGREE_LIST
 class User(AbstractUser):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     ROLES_CHOICES = (
-        ('servicee', 'Service Provider'),
-        ('servicer', 'Service Seeker'),
-        ('admin', 'Admin')
+        ('Service Provider', 'Service Provider'),
+        ('Service Seeker', 'Service Seeker'),
+        ('Admin', 'Admin')
     )
     role = models.CharField(max_length=20, choices = ROLES_CHOICES, default='servicee')
     USER_STATUS_CHOICES= (
@@ -34,17 +34,26 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    @property
+    def can_post_job(self):
+        if self.role == 'Service Seeker' and self.points.points >= 10:
+            return True
+        else:
+            return False
+
+
 class Points(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name='points')
-    points = models.IntegerField(default='0')
-    remarks = models.CharField(max_length=200, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='points')
+    points = models.IntegerField(default='100')
+    remarks = models.CharField(max_length=200, blank=True, default="New user points")
     updated_on= models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.user.phone_number + ' has ' + str(self.points) + ' points'
+        return self.user.username + ' has ' + str(self.points) + ' points'
 
     class Meta:
         verbose_name_plural = "Points"
+
 class UserEducation(models.Model):
     user= models.ForeignKey(User, on_delete=models.CASCADE, related_name='education')
     LEVEL_CHOICES = (
@@ -78,4 +87,14 @@ class UserSkills(models.Model):
     class Meta:
         verbose_name_plural = 'User skills'
 
+class UserBalance(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_balance')
+    balance = models.FloatField(default=0.00)
+    updated_on= models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.user.username + ' has ' + str(self.balance) + ' balance'
+
+    class Meta:
+        verbose_name_plural = "User Balance"
 

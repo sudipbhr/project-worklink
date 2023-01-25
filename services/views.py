@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Services, Category
 from django.contrib import messages
 from .forms import PostJobForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
@@ -46,6 +47,7 @@ def services_detail(request, id):
     }
     return render(request, template_name, context)
 
+@login_required(login_url='/auth/login/')
 def user_dashboard(request):
     template_name='services/dashboard.html'
     context={}
@@ -66,23 +68,32 @@ def categories(request):
     context={}
     return render (request, template_name, context)
 
-
+@login_required(login_url='/auth/login/')
 def post_job(request):
-    form = PostJobForm()
-    if request.method == 'POST':
-        form = PostJobForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Job posted successfully')
-            return redirect('dashboard')
+    try:
+        form = PostJobForm() or None
+        if request.user.can_post_job == True:
+            if request.method == 'POST':
+                form = PostJobForm(request.POST, request.FILES)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Job posted successfully')
+                    return redirect('dashboard')
+                else:
+                    messages.error(request, 'Error posting job')
+                    return redirect('post-job')
+        elif request.user.points.points < 10:
+            messages.error(request, 'You dont have enough points to post job')
+            return redirect('buy-points')
         else:
-            messages.error(request, 'Error posting job')
-            return redirect('post-job')
-
-    template_name='services/post-job.html'
+            messages.error(request, 'You cannot post job')
+            return redirect('dashboard')
+    except Exception as e:
+        print(e)
     context={
-        'form':form
-    }
+                'form':form
+            }
+    template_name='services/post-job.html'
     return render(request, template_name, context)
 
 

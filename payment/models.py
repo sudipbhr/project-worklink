@@ -22,3 +22,17 @@ class Payment(models.Model):
 
     class Meta:
         verbose_name_plural = 'Payments'
+
+
+class BuyPoints(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name_plural = 'Bought Points'
+        
