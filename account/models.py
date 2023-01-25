@@ -4,6 +4,7 @@ from .managers import UserManager
 from .degree_list import DEGREE_LIST
 
 
+
 # Create your models here.
 class User(AbstractUser):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
@@ -36,10 +37,18 @@ class User(AbstractUser):
 
     @property
     def can_post_job(self):
-        if self.role == 'Service Seeker' and self.points.points >= 10:
+        if self.role == 'Service Seeker' and self.points.points >= 10 and self.user_status == 'active':
             return True
         else:
             return False
+
+    @property
+    def completed_job(self):
+        return self.services_set.filter(status='completed').count()
+
+    @property
+    def applied_job(self):
+        return self.applied_jobs.all().count()
 
 
 class Points(models.Model):

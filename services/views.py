@@ -15,6 +15,7 @@ def home(request):
     template_name='services/home.html'
     return render(request, template_name, context)
 
+@login_required(login_url='/auth/login/')
 def services_search(request):
     services = Services.objects.all()
     context={
@@ -22,13 +23,13 @@ def services_search(request):
     }
     return render(request, 'services/services-search.html', context)
 
-
+@login_required(login_url='/auth/login/')
 def service_search_map(request):
     template_name='services/service-search-map.html'
     context={}
     return render(request, template_name, context)
 
-
+@login_required(login_url='/auth/login/')
 def candidate_detail(request):
     template_name='services/candidate-detail.html'
     context={}
@@ -37,7 +38,8 @@ def candidate_detail(request):
 def error_page(request):
   return render(request, 'services/error-page.html', context={})
   
-  
+
+@login_required(login_url='/auth/login/') 
 def services_detail(request, id):
     services = get_object_or_404(Services, id=id)
 
@@ -47,10 +49,19 @@ def services_detail(request, id):
     }
     return render(request, template_name, context)
 
+
 @login_required(login_url='/auth/login/')
 def user_dashboard(request):
+
+    # jobs posted by user
+    jobs_posted = Services.objects.filter(posted_by=request.user.id).count()
+
+
+
     template_name='services/dashboard.html'
-    context={}
+    context={
+        'jobs_posted': jobs_posted,
+    }
     return render(request, template_name, context)
 
 def about_us(request):
@@ -63,10 +74,15 @@ def contact_us(request):
     context={}
     return render (request, template_name, context)
 
+
 def categories(request):
+    categories = Category.objects.all()
     template_name= 'services/categories.html'
-    context={}
+    context={
+        'categories': categories
+    }
     return render (request, template_name, context)
+
 
 @login_required(login_url='/auth/login/')
 def post_job(request):
@@ -96,26 +112,26 @@ def post_job(request):
     template_name='services/post-job.html'
     return render(request, template_name, context)
 
-
+@ login_required(login_url='/auth/login/')
 def manage_job(request):
     template_name='services/manage-job.html'
     context={}
     return render(request, template_name, context)
 
-def sidebar(request):
-    template_name='services/sidebar.html'
-    context={}
-    return render(request, template_name, context)
+@ login_required(login_url='/auth/login/')
 def manage_seeker(request):
     template_name='services/manage-seeker.html'
     context={}
     return render(request, template_name, context)
 
+
+@ login_required(login_url='/auth/login/')
 def my_profile(request):
     template_name='services/my-profile.html'
     context={}
     return render(request, template_name, context)
 
+@ login_required(login_url='/auth/login/')
 def change_password(request):
     template_name='services/change-password.html'
     context={}

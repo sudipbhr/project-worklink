@@ -15,7 +15,6 @@ urlpatterns = [
     path('categories/', views.categories, name="categories"),
     path('post-job/', views.post_job, name="post-job"),
     path('manage-job/', views.manage_job, name="manage-job"),
-    path('sidebar/', views.sidebar, name="sidebar"),
     path('manage-seeker/', views.manage_seeker, name="manage-applicant"),
     path('my-profile/', views.my_profile, name="my-profile"),
     path('change-password/', views.change_password, name="change-password"),
