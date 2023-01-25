@@ -118,7 +118,14 @@ def manage_job(request):
     context={}
     return render(request, template_name, context)
 
+
 @ login_required(login_url='/auth/login/')
+def sidebar(request):
+    template_name='services/sidebar.html'
+    context={}
+    return render(request, template_name, context)
+
+   
 def manage_seeker(request):
     template_name='services/manage-seeker.html'
     context={}
@@ -136,6 +143,8 @@ def change_password(request):
     template_name='services/change-password.html'
     context={}
     return render(request, template_name, context)
+
+
 
 
 
