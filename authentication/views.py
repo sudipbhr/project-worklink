@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from account.models import User
+from account.models import User, Points, UserBalance
 from authentication.models import UserVerification, UserOTP
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 import random
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.conf import settings as setting
 
 
 # Create your views here.
@@ -20,7 +21,7 @@ def send_otp(user):
             if find_otp.otp_created_at < timezone.now() - timedelta(minutes=5):
                 subject = "OTP verfication"
                 message = "Your OTP is " + str(find_otp.otp)
-                from_email = "sudipbhandari67@gmail.com"
+                from_email = setting.EMAIL_HOST_USER
                 recepient_list = [user.email]
                 mail=send_mail(subject, message, from_email, recepient_list, fail_silently=False)
                 if mail:
@@ -52,12 +53,21 @@ def user_login(request):
     if request.method == "POST":
         user_email = request.POST["email"]
         user_password = request.POST["password"]
-
         user_exists = User.objects.filter(Q(email=user_email) | Q(phone_number=user_email)).first()
         if user_exists:
-            is_verified = UserVerification.objects.filter(user=user_exists).first()
             user = authenticate(request, username=user_exists.username, password=user_password)
             if user:
+                user_points = Points.objects.filter(user=user).exists()
+                user_balance = UserBalance.objects.filter(user=user).exists()
+                if not user_points:
+                    user_points = Points.objects.create(user=user)
+                    user_points.save()
+                    
+                if not user_balance:
+                    user_balance = UserBalance.objects.create(user=user)
+                    user_balance.save()
+                
+                is_verified = UserVerification.objects.filter(user=user_exists).first()
                 if is_verified.email_verified == False | is_verified.phone_verified == False:
                     if send_otp(user):
                         print(send_otp)
@@ -134,7 +144,7 @@ def user_verification(request):
             user_verification.email_verified = True
             user_verification.save()
             messages.success(request, "User verified successfully")
-            return redirect('home-page')
+            return redirect('login')
         else:
             messages.error(request, "Invalid OTP")
             return redirect('verification')

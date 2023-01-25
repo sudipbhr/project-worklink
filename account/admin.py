@@ -33,8 +33,8 @@ class MyUserAdmin(UserAdmin):
 
 
 # Register your models here.
-
+admin.site.register(User, MyUserAdmin)
 admin.site.register(Points)
 admin.site.register(UserEducation)
 admin.site.register(UserSkills)
-admin.site.register(User, MyUserAdmin)
+admin.site.register(UserBalance)
