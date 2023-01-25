@@ -9,7 +9,7 @@
         <div class="dashboard-tlbar d-block mb-5">
             <div class="row">
                 <div class="colxl-12 col-lg-12 col-md-12">
-                    <h1 class="ft-medium">My Profile</h1>
+                    <h1 class="ft-medium">My Profile {{user.education}}</h1>
                 </div>
             </div>
         </div>
@@ -26,143 +26,68 @@
                         </div>
 
                         <div class="_dashboard_content_body py-3 px-3">
-                            <form class="row">
+                            
+                            <form  action="{% url 'user-profile' %}" method="POST" enctype="multipart/form-data">
+                                    
+                                    {% csrf_token %}
+                                    {{form.errors}}
+                                    {{user_education.errors}} 
+                                
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                    <div class="custom-file avater_uploads">
-                                        <input type="file" class="custom-file-input" id="customFile">
-                                        <label class="custom-file-label" for="customFile"><i
-                                                class="fa fa-user"></i></label>
+                                    <div class="form-group">
+                                        {{form.avatar}}
                                     </div>
                                 </div>
-
                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="form-group">
-                                                <label class="text-dark ft-medium">Full Name</label>
-                                                <input type="text" class="form-control rounded" value="Full Name">
+                                                <label class="text-dark ft-medium">First Name</label>
+                                                {{form.first_name}}
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="form-group">
-                                                <label class="text-dark ft-medium">Job Title</label>
-                                                <input type="text" class="form-control rounded" value="Job Name">
+                                                <label class="text-dark ft-medium">Last Name</label>
+                                                {{form.last_name}}
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="form-group">
-                                                <label class="text-dark ft-medium">Phone</label>
-                                                <input type="text" class="form-control rounded" value="Phone">
+                                                <label class="text-dark ft-medium">Phone Number</label>
+                                                {{form.phone_number}}
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="form-group">
                                                 <label class="text-dark ft-medium">Email</label>
-                                                <input type="email" class="form-control rounded"
-                                                    value="uppcl@gmail.com">
+                                                {{form.email}}
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="form-group">
-                                                <label class="text-dark ft-medium">Job Type</label>
-                                                <select class="custom-select rounded">
-                                                    <option>Choose Job Type</option>
-                                                    <option>Full Time</option>
-                                                    <option>Part Time</option>
-                                                    <option>Freelance</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Job Category</label>
-                                                <select class="custom-select rounded">
-                                                    <option>Choose Categories</option>
-                                                    <option>IT & Software</option>
-                                                    <option>Bank Services</option>
-                                                    <option>Hospitals</option>
-                                                </select>
+                                                <label class="text-dark ft-medium">Gender</label>
+                                                {{form.gender}}
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="form-group">
                                                 <label class="text-dark ft-medium">Experience</label>
-                                                <select class="custom-select rounded">
-                                                    <option>Select Experience</option>
-                                                    <option>Begginer</option>
-                                                    <option>01 Years</option>
-                                                    <option>02 Years</option>
-                                                    <option>03 Years</option>
-                                                    <option>04 Years</option>
-                                                    <option>05 Years</option>
-                                                </select>
+                                                {{form.experience}}
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="form-group">
-                                                <label class="text-dark ft-medium">Education</label>
-                                                <input type="text" class="form-control rounded" value="Education">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Current Salary</label>
-                                                <select class="custom-select rounded">
-                                                    <option>10-20 K</option>
-                                                    <option>20-30 K</option>
-                                                    <option>30-40 K</option>
-                                                    <option>40-50 K</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Expected Salary</label>
-                                                <select class="custom-select rounded">
-                                                    <option>10-20 K</option>
-                                                    <option>20-30 K</option>
-                                                    <option>30-40 K</option>
-                                                    <option>40-50 K</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Age</label>
-                                                <select class="custom-select rounded">
-                                                    <option>20 Years+</option>
-                                                    <option>23+ Years</option>
-                                                    <option>25+ Years</option>
-                                                    <option>30+ Years</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Language</label>
-                                                <input type="email" class="form-control rounded"
-                                                    value="e.x Englisg, Hindi">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12 col-lg-12">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">About Info</label>
-                                                <textarea
-                                                    class="form-control with-light">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</textarea>
+                                                <label class="text-dark ft-medium">Address</label>
+                                                {{form.address}}
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-12 col-lg-12">
-                                            <div class="form-group">
-                                                <button type="submit"
-                                                    class="btn btn-md ft-medium text-light rounded theme-bg">Save
-                                                    Changes</button>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
-                            </form>
+                           
                         </div>
                     </div>
                 </div>
@@ -173,50 +98,34 @@
                     <div class="_dashboard_content bg-white rounded mb-4">
                         <div class="_dashboard_content_header br-bottom py-3 px-3">
                             <div class="_dashboard__header_flex">
-                                <h4 class="mb-0 ft-medium fs-md"><i class="ti-facebook mr-1 theme-cl fs-sm"></i>Social
-                                    Accounts</h4>
+                                <h4 class="mb-0 ft-medium fs-md"><i class="ti-facebook mr-1 theme-cl fs-sm"></i>Education </h4>
+                            
                             </div>
                         </div>
 
                         <div class="_dashboard_content_body py-3 px-3">
-                            <form class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Facebook</label>
-                                        <input type="text" class="form-control rounded"
-                                            placeholder="https://www.facebook.com/">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Twitter</label>
-                                        <input type="text" class="form-control rounded"
-                                            placeholder="https://www.twitter.com/">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">LinkedIn</label>
-                                        <input type="text" class="form-control rounded"
-                                            placeholder="https://www.linkedin.com/">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">GooglePlus</label>
-                                        <input type="text" class="form-control rounded"
-                                            placeholder="https://www.gplus.com/">
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="form-group">
-                                        <button type="submit"
-                                            class="btn btn-md ft-medium text-light rounded theme-bg">Save
-                                            Changes</button>
-                                    </div>
-                                </div>
 
-                            </form>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="text-dark ft-medium">Level</label>
+                                        {{user_education.level}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="text-dark ft-medium">Degree</label>
+                                        {{user_education.degree}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="text-dark ft-medium">Add-degree</label>
+                                        {{user_education.add_degree}}
+                                    </div>
+                                </div>
+                               
+                                
+
                         </div>
                     </div>
                 </div>
@@ -225,60 +134,19 @@
                     <div class="_dashboard_content bg-white rounded mb-4">
                         <div class="_dashboard_content_header br-bottom py-3 px-3">
                             <div class="_dashboard__header_flex">
-                                <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-lock mr-1 theme-cl fs-sm"></i>Contact
-                                    Information</h4>
+                                <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-lock mr-1 theme-cl fs-sm"></i>User Skills</h4>
                             </div>
                         </div>
 
                         <div class="_dashboard_content_body py-3 px-3">
-                            <form class="row">
+                            
                                 <div class="col-xl-6 col-lg-6 col-md-12">
                                     <div class="form-group">
-                                        <label class="text-dark ft-medium">Country</label>
-                                        <select class="custom-select rounded">
-                                            <option>Australia</option>
-                                            <option>United States</option>
-                                            <option>United Kingdom</option>
-                                            <option>China</option>
-                                            <option>India</option>
-                                            <option>Pakistan</option>
-                                        </select>
+                                        <label class="text-dark ft-medium">Name</label>
+                                        {{user_skill.name}}
                                     </div>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">City</label>
-                                        <select class="custom-select rounded">
-                                            <option>Madhya Pradesh</option>
-                                            <option>Punjab</option>
-                                            <option>Uttar Pradesh</option>
-                                            <option>Arudachal</option>
-                                            <option>Nepal</option>
-                                            <option>Afganistan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Full Address</label>
-                                        <input type="password" class="form-control rounded"
-                                            placeholder="#10 Marke Juger, SBI Road">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Latitude</label>
-                                        <input type="password" class="form-control rounded"
-                                            placeholder="#10 Marke Juger, SBI Road">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Longitude</label>
-                                        <input type="password" class="form-control rounded"
-                                            placeholder="#10 Marke Juger, SBI Road">
-                                    </div>
-                                </div>
+                                
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <button type="submit"
@@ -287,6 +155,8 @@
                                     </div>
                                 </div>
                             </form>
+
+                            
                         </div>
                     </div>
                 </div>
@@ -294,13 +164,7 @@
 
         </div>
 
-        <!-- footer -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="py-3">© 2022 Workplex. Designd By ThemezHub.</div>
-            </div>
-        </div>
-
+        
     </div>
 </div>
 {% endblock content%}
