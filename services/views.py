@@ -17,9 +17,11 @@ def home(request):
 
 @login_required(login_url='/auth/login/')
 def services_search(request):
+    categories = Category.objects.all()
     services = Services.objects.all()
     context={
-        'services': services
+        'services': services,
+        'categories': categories,
     }
     return render(request, 'services/services-search.html', context)
 

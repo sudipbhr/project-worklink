@@ -6,6 +6,10 @@ create forms for the following models in account app [assigned to anusha]
 
 create forms for the following models in payment app [assigned to Sudip]
 1. payment = payment create form
+2. check if the user have sufficient point to post and apply for job
+3. create applicants for the jobs
+4. show applied jobs
+
 
 create forms for the following models in services app [assigned to Asha]
 1. services = service create form / already done
