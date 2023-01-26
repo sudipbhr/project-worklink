@@ -15,18 +15,18 @@ class PostJobForm(forms.ModelForm):
                 'required': 'true',
                 'class': 'form-control',
             })
-class JobSkillsForm(forms.ModelForm):
+# class JobSkillsForm(forms.ModelForm):
 
-    class Meta:
-        model = JobSkills
-        field = ('name',)
-    def __init__(self, *args, **kwargs):
-        super(JobSkillsForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs=({
-                'required': 'true',
-                'class': 'form-control',
-            })
+#     class Meta:
+#         model = JobSkills
+#         field = ('name',)
+#     def __init__(self, *args, **kwargs):
+#         super(JobSkillsForm, self).__init__(*args, **kwargs)
+#         for field in self.fields:
+#             self.fields[field].widget.attrs=({
+#                 'required': 'true',
+#                 'class': 'form-control',
+#             })
 
 
 
