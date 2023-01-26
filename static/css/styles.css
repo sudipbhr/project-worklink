@@ -71,13 +71,6 @@ body {
     font-weight: 400;
 }
 
-.snackbar-container p,
-.tooltip {
-    font-family: 'Jost', sans-serif;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-}
-
 html {
     position: relative;
     min-height: 100%;
@@ -277,7 +270,6 @@ h6 {
 }
 
 .lead-i {
-    font-family: 'Work Sans', sans-serif;
     font-size: 22px !important;
     font-style: italic;
 }
@@ -307,7 +299,7 @@ html body .db {
     background: #005536;
 }
 
-.dark-theme-cl {
+.dark-worklink-theme {
     color: #005536;
 }
 
@@ -328,7 +320,7 @@ html body .db {
     background: rgba(0, 0, 0, 0.11) !important;
 }
 
-.theme-cl {
+.worklink-theme {
     color: #28b661 !important;
 }
 
@@ -3605,10 +3597,6 @@ li.login-attri .account-drop a {
     margin: 0;
 }
 
-.snackbar-wishlist {
-    cursor: pointer;
-}
-
 
 /*----------------- Map Styles -------------------*/
 
@@ -3718,6 +3706,7 @@ li.login-attri .account-drop a {
     display: block;
     margin-bottom: 30px;
     background: #ffffff;
+    min-height: 280px;
 }
 
 .skills_tag li {
