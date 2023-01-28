@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Services, Category
+from .models import Services, Category, JobApplications
 from django.contrib import messages
 from .forms import PostJobForm
 from django.contrib.auth.decorators import login_required
@@ -17,6 +17,8 @@ def home(request):
 
 @login_required(login_url='/auth/login/')
 def services_search(request):
+    if request.user.role == 'Service Seeker':
+        return redirect('dashboard')
     categories = Category.objects.all()
     services = Services.objects.all()
     context={
@@ -42,24 +44,39 @@ def error_page(request):
   
 
 @login_required(login_url='/auth/login/') 
-def services_detail(request, id):
+def services_detail(request, id):     
     services = get_object_or_404(Services, id=id)
-
+    has_applied = JobApplications.objects.filter(user=request.user, service=services).exists()
     template_name='services/service-detail.html'
+    if request.method == 'POST':
+        points = request.POST.get('points')
+        resume = request.FILES.get('resume')
+        if int(points) != 10:
+            messages.error(request, 'Invalid points')
+            print(request.META.get('HTTP_REFERER'))
+            return request.META.get('HTTP_REFERER')
+        else:
+            job_apply = JobApplications.objects.create(
+                user=request.user,
+                service= services,
+                resume=resume,
+                        )
+            job_apply.save()
+            request.user.points.points -= int(points)
+            request.user.points.save()
+            messages.success(request, 'Job application sent successfully')
+            return request.META.get('HTTP_REFERER')
     context={
-        'services': services
+        'services': services,
+        'has_applied': has_applied,
     }
     return render(request, template_name, context)
 
 
 @login_required(login_url='/auth/login/')
 def user_dashboard(request):
-
     # jobs posted by user
     jobs_posted = Services.objects.filter(posted_by=request.user.id).count()
-
-
-
     template_name='services/dashboard.html'
     context={
         'jobs_posted': jobs_posted,
@@ -116,8 +133,12 @@ def post_job(request):
 
 @ login_required(login_url='/auth/login/')
 def manage_job(request):
+    applied_jobs = JobApplications.objects.filter(user=request.user)
+
     template_name='services/manage-job.html'
-    context={}
+    context={
+        'applied_jobs': applied_jobs,
+    }
     return render(request, template_name, context)
 
 
@@ -140,18 +161,3 @@ def my_profile(request):
     context={}
     return render(request, template_name, context)
 
-@ login_required(login_url='/auth/login/')
-def change_password(request):
-    template_name='services/change-password.html'
-    context={}
-    return render(request, template_name, context)
-
-
-
-
-
-
-
-        
-    
-    

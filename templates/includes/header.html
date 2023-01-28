@@ -6,7 +6,6 @@
         <nav id="navigation" class="navigation navigation-landscape">
             <div class="nav-header">
                 <a class="nav-brand" href="{% url 'home-page' %}">
-                    {% comment %} <h3 class="worklink-theme ft-medium pb-0 mt-2">WorkLink</h3> {% endcomment %}
                     <img src="{% static 'img/logo.png' %}" class="logo" alt="" />
                 </a>
                 <div class="nav-toggle"></div>
@@ -24,7 +23,11 @@
                 <ul class="nav-menu">
                     <li><a href="{% url 'home-page' %}">Home</a></li>
                     <li><a href="{% url 'about-us' %}">About Us</a></li>
-                    <li><a href="{% url 'service-search' %}">Find Job</a></li>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.role == 'Service Provider' %}
+                            <li><a href="{% url 'service-search' %}">Find Job</a></li>
+                        {% endif %}
+                    {% endif %}
                     <li><a href="{% url 'contact-us' %}">Contact Us</a></li>                
                 </ul>
 
