@@ -54,8 +54,7 @@ def services_detail(request, id):
         resume = request.FILES.get('resume')
         if int(points) != 10:
             messages.error(request, 'Invalid points')
-            print(request.META.get('HTTP_REFERER'))
-            return request.META.get('HTTP_REFERER')
+            return redirect('service-detail', id=services.id)
         else:
             job_apply = JobApplications.objects.create(
                 user=request.user,
@@ -66,7 +65,7 @@ def services_detail(request, id):
             request.user.points.points -= int(points)
             request.user.points.save()
             messages.success(request, 'Job application sent successfully')
-            return request.META.get('HTTP_REFERER')
+            return redirect('manage-job')
     context={
         'services': services,
         'has_applied': has_applied,
@@ -77,10 +76,12 @@ def services_detail(request, id):
 @login_required(login_url='/auth/login/')
 def user_dashboard(request):
     # jobs posted by user
-    jobs_posted = Services.objects.filter(posted_by=request.user.id).count()
+    jobs_posted = JobApplications.objects.filter(user=request.user).count()
+    applied_jobs = JobApplications.objects.filter(user=request.user).count()
     template_name='services/dashboard.html'
     context={
         'jobs_posted': jobs_posted,
+        # 'applied_jobs': applied_jobs,
     }
     return render(request, template_name, context)
 
@@ -113,6 +114,8 @@ def post_job(request):
                 form = PostJobForm(request.POST, request.FILES)
                 if form.is_valid():
                     form.save()
+                    request.user.points.points -= 10
+                    request.user.points.save()
                     messages.success(request, 'Job posted successfully')
                     return redirect('dashboard')
                 else:

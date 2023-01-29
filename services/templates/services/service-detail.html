@@ -107,7 +107,7 @@
 
 									<div class="form-group">
 										<label class="text-dark mb-1 ft-medium medium">Enter points (10 points is required)</label>
-										<input type="number" class="form-control" placeholder="0" name="points">
+										<input type="number" class="form-control" placeholder="0" name="points" required>
 									</div>
 									<div class="form-group">
 										<label class="text-dark mb-1 ft-medium medium">Upload Resume: (Optional)</label>
@@ -116,9 +116,35 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<button type="submit" class="btn btn-md btn-primary rounded text-light ft-medium fs-sm full-width">Apply For This Job</button>
+										<p class="btn btn-md btn-primary rounded text-light ft-medium fs-sm full-width" data-toggle="modal" data-target="#applyJobModal">Apply For This Job</p>
 									</div>
+									<!-- Button trigger modal -->
+
+
 									{% endif %}
+									<!-- Modal -->
+									<div class="modal fade" id="applyJobModal" tabindex="-1" role="dialog" aria-labelledby="applyJobModalLabel" aria-hidden="true" data-backdrop="false">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="applyJobModalLabel">Confirmation</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<p>10 points will be deducted from your account. 
+
+													Do you want to continue?
+												</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary">Save changes</button>
+											</div>
+											</div>
+										</div>
+									</div>
 								</form>
 							</div>
 						</div>
