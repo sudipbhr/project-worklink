@@ -78,6 +78,10 @@ class JobApplications(models.Model):
     class Meta:
         verbose_name_plural = 'Job applications'
 
+    @property
+    def no_of_applications(self):
+        return self.service.jobapplications_set.all().count()
+
 
 
 

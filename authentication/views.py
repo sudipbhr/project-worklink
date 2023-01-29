@@ -55,7 +55,6 @@ def user_login(request):
         user_password = request.POST["password"]
         user_exists = User.objects.filter(Q(email=user_email) | Q(phone_number=user_email)).first()
         if user_exists:
-            print("user exists")
             user = authenticate(request, username=user_exists.username, password=user_password)
             if user:
                 user_points = Points.objects.filter(user=user).exists()
@@ -151,10 +150,12 @@ def user_verification(request):
     return render(request, template_name)
 
 
+@ login_required(login_url='/auth/login/')
 def user_logout(request):
     logout(request)
     messages.success(request, "Logged out successfully")
     return redirect('home-page')
+
 
 @ login_required(login_url='/auth/login/')
 def change_password(request):
