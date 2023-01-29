@@ -5,17 +5,19 @@
 					<div class="dashboard-nav">
 						<div class="dashboard-inner">
 							<ul data-submenu-title="Main Navigation">
-								<li><a href="{% url 'dashboard' %}"><i class="lni lni-dashboard mr-2"></i>Dashboard</a></li>
-								<li><a href="{% url 'post-job' %}"><i class="lni lni-files mr-2"></i>Post New Job</a></li>
-								<li><a href="{% url 'manage-job' %}"><i class="lni lni-add-files mr-2"></i>Manage Jobs</a></li>
-								<li><a href="{% url 'manage-applicant' %}"><i class="lni lni-briefcase mr-2"></i>Manage Applicants</a></li>
-                                <li><a href="{% url 'chat' %}"><i class="lni lni-power-switch mr-2"></i>Messages</a></li>
+								<li><a href="{% url 'dashboard' %}"><i class="far fa-tachometer-alt-slowest"></i>Dashboard</a></li>
+								<li><a href="{% url 'post-job' %}"><i class="fad fa-file"></i>Post New Job</a></li>
+								<li><a href="{% url 'add-category' %}"><i class="lni lni-files mr-2"></i>Add Category</a></li>
+								<li><a href="{% url 'job-skill' %}"><i class="lni lni-files mr-2"></i>Add Job Skills</a></li>
+								<li><a href="{% url 'manage-job' %}"><i class="far fa-folder-plus"></i>Manage Jobs</a></li>
+								<li><a href="{% url 'manage-applicant' %}"><i class="fal fa-briefcase"></i>Manage Applicants</a></li>
+                                <li><a href="{% url 'chat' %}"><i class="fas fa-envelope mr-2"></i>Messages</a></li>
 
 							</ul>
 							<ul data-submenu-title="My Accounts">
-								<li><a href="{% url 'user-profile' %}"><i class="lni lni-user mr-2"></i>My Profile </a></li>
-								<li><a href="{% url 'change-password' %}"><i class="lni lni-lock-alt mr-2"></i>Change Password</a></li>
-								<li><a href="{% url 'logout' %}"><i class="lni lni-power-switch mr-2"></i>Log Out</a></li>
+								<li><a href="{% url 'user-profile' %}"><i class="fas fa-user mr-2"></i>My Profile </a></li>
+								<li><a href="{% url 'change-password' %}"><i class="fas fa-lock mr-2"></i>Change Password</a></li>
+								<li><a href="{% url 'logout' %}"><i class="fas fa-power-off mr-2"></i>Log Out</a></li>
 							</ul>
 						</div>					
 					</div>

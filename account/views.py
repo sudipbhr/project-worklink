@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 # @login_required(login_url = '/auth/login//')
 def user_profile(request):
-    user = get_object_or_404(User, username = 'abc@gmail.com')
+    user = get_object_or_404(User, username = request.user.username)
     print(user)
     form = UserProfileForm(instance = user )
     education, created = UserEducation.objects.get_or_create(user = user)
