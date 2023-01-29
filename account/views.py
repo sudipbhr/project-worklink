@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-# @login_required(login_url = '/auth/login//')
+# @login_required(login_url = '/auth/login/')
 def user_profile(request):
     user = get_object_or_404(User, username = request.user.username)
     print(user)
@@ -33,9 +33,7 @@ def user_profile(request):
         'form' : form,
         'user_education' : user_education,
         'user_skill' :user_skill,
-        'user' : user
-
-        
+        'user' : user        
     }
     return render(request, template_name, context)
 

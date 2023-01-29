@@ -5,7 +5,6 @@ class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     receiver_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver_id')
     service = models.ForeignKey(Services, on_delete=models.CASCADE)
-    # payment status choices
     STATUS = (
         ('pending', 'Pending'),
         ('completed', 'Completed'),

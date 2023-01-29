@@ -50,7 +50,7 @@ class Services(models.Model):
     category = models.ManyToManyField(Category, blank=True)
     skills =models.ManyToManyField(JobSkills, blank=True)
     vacancy = models.IntegerField(help_text="Enter number of vacancies", default='1')
-    posted_by= models.ForeignKey(User, on_delete=models.CASCADE, related_name='services')
+    posted_by= models.ForeignKey(User, on_delete=models.CASCADE, related_name='services', null=True)
     location =models.CharField(max_length=200)
     image = models.ImageField(upload_to='services/')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -62,6 +62,21 @@ class Services(models.Model):
 
     class Meta:
         verbose_name_plural = 'Services'
+
+
+class JobApplications(models.Model):
+    # model for job applications
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applicant')
+    service = models.ForeignKey(Services, on_delete= models.CASCADE, related_name='service', null=True)
+    applied_on = models.DateTimeField(auto_now=True)
+    resume = models.FileField(upload_to='resume/', blank=True, null=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username + ' applied for ' + self.service.title
+
+    class Meta:
+        verbose_name_plural = 'Job applications'
 
 
 
