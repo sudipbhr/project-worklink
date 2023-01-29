@@ -16,5 +16,8 @@ urlpatterns = [
     path('post-job/', views.post_job, name="post-job"),
     path('manage-job/', views.manage_job, name="manage-job"),
     path('manage-seeker/', views.manage_seeker, name="manage-applicant"),
-    path('my-profile/', views.my_profile, name="my-profile"),    
+    path('my-profile/', views.my_profile, name="my-profile"),
+    path('change-password/', views.change_password, name="change-password"),
+    path('add-category/', views.add_category, name="add-category"),
+    path('job-skill/', views.job_skill, name = "job-skill"),
 ]
