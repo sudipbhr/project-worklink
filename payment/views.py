@@ -19,7 +19,8 @@ def buy_points(request):
             request.user.points.points += points
             request.user.points.save()
             messages.success(request, 'You have successfully bought points')
-            return redirect(request.META.get('HTTP_REFERER', 'post-job'))
+            return redirect(request.META.get('HTTP_REFERER'))            
+       
     template_name = 'payment/buy-points.html'
     context={}
     return render(request, template_name, context)

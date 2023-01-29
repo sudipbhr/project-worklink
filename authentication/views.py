@@ -9,7 +9,7 @@ import random
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.conf import settings as setting
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def send_otp(user):
@@ -62,7 +62,6 @@ def user_login(request):
                 if not user_points:
                     user_points = Points.objects.create(user=user)
                     user_points.save()
-                    
                 if not user_balance:
                     user_balance = UserBalance.objects.create(user=user)
                     user_balance.save()
@@ -80,10 +79,11 @@ def user_login(request):
                     }
                     return render(request,'authentication/verify.html', context)
                 else:
-                    print("verification pass")
                     login(request, user)
                     messages.success(request, "Logged in successfully")
-                    return redirect('home-page')
+                    return redirect('dashboard')
+            else:
+                print('not authenticated')
         else:
             messages.error(request, "Invalid credentials")
             return redirect('login')
@@ -102,7 +102,7 @@ def user_register(request):
         last_name = request.POST["last_name"]
         user_email = request.POST["email"]
         user_phone= request.POST["phone"]
-        user_type= request.POST['user_type']
+        user_type = request.POST['user_type']
         user_password = request.POST["password1"]
         user_password2 = request.POST["password2"]
         user_exists = User.objects.filter(Q(email=user_email), Q(first_name=first_name), Q(last_name=last_name) 
@@ -127,8 +127,6 @@ def user_register(request):
             user_verification.save()
             messages.success(request, "User created successfully")
             return redirect('login')
-    if request.user.is_authenticated:
-        return redirect('home-page')
 
     template_name = "authentication/register.html"
     context = {}
@@ -152,8 +150,16 @@ def user_verification(request):
     return render(request, template_name)
 
 
+@ login_required(login_url='/auth/login/')
 def user_logout(request):
     logout(request)
     messages.success(request, "Logged out successfully")
     return redirect('home-page')
+
+
+@ login_required(login_url='/auth/login/')
+def change_password(request):
+    template_name='authentication/change-password.html'
+    context={}
+    return render(request, template_name, context)
 

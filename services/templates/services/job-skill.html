@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Add Job Skill {% endblock %}
+			{% block content %}
+            <div class="dashboard-wrap bg-light">
+                {% include 'services/includes/sidebar.html' %}
+
+                <div class="dashboard-content">
+					<div class="dashboard-tlbar d-block mb-5">
+						<div class="row">
+							<div class="colxl-12 col-lg-12 col-md-12">
+								<h1 class="ft-medium">Add job Skill</h1>
+								
+							</div>
+						</div>
+					</div>
+					
+					<div class="dashboard-widg-bar d-block">
+						<div class="row">
+							<div class="col-xl-12 col-lg-12 col-md-12">
+								<div class="_dashboard_content bg-white rounded mb-4">
+									
+						<form action="{% url 'job-skill' %}" method="post">
+                            {% csrf_token %}
+                        
+								{{form}}
+
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg">Save Changes</button>
+                                    </div>
+
+                                </div>
+                            </form>
+								
+								</div>
+							</div>
+						</div>
+							
+					</div>
+					
+					<!-- footer -->
+					
+		
+				</div>
+            </div>
+            {% endblock content %}

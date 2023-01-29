@@ -15,14 +15,18 @@
                         <div class="row no-gutters">
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12">
                                 <div class="form-group mb-0 position-relative">
-                                    <input type="text" class="form-control lg left-ico" placeholder="Job Title, Keyword or Company" />
-                                    <i class="bnc-ico fa fa-search"></i>
+
+                                    <input type="text" class="form-control lg left-ico" placeholder="Job Title, Keyword" />
+                                    <i class="bnc-ico lni lni-search-alt"></i>
                                 </div>
                             </div>
                             <div class="col-xl-5 col-lg-4 col-md-4 col-sm-12 col-12">
                                 <div class="form-group mb-0 position-relative">
-                                    <input type="text" class="form-control lg left-ico" placeholder="Location or Zip Code" />
-                                    <i class="bnc-ico fas fa-map-marker"></i>
+
+
+                                    <input type="text" class="form-control lg left-ico" placeholder="Location" />
+                                    <i class="bnc-ico lni lni-target"></i>
+
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-12">
@@ -44,9 +48,9 @@
         <div class="container">
             <div class="row align-items-center justify-content-between">
                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
-                    <h6 class="mb-0 ft-medium fs-sm">302 New Jobs Found</h6>
+                    <h6 class="mb-0 ft-medium fs-sm">{{services.count}} New Jobs Found</h6>
                 </div>
-                <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
+                {% comment %} <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
                     <div class="filter_wraps elspo_wrap d-flex align-items-center justify-content-end">
                         <div class="single_fitres mr-2 br-right">
                             <select class="custom-select simple">
@@ -57,7 +61,7 @@
                             </select>
                         </div>
 
-                    </div>
+                    </div> {% endcomment %}
                 </div>
             </div>
             
@@ -90,7 +94,7 @@
                                         <input type="text" class="form-control" placeholder="Search by keywords...">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Location, Zip..">
+                                        <input type="text" class="form-control" placeholder="Location, ..">
                                     </div>
                                 </div>
                                 
@@ -100,7 +104,7 @@
                                     <div class="single_search_boxed px-4 pt-0 br-bottom">
                                         <div class="widget-boxed-header">
                                             <h4>
-                                                <a href="#categories" class="ft-medium fs-md pb-0" data-toggle="collapse" aria-expanded="true" role="button">Job Categories</a>
+                                                <a href="#categories" class="ft-medium fs-md pb-0" data-toggle="collapse" aria-expanded="true" role="button">Job Categories </a>
                                             </h4>
                                             
                                         </div>
@@ -148,10 +152,12 @@
                                                     <div class="card-body p-0">
                                                         <div class="inner_widget_link">
                                                             <ul class="no-ul-list filter-list">
+                                                               {% for area in services %}
                                                                 <li>
-                                                                    <input id="b3" class="checkbox-custom" name="Coffee" type="checkbox">
-                                                                    <label for="b3" class="checkbox-custom-label">United Kingdom (21)</label>
+                                                                    <input id="b3" class="checkbox-custom" name="" type="checkbox">
+                                                                    <label for="b3" class="checkbox-custom-label">{{area.location}} (2)</label>
                                                                 </li>
+                                                                {% endfor %}
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -233,7 +239,7 @@
                                     </div>
 
                                     <!-- Expected budget Search -->
-                                    <div class="single_search_boxed px-4 pt-0">
+                                    <div class="single_search_boxed px-4 pt-0 mb-2">
                                         <div class="widget-boxed-header">
                                             <h4>
                                                 <a href="#salary" data-toggle="collapse" aria-expanded="false" role="button" class="ft-medium fs-md pb-0 collapsed">Job Budget</a>
@@ -269,9 +275,6 @@
                                     
                                 </div>
                                 
-                                <div class="form-group filter_button pt-2 pb-4 px-4">
-                                    <button type="submit" class="btn btn-md theme-bg text-light rounded full-width">22 Results Show</button>
-                                </div>
                             </div>							
                         </div>
                     </div>
@@ -307,6 +310,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         {% endfor %}
                     <!-- row -->
                     </div>

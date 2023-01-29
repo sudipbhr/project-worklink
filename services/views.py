@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Services, Category
+from .models import Services, Category, JobApplications
 from django.contrib import messages
-from .forms import PostJobForm
+from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def home(request):
@@ -17,6 +18,8 @@ def home(request):
 
 @login_required(login_url='/auth/login/')
 def services_search(request):
+    if request.user.role == 'Service Seeker':
+        return redirect('dashboard')
     categories = Category.objects.all()
     services = Services.objects.all()
     context={
@@ -42,27 +45,43 @@ def error_page(request):
   
 
 @login_required(login_url='/auth/login/') 
-def services_detail(request, id):
+def services_detail(request, id):     
     services = get_object_or_404(Services, id=id)
-
+    has_applied = JobApplications.objects.filter(user=request.user, service=services).exists()
     template_name='services/service-detail.html'
+    if request.method == 'POST':
+        points = request.POST.get('points')
+        resume = request.FILES.get('resume')
+        if int(points) != 10:
+            messages.error(request, 'Invalid points')
+            return redirect('service-detail', id=services.id)
+        else:
+            job_apply = JobApplications.objects.create(
+                user=request.user,
+                service= services,
+                resume=resume,
+                        )
+            job_apply.save()
+            request.user.points.points -= int(points)
+            request.user.points.save()
+            messages.success(request, 'Job application sent successfully')
+            return redirect('manage-job')
     context={
-        'services': services
+        'services': services,
+        'has_applied': has_applied,
     }
     return render(request, template_name, context)
 
 
 @login_required(login_url='/auth/login/')
 def user_dashboard(request):
-
     # jobs posted by user
-    jobs_posted = Services.objects.filter(posted_by=request.user.id).count()
-
-
-
+    jobs_posted = JobApplications.objects.filter(user=request.user).count()
+    applied_jobs = JobApplications.objects.filter(user=request.user).count()
     template_name='services/dashboard.html'
     context={
         'jobs_posted': jobs_posted,
+        # 'applied_jobs': applied_jobs,
     }
     return render(request, template_name, context)
 
@@ -95,6 +114,8 @@ def post_job(request):
                 form = PostJobForm(request.POST, request.FILES)
                 if form.is_valid():
                     form.save()
+                    request.user.points.points -= 10
+                    request.user.points.save()
                     messages.success(request, 'Job posted successfully')
                     return redirect('dashboard')
                 else:
@@ -116,8 +137,12 @@ def post_job(request):
 
 @ login_required(login_url='/auth/login/')
 def manage_job(request):
+    applied_jobs = JobApplications.objects.filter(user=request.user)
+
     template_name='services/manage-job.html'
-    context={}
+    context={
+        'applied_jobs': applied_jobs,
+    }
     return render(request, template_name, context)
 
 
@@ -140,6 +165,7 @@ def my_profile(request):
     context={}
     return render(request, template_name, context)
 
+
 @ login_required(login_url='/auth/login/')
 def change_password(request):
     template_name='services/change-password.html'
@@ -147,11 +173,39 @@ def change_password(request):
     return render(request, template_name, context)
 
 
+@ login_required(login_url='/auth/login/')
+def add_category(request):
+
+    category_add= CategoryForm()
+    if request.method== "POST": 
+        category_add = CategoryForm(request.POST or None, request.FILES)
+        if category_add.is_valid():
+            category_add.save()
+            messages.success(request, "category added successfully")
+            return redirect ('dashboard')
+
+    template_name='services/add-category.html'
+    context={
+        'form': category_add,
+    }
+    return render(request, template_name, context)
 
 
 
+@ login_required(login_url='/auth/login/')
+def job_skill(request):
 
-
-        
+    form = JobSkillForm()
+    if request.method == "POST":
+        form = JobSkillForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "jobskill added successfully")
+            return redirect ('dashboard')
+    template_name = 'services/job-skill.html'
+    context = {
+        'form' : form,
     
-    
+    }
+    return render(request, template_name, context)
+

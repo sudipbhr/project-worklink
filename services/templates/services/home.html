@@ -23,7 +23,7 @@
 									<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
 										<div class="form-group mb-0 position-relative">
 											<input type="text" class="form-control lg left-ico" placeholder="Location" />
-											<i class="bnc-ico fal fa-location"></i>
+											<i class="bnc-ico fas fa-map-marker-alt"></i>
 										</div>
 									</div>
 									<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
@@ -106,7 +106,6 @@
 			<!-- ======================= All category ======================== -->
 			<section class="space gray">
 				<div class="container">
-				
 					<div class="row justify-content-center">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 							<div class="sec_title position-relative text-center mb-5">
@@ -121,7 +120,7 @@
 						{% for category in categories %}
 						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
 							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white px-2 py-4">
+								<a href="{% url 'service-search' %}" class="cats-box d-block rounded bg-white px-2 py-4">
 									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle">
 										<i class="fs-lg theme-cl">{{category.name | slice:1}}</i>
 									</div>
@@ -130,7 +129,7 @@
 										<span class="text-muted">{{category.no_of_jobs}} Jobs</span>
 									</div>
 								</a>
-					</div>
+							</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -145,7 +144,7 @@
 					
 				</div>
 			</section>
-{% endblock content %}
+	{% endblock content %}
 {% block extra_js %}
 <script>
 	var card_div = document.querySelectorAll('.service-link')

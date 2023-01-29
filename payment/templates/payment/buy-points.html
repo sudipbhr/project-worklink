@@ -7,7 +7,7 @@
                             <p class="fs-md ft-regular">Your Good Balance : <span class="text-primary">{{request.user.user_balance.balance}}</span></p>
 							<form class="border p-3 rounded" action="{% url 'buy-points' %}" method="POST" >	
 								<h3 class="text-center ft-bold p-2">Buy points</h3>
-                                <p>Buying points for <b>{{request.user}}</b></p>
+                                <p>Buying points for <b>{{request.user}} | {{request.user.get_full_name}}</b></p>
 								{% csrf_token %}
                                 <input type="hidden" value="{{request.user.id}}" name="user">	
 								<div class="form-group">

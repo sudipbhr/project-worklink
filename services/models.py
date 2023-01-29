@@ -64,6 +64,25 @@ class Services(models.Model):
         verbose_name_plural = 'Services'
 
 
+class JobApplications(models.Model):
+    # model for job applications
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applicant')
+    service = models.ForeignKey(Services, on_delete= models.CASCADE, related_name='service', null=True)
+    applied_on = models.DateTimeField(auto_now=True)
+    resume = models.FileField(upload_to='resume/', blank=True, null=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username + ' applied for ' + self.service.title
+
+    class Meta:
+        verbose_name_plural = 'Job applications'
+
+    @property
+    def no_of_applications(self):
+        return self.service.jobapplications_set.all().count()
+
+
 
 
 
