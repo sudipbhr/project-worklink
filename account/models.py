@@ -13,7 +13,7 @@ class User(AbstractUser):
         ('Service Seeker', 'Service Seeker'),
         ('Admin', 'Admin')
     )
-    role = models.CharField(max_length=20, choices = ROLES_CHOICES, default='servicee')
+    role = models.CharField(max_length=20, choices = ROLES_CHOICES)
     USER_STATUS_CHOICES= (
         ('active', 'Active'),
         ('suspended', 'Suspended')
