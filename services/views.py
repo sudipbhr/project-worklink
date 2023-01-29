@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Services, Category, JobApplications
 from django.contrib import messages
-from .forms import PostJobForm
+from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def home(request):
@@ -162,5 +163,49 @@ def manage_seeker(request):
 def my_profile(request):
     template_name='services/my-profile.html'
     context={}
+    return render(request, template_name, context)
+
+
+@ login_required(login_url='/auth/login/')
+def change_password(request):
+    template_name='services/change-password.html'
+    context={}
+    return render(request, template_name, context)
+
+
+@ login_required(login_url='/auth/login/')
+def add_category(request):
+
+    category_add= CategoryForm()
+    if request.method== "POST": 
+        category_add = CategoryForm(request.POST or None, request.FILES)
+        if category_add.is_valid():
+            category_add.save()
+            messages.success(request, "category added successfully")
+            return redirect ('dashboard')
+
+    template_name='services/add-category.html'
+    context={
+        'form': category_add,
+    }
+    return render(request, template_name, context)
+
+
+
+@ login_required(login_url='/auth/login/')
+def job_skill(request):
+
+    form = JobSkillForm()
+    if request.method == "POST":
+        form = JobSkillForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "jobskill added successfully")
+            return redirect ('dashboard')
+    template_name = 'services/job-skill.html'
+    context = {
+        'form' : form,
+    
+    }
     return render(request, template_name, context)
 
