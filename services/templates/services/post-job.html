@@ -25,13 +25,91 @@
                         </div>
                         <div class="_dashboard_content_body py-3 px-3">
                             <form  action="{% url 'post-job' %}" method="POST" enctype="multipart/form-data">
-                                {{form.as_p}}
+                               
                                 {% csrf_token %}
-                                <div class="col-12">
-                                    <div class="form-group">
-										<p class="btn btn-md btn-primary rounded text-light ft-medium fs-sm full-width" data-toggle="modal" data-target="#postJobModal">Post Job</p>
-									</div>
-                                </div>
+                                <form class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12">
+                                        <div class="row">
+                                        
+                                            <div class="col-xl-12 col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Job Title</label>
+                                                {{form.title}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-12 col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Job Description</label>
+                                                {{form.description}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Amount</label>
+                                                   {{form.amount}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Duration</label>
+                                                    {{form.duration}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Status</label>
+                                                    {{form.status}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Category</label>
+                                                   {{form.category}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Skills</label>
+                                                   {{form.skills}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Vacancy</label>
+                                                    {{form.vacancy}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Location</label>
+                                                    {{form.location}}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="text-dark ft-medium">Image</label>
+                                                    {{form.image}}
+                                                </div>
+                                            </div>
+                                            
+                                         </div>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg">Save Changes</button>
+                                        </div>
+                                    </div>
+                            </form>
                                 <div class="modal fade" id="postJobModal" tabindex="-1" role="dialog" aria-labelledby="postJobModalLabel" aria-hidden="true" data-backdrop="false">
 										<div class="modal-dialog" role="document">
 											<div class="modal-content">
