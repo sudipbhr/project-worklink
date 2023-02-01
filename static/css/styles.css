@@ -3189,14 +3189,10 @@ ul.jbd-social li {
 }
 
 ul.jbd-social li a {
-    width: 32px;
-    height: 32px;
-    border: 1px solid #edebeb;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    color: #868c9f;
 }
 
 .custom-file {

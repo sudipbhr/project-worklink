@@ -28,126 +28,156 @@
 										</div>
 										<div class="jbd-01-caption pl-3">
 											<div class="tbd-title"><h4 class="mb-0 ft-medium fs-md">{{services.title}}</h4></div>
-											<div class="mb-3"><span><i class="lni lni-map-marker mr-1"></i>{{services.location}}</span><span class="medium ft-medium text-warning ml-3">{{services.duration}} days</span></div>
+											<div class="mb-3"><span><i class="fas fa-map-marker-alt mr-1 worklink-theme"></i>{{services.location | capfirst}}</span><span class="medium ft-medium text-warning ml-3">{{services.duration}} days</span></div>
 											<div class="jbl_info01">
-												{% for skill in services.skills.all %}
+												{% for skill in services.category.all %}
 												<span class="px-2 py-1 ft-medium medium rounded worklink-theme theme-bg-light mr-2">{{skill}}</span>
 												{% endfor %}
 																							
 											</div>
 										</div>
 									</div>
+									{% if request.user.role == 'Service Provider' %}
 									<div class="jbd-01-right text-right hide-1023">
 										{% if has_applied %}
-										<div class="mb-2"><a href="{% url 'manage-job' %}" class="btn rounded theme-bg-light worklink-theme fs-sm ft-medium">Check status</a></div>
-												{% else %}
-													<a href="#" class="btn btn-md rounded theme-bg text-light fs-sm ft-medium">Apply Job</a>
-												{% endif %}
-										<div><a href="javascript:void(0);" class="btn rounded bg-white border fs-sm ft-medium">View Company</a></div>
+											<div class="mb-2"><a href="{% url 'manage-job' %}" class="btn rounded theme-bg-light worklink-theme fs-sm ft-medium">Check status</a></div>
+										{% else %}
+											<a href="#" class="btn btn-md rounded theme-bg text-light fs-sm ft-medium">Apply Job</a>
+										{% endif %}
 									</div>
+									{% endif %}
 								</div>
 							</div>
 							
 							<div class="bg-white rounded mb-4">
-								<div class="jbd-01 px-3 py-4">
+								<div class="jbd-01 px-3 pt-4">
+									<div class="jbd-details mb-4">
+										<i class="fas fa-users worklink-theme fs-lg"></i><span class="fs-md ft-regular ml-2">Applicants: {{no_of_applications}}</span>
+									</div>
+								</div>
+								<div class="jbd-01 px-3 py-3">
 									<div class="jbd-details mb-4">
 										<h5 class="ft-medium fs-md">Job description</h5>
 										<p>{{services.description}}</p>
 									</div>
-					
 								</div>
-								
-								<div class="jbd-02 px-3 py-3 br-top">
-									<div class="jbd-02-flex d-flex align-items-center justify-content-between">
-										{% comment %} <div class="jbd-02-social">
-											<ul class="jbd-social">
-												<li><i class="ti-sharethis"></i></li>
-												<li><a href="javascript:void(0);"><i class="ti-facebook"></i></a></li>
-												<li><a href="javascript:void(0);"><i class="ti-twitter"></i></a></li>
-												<li><a href="javascript:void(0);"><i class="ti-linkedin"></i></a></li>
-												<li><a href="javascript:void(0);"><i class="ti-instagram"></i></a></li>
-											</ul>
-										</div> {% endcomment %}
+								<div class="jbd-01 px-3">
+										<div class="jbd-details mb-4">
+											<h5 class="ft-medium fs-md">Job skills</h5>
+											{% for skill in services.skills.all %}
+											<div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+														<div class="d-flex align-items-center">
+														<div class="rounded-circle p-1 small d-flex align-items-center justify-content-center">
+															<i class="fas fa-check-circle worklink-theme"></i>
+														</div>
+														<h6 class="mb-0 ml-3 text-muted fs-sm">{{skill}}</h6>
+														</div>
+													</div>
+											{% endfor %}
+										</div>
+									</div>
+									
+									<div class="jbd-02 px-3 ">
+										<div class="jbd-02-flex d-flex align-items-center justify-content-between">
+											<div class="jbd-02-social">
+												<h4 class="ft-medium fs-md mb-3">Price: रु {{services.amount}}|-</h4>
+												
+											</div>
+										</div>
+									</div>
+									<div class="jbd-02 px-3 py-2 ">
+										<div class="jbd-02-flex d-flex align-items-center justify-content-between">
+											<div class="jbd-02-social">
+												<h4 class="ft-medium fs-md mb-3">Share this job?</h4>
+												<ul class="jbd-social">
+													<li><i class="ti-sharethis"></i></li>
+													<li><a href="#"><i class="fab fa-facebook worklink-theme fs-lg"></i></a></li>
+													<li><a href="#"><i class="fab fa-twitter worklink-theme fs-lg"></i></a></li>
+													<li><a href="#"><i class="fab fa-linkedin worklink-theme fs-lg"></i></a></li>
+												</ul>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
 							
 						</div>
 						
 						<!-- Sidebar -->
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-							<div class="jb-apply-form bg-white rounded py-3 px-4 box-static">
-								<h4 class="ft-medium fs-md mb-3">Intrested in this job?</h4>
-								
-								<form action="{% url 'service-detail' services.id %}" method="post" enctype="multipart/form-data">
-									{% csrf_token %}
-									<div class="form-group">
-										<label class="text-dark mb-1 ft-medium medium">Full Name</label>
-										<input type="text" class="form-control" placeholder="First Name" value="{{request.user.get_full_name}}" disabled>
-									</div>
-									
-									<div class="form-group">
-										<label class="text-dark mb-1 ft-medium medium">Contact Info</label>
-										<input type="email" class="form-control"
-										value="
-										{{request.user.email}} | 
-										{{request.user.phone_number}}"
-										disabled >
-									</div>
-									{% if has_applied %}
-									<p class="text-center ft-md fs-md text-primary">You have already applied for this job</p>							
-									
-									{% elif request.user.points.points < 10 %} 
-									<p>You do not have enough points to apply (10 points is required)</p>
-									<a class="btn btn-warning rounded" href="{% url 'buy-points' %}">
-										Load Points
-									</a>
-
-									{% else %}
-
-									<div class="form-group">
-										<label class="text-dark mb-1 ft-medium medium">Enter points (10 points is required)</label>
-										<input type="number" class="form-control" placeholder="0" name="points" required>
-									</div>
-									<div class="form-group">
-										<label class="text-dark mb-1 ft-medium medium">Upload Resume: (Optional)</label>
-										<div>
-										  <input type="file" class="form-control" id="customFile" name="resume">
-										</div>
-									</div>
-									<div class="form-group">
-										<p class="btn btn-md btn-primary rounded text-light ft-medium fs-sm full-width" data-toggle="modal" data-target="#applyJobModal">Apply For This Job</p>
-									</div>
-									<!-- Button trigger modal -->
-
-
-									{% endif %}
-									<!-- Modal -->
-									<div class="modal fade" id="applyJobModal" tabindex="-1" role="dialog" aria-labelledby="applyJobModalLabel" aria-hidden="true" data-backdrop="false">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="applyJobModalLabel">Confirmation</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-												</button>
+						{% if request.user.role == 'Service Provider' %}
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+									<div class="jb-apply-form bg-white rounded py-3 px-4 box-static">
+										<h4 class="ft-medium fs-md mb-3">Intrested in this job?</h4>
+										
+										<form action="{% url 'service-detail' services.id %}" method="post" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="form-group">
+												<label class="text-dark mb-1 ft-medium medium">Full Name</label>
+												<input type="text" class="form-control" placeholder="First Name" value="{{request.user.get_full_name}}" disabled>
 											</div>
-											<div class="modal-body">
-												<p>10 points will be deducted from your account. 
+											
+											<div class="form-group">
+												<label class="text-dark mb-1 ft-medium medium">Contact Info</label>
+												<input type="email" class="form-control"
+												value="
+												{{request.user.email}} | 
+												{{request.user.phone_number}}"
+												disabled >
+											</div>
+											{% if has_applied %}
+											<p class="text-center ft-md fs-md text-primary">You have already applied for this job</p>							
+											
+											{% elif request.user.points.points < 10 %} 
+											<p>You do not have enough points to apply (10 points is required)</p>
+											<a class="btn btn-warning rounded" href="{% url 'buy-points' %}">
+												Load Points
+											</a>
 
-													Do you want to continue?
-												</p>
+											{% else %}
+
+											<div class="form-group">
+												<label class="text-dark mb-1 ft-medium medium">Enter points (10 points is required)</label>
+												<input type="number" class="form-control" placeholder="0" name="points" required>
 											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-												<button type="submit" class="btn btn-primary">Save changes</button>
+											<div class="form-group">
+												<label class="text-dark mb-1 ft-medium medium">Upload Resume: (Optional)</label>
+												<div>
+												<input type="file" class="form-control" id="customFile" name="resume">
+												</div>
 											</div>
+											<div class="form-group">
+												<p class="btn btn-md btn-primary rounded text-light ft-medium fs-sm full-width" data-toggle="modal" data-target="#applyJobModal">Apply For This Job</p>
 											</div>
-										</div>
+											<!-- Button trigger modal -->
+
+
+											{% endif %}
+											<!-- Modal -->
+											<div class="modal fade" id="applyJobModal" tabindex="-1" role="dialog" aria-labelledby="applyJobModalLabel" aria-hidden="true" data-backdrop="false">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="applyJobModalLabel">Confirmation</h5>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<p>10 points will be deducted from your account. 
+
+															Do you want to continue?
+														</p>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+														<button type="submit" class="btn btn-primary">Save changes</button>
+													</div>
+													</div>
+												</div>
+											</div>
+										</form>
 									</div>
-								</form>
-							</div>
-						</div>
+								</div>
+						{% endif %}
 						
 					</div>
 				</div>

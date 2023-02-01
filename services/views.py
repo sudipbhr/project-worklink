@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
-    categories = Category.objects.all() 
-    services = Services.objects.all()
+    categories = Category.objects.all()[:6]
+    services = Services.objects.all().order_by('-amount')[:8]
     context={
         'categories': categories,
         'services': services,
@@ -48,6 +48,7 @@ def error_page(request):
 def services_detail(request, id):     
     services = get_object_or_404(Services, id=id)
     has_applied = JobApplications.objects.filter(user=request.user, service=services).exists()
+    no_of_applications = JobApplications.objects.filter(service=services).count()
     template_name='services/service-detail.html'
     if request.method == 'POST':
         points = request.POST.get('points')
@@ -69,6 +70,7 @@ def services_detail(request, id):
     context={
         'services': services,
         'has_applied': has_applied,
+        'no_of_applications': no_of_applications,
     }
     return render(request, template_name, context)
 
@@ -138,10 +140,12 @@ def post_job(request):
 @ login_required(login_url='/auth/login/')
 def manage_job(request):
     applied_jobs = JobApplications.objects.filter(user=request.user)
-
+    posted_jobs = Services.objects.filter(posted_by=request.user)
+    print(posted_jobs)
     template_name='services/manage-job.html'
     context={
         'applied_jobs': applied_jobs,
+        'posted_jobs': posted_jobs,
     }
     return render(request, template_name, context)
 

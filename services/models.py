@@ -27,6 +27,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
+    @property
     def no_of_jobs(self):
         return self.services_set.all().count()
 
@@ -64,6 +65,7 @@ class Services(models.Model):
         verbose_name_plural = 'Services'
 
 
+
 class JobApplications(models.Model):
     # model for job applications
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applicant')
@@ -80,7 +82,8 @@ class JobApplications(models.Model):
 
     @property
     def no_of_applications(self):
-        return self.service.jobapplications_set.all().count()
+        return self.service_set.all().count()
+
 
 
 
