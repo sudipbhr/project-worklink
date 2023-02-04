@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Applied Jobs {% endblock title %}
+{% block title %} Manage Jobs {% endblock title %}
 {% block content %}
 <!-- ======================= dashboard Detail ======================== -->
 <div class="dashboard-wrap bg-light">
@@ -67,20 +67,21 @@
                                     <tr>
                                       <th scope="col">Title</th>
                                       <th scope="col">No.of applicants</th>
+                                      <th scope="col">Date posted</th>
                                       <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
                                     {% for job in posted_jobs %}
                                     <tr>
                                         <td>
                                             <div class="dash-title">
-                                                <h4 class="mb-0 ft-medium fs-sm">{{job.service}}
+                                                <h4 class="mb-0 ft-medium fs-sm">{{job.title}}
                                                     <span class="medium worklink-theme rounded text-success bg-light-success ml-1 py-1">
                                                 </h4>
                                             </div>
                                         </td>
+                                        <td>{{job}}</td>
                                         <td>{{job.applied_on}}</td>
                                         <td>
                                             <div class="dash-action">
