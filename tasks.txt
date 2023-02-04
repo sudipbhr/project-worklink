@@ -1,21 +1,40 @@
-create forms for the following models in account app [assigned to anusha]
-1. account = user create form 
-2. account = points create form
-3. account = user education create form
-4. account= user skills create form
 
-create forms for the following models in payment app [assigned to Sudip]
-1. payment = payment create form
-2. check if the user have sufficient point to post and apply for job
-3. create applicants for the jobs
-4. show applied jobs
+#Sudip
+show applied jobs
+posting one legal document by the worker
+verify worker's identity by admin
+worker can see his/her applied jobs 
+payment method
+worker can see his/her payment history
+category based job filtering
 
 
-create forms for the following models in services app [assigned to Asha]
-1. services = service create form / already done
-2. services = job skills create form 
-3. category = category create form
 
+ #Asha
+pages needed
+-review page
+    -review by
+    -worker's name
+    -star rating
+    -description
+    -date
+    -worker's profile pic
+
+-transcations page
+    -date
+    -add/substract
+    -no.of points added or substracted
+    -remarks
+    remaining points
+
+
+
+
+
+
+
+
+ #Anusha
 
 
 

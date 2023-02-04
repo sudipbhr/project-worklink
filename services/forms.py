@@ -7,6 +7,7 @@ class PostJobForm(forms.ModelForm):
     class Meta:
         model = Services
         fields = ['title', 'description', 'amount', 'duration', 'status', 'category', 'skills', 'vacancy', 'location', 'image']
+        exclude = ['posted_by']
 
     def __init__(self, *args, **kwargs):
         super(PostJobForm, self).__init__(*args, **kwargs)

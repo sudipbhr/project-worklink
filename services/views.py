@@ -115,11 +115,16 @@ def post_job(request):
             if request.method == 'POST':
                 form = PostJobForm(request.POST, request.FILES)
                 if form.is_valid():
-                    form.save()
-                    request.user.points.points -= 10
-                    request.user.points.save()
-                    messages.success(request, 'Job posted successfully')
-                    return redirect('dashboard')
+                    print('form is valid')
+                    add_post_by=form.save(commit=False)
+                    add_post_by.posted_by = request.user
+                    if add_post_by.save():
+                        print('job posted successfully')
+                        form.save_m2m()
+                        request.user.points.points -= 10
+                        request.user.points.save()
+                        messages.success(request, 'Job posted successfully')
+                        return redirect('dashboard')
                 else:
                     messages.error(request, 'Error posting job')
                     return redirect('post-job')
@@ -141,11 +146,14 @@ def post_job(request):
 def manage_job(request):
     applied_jobs = JobApplications.objects.filter(user=request.user)
     posted_jobs = Services.objects.filter(posted_by=request.user)
-    print(posted_jobs)
+    for job in posted_jobs:
+        no_of_applications = JobApplications.objects.filter(service=job).count()
+        
     template_name='services/manage-job.html'
     context={
         'applied_jobs': applied_jobs,
         'posted_jobs': posted_jobs,
+        'no_of_applications': no_of_applications,
     }
     return render(request, template_name, context)
 

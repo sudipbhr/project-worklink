@@ -64,12 +64,15 @@ class Services(models.Model):
     class Meta:
         verbose_name_plural = 'Services'
 
-
-
+    @property
+    def no_of_applications(self):
+        return self.jobapplications_set.all().count()
+        
+    
 class JobApplications(models.Model):
     # model for job applications
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applicant')
-    service = models.ForeignKey(Services, on_delete= models.CASCADE, related_name='service', null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applicants')
+    service = models.ForeignKey(Services, on_delete= models.CASCADE, related_name='services', null=True)
     applied_on = models.DateTimeField(auto_now=True)
     resume = models.FileField(upload_to='resume/', blank=True, null=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -80,9 +83,6 @@ class JobApplications(models.Model):
     class Meta:
         verbose_name_plural = 'Job applications'
 
-    @property
-    def no_of_applications(self):
-        return self.service_set.all().count()
 
 
 
