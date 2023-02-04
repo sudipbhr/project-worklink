@@ -16,6 +16,7 @@ def home(request):
     template_name='services/home.html'
     return render(request, template_name, context)
 
+
 @login_required(login_url='/auth/login/')
 def services_search(request):
     if request.user.role == 'Service Seeker':
@@ -146,14 +147,13 @@ def post_job(request):
 def manage_job(request):
     applied_jobs = JobApplications.objects.filter(user=request.user)
     posted_jobs = Services.objects.filter(posted_by=request.user)
-    for job in posted_jobs:
-        no_of_applications = JobApplications.objects.filter(service=job).count()
+    
         
     template_name='services/manage-job.html'
     context={
         'applied_jobs': applied_jobs,
         'posted_jobs': posted_jobs,
-        'no_of_applications': no_of_applications,
+
     }
     return render(request, template_name, context)
 
@@ -170,6 +170,10 @@ def manage_seeker(request):
     context={}
     return render(request, template_name, context)
 
+def transactions(request):
+    template_name = 'services/transactions.html'
+    context ={}
+    return render(request, template_name, context)
 
 @ login_required(login_url='/auth/login/')
 def my_profile(request):
