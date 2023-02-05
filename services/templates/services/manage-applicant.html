@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Applicants for {% endblock title %}
+{% block content %}
+<div class="dashboard-wrap bg-light">
+    {% include 'services/includes/sidebar.html' %}
+    <div class="dashboard-content">
+        <div class="dashboard-tlbar d-block mb-1">
+            <div class="row">
+                <div class="colxl-12 col-lg-12 col-md-12">
+                    <h1 class="ft-medium">Manage Applicants</h1>
+                    <p>Job applicants for <span class="worklink-theme">{{applicants.0.service}}</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-widg-bar d-block">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                
+                    <div class="px-3 py-2 br-bottom   bg-white rounded mb-3">
+                        <div class="flixors">
+                            <div class="row align-items-center justify-content-between">
+                                <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
+                                    <h6 class="mb-0 ft-medium fs-sm">{{applicants.count }}  Applicants Found</h6>
+                                </div>
+                                
+                                <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
+                                    <div class="filter_wraps elspo_wrap d-flex align-items-center justify-content-end">
+                                        <div class="single_fitres mr-2">
+                                            <select class="custom-select simple">
+                                              <option value="1" selected="">Default Sorting</option>
+                                              <option value="2">Short By Name</option>
+                                              <option value="3">Short By Rating</option>
+                                              <option value="4">Short By Trending</option>
+                                              <option value="5">Shot By Recent</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="data-responsive">
+									{% for applicant in applicants%}
+									<!-- Single List -->
+									<div class="dashed-list-wrap bg-white rounded mb-3">
+										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+											<div class="dashed-list-short d-flex align-items-center">
+												<div class="dashed-list-short-first">
+													<div class="dashed-avater">
+                                                        <img src="{{applicant.user.avatar.url}}" class="img-fluid circle" width="70" alt="" />
+                                                    </div>
+												</div>
+												<div class="dashed-list-short-last">
+													<div class="cats-box-caption px-2">
+														<h4 class="fs-lg mb-0 ft-medium theme-cl">{{applicant.user.get_full_name}}</h4>
+														<div class="d-block mb-2 position-relative">
+															<span><i class="fas fa-location-arrow mr-1"></i>{{applicant.user.address}}</span>
+															<span class="ml-2"><i class="fas fa-briefcase mr-1"></i>
+                                                               {{ applicant.user.profession}}
+                                                            </span>
+														</div>
+    													</div>
+												</div>
+											</div>
+											<div class="dashed-list-last">
+												<div class="text-left d-flex">
+													<a href="{% url 'candidate-detail' applicant.user.id %}"  class="btn gray ft-medium apply-btn fs-sm rounded mr-1"><i class="fas fa-eye mr-1"></i>View Profile</a>
+													<form action="{% url 'manage-applicant' applicant.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="applicant" value="{{applicant.user.id}}">
+                                                        <input type="hidden" name="service" value="{{applicant.service.id}}">
+                                                        <select name="status" id="" class="btn 
+                                                                        {% if applicant.status == 'Hiring' %}
+                                                                            gray text-white
+                                                                        {% elif applicant.status == 'Hired' %}
+                                                                            bg-success text-white
+                                                                        {% else %}
+                                                                           bg-danger text-white
+                                                                        {% endif %}
+                                                                        ft-medium apply-btn fs-sm rounded mr-1">
+                                                            <option value="Hiring" {% if applicant.status == 'Hiring' %} selected {% endif %}>Hiring</option>
+                                                            <option value="Hired" {% if applicant.status == 'Hired' %} selected {% endif %}>Hired</option>
+                                                            <option value="Rejected" {% if applicant.status == 'Rejected' %} selected {% endif %}>Rejected</option>
+                                                        </select>
+                                                    </form>
+												</div>
+											</div>
+										</div>
+										<div class="dashed-list-footer p-3 br-top">
+											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+											</div>
+											<div class="ico-content">
+												<ul>
+													<li><span><i class="lni lni-calendar mr-1"></i>07 July 2017</span></li>
+													<li><span><i class="lni lni-add-files mr-1"></i>Recent</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+                                    {% endfor %}
+								</div>
+                </div>
+            </div>
+                
+        </div>
+        
+        
+
+    </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script>
+    $(document).ready(function(){
+        $('select').change(function(){
+            $(this).parent().submit();
+        })
+    })
+</script>
+{% endblock extra_js %}

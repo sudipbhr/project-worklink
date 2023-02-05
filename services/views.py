@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Services, Category, JobApplications
+from account.models import User
 from django.contrib import messages
 from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
@@ -36,9 +37,12 @@ def service_search_map(request):
     return render(request, template_name, context)
 
 @login_required(login_url='/auth/login/')
-def candidate_detail(request):
+def candidate_detail(request, id):
+    user = get_object_or_404(User, id=id)
     template_name='services/candidate-detail.html'
-    context={}
+    context={
+        'user': user,
+    }
     return render(request, template_name, context)
 
 def error_page(request):
@@ -146,14 +150,11 @@ def post_job(request):
 @ login_required(login_url='/auth/login/')
 def manage_job(request):
     applied_jobs = JobApplications.objects.filter(user=request.user)
-    posted_jobs = Services.objects.filter(posted_by=request.user)
-    
-        
+    posted_jobs = Services.objects.filter(posted_by=request.user)        
     template_name='services/manage-job.html'
     context={
         'applied_jobs': applied_jobs,
         'posted_jobs': posted_jobs,
-
     }
     return render(request, template_name, context)
 
@@ -164,10 +165,39 @@ def sidebar(request):
     context={}
     return render(request, template_name, context)
 
-   
-def manage_seeker(request):
-    template_name='services/manage-seeker.html'
-    context={}
+
+@login_required(login_url='/auth/login/')
+def manage_applicant(request, id):
+    if request.method == 'POST':
+        jobstatus = request.POST.get('status')
+        user = request.POST.get('applicant')
+        service = request.POST.get('service')
+        if jobstatus == 'Hiring':
+            job = JobApplications.objects.get(service=service, user=user)
+            job.status = jobstatus
+            job.save()
+            messages.info(request, 'Applicant assigned for hiring')
+            return redirect('manage-applicant' , id=job.service.id)
+        elif jobstatus == 'Hired':
+            job = JobApplications.objects.get(service=service, user=user)
+            job.status = jobstatus
+            job.save()
+            messages.success(request, 'Applicant hired')
+            return redirect('manage-applicant' , id=job.service.id)
+        elif jobstatus == 'Rejected':
+            job = JobApplications.objects.get(service=service, user=user)
+            job.status = jobstatus
+            job.save()
+            messages.success(request, 'Applicant rejected')
+            return redirect('manage-applicant' , id=job.service.id)
+        else:
+            messages.error(request, 'Error approving applicant')
+            return redirect('manage-job')
+    applicants = JobApplications.objects.filter(service=id)
+    template_name='services/manage-applicant.html'
+    context={
+        'applicants': applicants,
+    }
     return render(request, template_name, context)
 
 def transactions(request):

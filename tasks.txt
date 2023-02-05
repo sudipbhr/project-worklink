@@ -11,14 +11,6 @@ category based job filtering
 
 
  #Asha
-pages needed
--review page
-    -review by
-    -worker's name
-    -star rating
-    -description
-    -date
-    -worker's profile pic
 
 -transcations page
     -date
@@ -29,13 +21,13 @@ pages needed
 
 
 
-
-
-
-
-
  #Anusha
-
-
+-review page
+    -review by
+    -worker's name
+    -star rating
+    -description
+    -date
+    -worker's profile pic
 
 
