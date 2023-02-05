@@ -17,6 +17,7 @@ def home(request):
     template_name='services/home.html'
     return render(request, template_name, context)
 
+
 @login_required(login_url='/auth/login/')
 def services_search(request):
     if request.user.role == 'Service Seeker':
@@ -199,6 +200,10 @@ def manage_applicant(request, id):
     }
     return render(request, template_name, context)
 
+def transactions(request):
+    template_name = 'services/transactions.html'
+    context ={}
+    return render(request, template_name, context)
 
 @ login_required(login_url='/auth/login/')
 def my_profile(request):
