@@ -66,13 +66,19 @@ class Services(models.Model):
 
     @property
     def no_of_applications(self):
-        return self.jobapplications_set.all().count()
+        return self.services.all().count()
         
     
 class JobApplications(models.Model):
     # model for job applications
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applicants')
     service = models.ForeignKey(Services, on_delete= models.CASCADE, related_name='services', null=True)
+    STATUS=(
+        ('Hiring', 'Hiring'),
+        ('Hired', 'Hired'),
+        ('Rejected', 'Rejected')
+    )
+    status = models.CharField(max_length=100, choices=STATUS, default='Hiring')
     applied_on = models.DateTimeField(auto_now=True)
     resume = models.FileField(upload_to='resume/', blank=True, null=True)
     updated_on = models.DateTimeField(auto_now=True)
