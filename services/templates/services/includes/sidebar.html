@@ -6,13 +6,16 @@
 						<div class="dashboard-inner">
 
 							<ul data-submenu-title="">
-								<li><a href="{% url 'dashboard' %}"><i class="far fa-tachometer-alt-slowest"></i>Dashboard</a></li>
-								<li><a href="{% url 'post-job' %}"><i class="fad fa-file"></i>Post New Job</a></li>
-								<li><a href="{% url 'add-category' %}"><i class="lni lni-files mr-2"></i>Add Category</a></li>
+								<li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+								<li><a href="{% url 'post-job' %}"><i class="fas fa-tasks mr-2"></i>Post New Job</a></li>
+								<li><a href="{% url 'add-category' %}"><i class="fa-plus-circle mr-2"></i>Add Category</a></li>
 								<li><a href="{% url 'job-skill' %}"><i class="lni lni-files mr-2"></i>Add Job Skills</a></li>
-								<li><a href="{% url 'manage-job' %}"><i class="far fa-folder-plus"></i>Manage Jobs</a></li>
-								<li><a href="{% url 'manage-applicant' %}"><i class="fal fa-briefcase"></i>Manage Applicants</a></li>
+								<li><a href="{% url 'manage-job' %}"><i class="fas fa-folder-open mr-2"></i>Manage Jobs</a></li>
+								<li><a href="{% url 'manage-applicant' %}"><i class="fas fa-briefcase-medical mr-2"></i>Manage Applicants</a></li>
                 				<li><a href="{% url 'chat' %}"><i class="fas fa-envelope mr-2"></i>Messages</a></li>
+								<li><a href="{% url 'review' %}"><i class="fas fa-envelope mr-2"></i>Review</a></li>
+
+
 							</ul>
 							<ul data-submenu-title="My Accounts">
 								<li><a href="{% url 'user-profile' %}"><i class="fas fa-user mr-2"></i>My Profile </a></li>
