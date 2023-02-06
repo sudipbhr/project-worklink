@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Services, Category, JobApplications
 from account.models import User
+from chat.models import Chat, Notification
 from django.contrib import messages
 from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
@@ -92,6 +93,8 @@ def user_dashboard(request):
     }
     return render(request, template_name, context)
 
+
+# this function load the about us page
 def about_us(request):
     template_name = 'about-us.html'
     context={}
@@ -124,7 +127,6 @@ def post_job(request):
                     add_post_by=form.save(commit=False)
                     add_post_by.posted_by = request.user
                     if add_post_by.save():
-                        print('job posted successfully')
                         form.save_m2m()
                         request.user.points.points -= 10
                         request.user.points.save()
@@ -182,6 +184,16 @@ def manage_applicant(request, id):
             job = JobApplications.objects.get(service=service, user=user)
             job.status = jobstatus
             job.save()
+            notification = Notification.objects.create(
+                receiver=job.user, sender= job.service.posted_by,
+                message='You have been hired for {job}'.format(job=job.service.title),
+            )
+            notification.save()
+            chat = Chat.objects.create(
+                sender=job.service.posted_by, receiver=job.user,
+                message='You have been hired for {job}'.format(job=job.service.title),
+            )
+            chat.save()
             messages.success(request, 'Applicant hired')
             return redirect('manage-applicant' , id=job.service.id)
         elif jobstatus == 'Rejected':
