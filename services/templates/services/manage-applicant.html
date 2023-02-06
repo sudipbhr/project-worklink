@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% load static %}
 {% block title %} Applicants for {% endblock title %}
 {% block content %}
@@ -75,16 +76,16 @@
                                                         <input type="hidden" name="service" value="{{applicant.service.id}}">
                                                         <select name="status" id="" class="btn 
                                                                         {% if applicant.status == 'Hiring' %}
-                                                                            gray text-white
+                                                                            bg-info text-white
                                                                         {% elif applicant.status == 'Hired' %}
                                                                             bg-success text-white
                                                                         {% else %}
                                                                            bg-danger text-white
                                                                         {% endif %}
                                                                         ft-medium apply-btn fs-sm rounded mr-1">
-                                                            <option value="Hiring" {% if applicant.status == 'Hiring' %} selected {% endif %}>Hiring</option>
-                                                            <option value="Hired" {% if applicant.status == 'Hired' %} selected {% endif %}>Hired</option>
-                                                            <option value="Rejected" {% if applicant.status == 'Rejected' %} selected {% endif %}>Rejected</option>
+                                                            <option value="Hiring" class="bg-light text-dark" {% if applicant.status == 'Hiring' %} selected {% endif %}>Hiring</option>
+                                                            <option value="Hired" class="bg-light text-dark" {% if applicant.status == 'Hired' %} selected {% endif %}>Hired</option>
+                                                            <option value="Rejected" class="bg-light text-dark" {% if applicant.status == 'Rejected' %} selected {% endif %}>Rejected</option>
                                                         </select>
                                                     </form>
 												</div>
@@ -100,8 +101,7 @@
 											</div>
 											<div class="ico-content">
 												<ul>
-													<li><span><i class="lni lni-calendar mr-1"></i>07 July 2017</span></li>
-													<li><span><i class="lni lni-add-files mr-1"></i>Recent</span></li>
+													<li><span><i class="fas fa-calendar mr-1"></i>Applied on: {{applicant.applied_on | naturaltime}}</span></li>
 												</ul>
 											</div>
 										</div>
