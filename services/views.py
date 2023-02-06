@@ -116,8 +116,20 @@ def categories(request):
 
 
 @login_required(login_url='/auth/login/')
-def post_job(request):
-    try:
+def post_job(request, job_id=None):
+    if job_id is not None:
+        job_id = get_object_or_404(Services, id=job_id)
+        form = PostJobForm(instance=job_id)
+        if request.method == 'POST':
+            form = PostJobForm(request.POST, request.FILES, instance=job_id)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Job updated successfully')
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Error updating job')
+                return redirect('post-job')
+    else:
         form = PostJobForm() or None
         if request.user.can_post_job == True:
             if request.method == 'POST':
@@ -141,8 +153,6 @@ def post_job(request):
         else:
             messages.error(request, 'You cannot post job')
             return redirect('dashboard')
-    except Exception as e:
-        print(e)
     context={
                 'form':form
             }
@@ -271,3 +281,10 @@ def review(request):
     template_name='services/review.html'
     context={}
     return render(request, template_name, context)
+
+@login_required(login_url='/auth/login/')
+def delete_job(request, id):
+    job = Services.objects.get(id=id)
+    job.delete()
+    messages.success(request, 'Job deleted successfully')
+    return redirect('manage-job')

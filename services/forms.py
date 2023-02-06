@@ -13,7 +13,6 @@ class PostJobForm(forms.ModelForm):
         super(PostJobForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs=({
-                'required': 'true',
                 'class': 'form-control',
             })
 
