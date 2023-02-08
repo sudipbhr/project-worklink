@@ -6,7 +6,7 @@
 				{% include 'services/includes/sidebar.html' %}
 				
 				<div class="dashboard-content">
-					<div class="dashboard-tlbar d-block mb-5">
+					<div class="dashboard-tlbar d-block mb-2">
 						<div class="row">
 							<div class="colxl-12 col-lg-12 col-md-12">
 								<h1 class="ft-medium">Hello, {{request.user.get_full_name}}</h1>
@@ -14,51 +14,102 @@
 							</div>
 						</div>
 					</div>
-					
+					{% comment %} atthention {% endcomment %}
+					{% if request.user.role == 'Service Provider' and request.user.identity_proof == '' %}
+					<div class="alert alert-warning" role="alert">
+						<h4 class="alert-heading">Identification Proof Required !!!</h4>
+						<a href="{% url 'edit-user-profile' %}" class="btn btn-primary float-right" data-toggle="modal" data-target="#uploadDocument">Upload Now</a>
+						<p>Dear valuable customers, you need to upload one legal document for your verifications. </p>
+						<p class="mb-0">These documents are protected and arenot share with any other accept in the legal cases.</p>
+					</div>
+					{% endif %}
+					{% if request.user.can_apply_job %}
+					<div class="alert alert-info" role="alert">
+						<a href="{% url 'contact-us' %}" class="btn btn-primary float-right">Contact us</a>
+						<h4 class="alert-heading">You are not allowed to apply for jobs !!!</h4>
+						<p>Your profile is under verification.Verification may take more than 24 hrs.</p>
+					</div>
+					{% endif %}
+				
 					<div class="dashboard-widg-bar d-block">
 						<div class="row">
-							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-								<div class="dash-widgets py-5 px-4 bg-success rounded">
-									<h2 class="ft-medium mb-1 fs-xl text-light">{{jobs_posted}}</h2>
-									<p class="p-0 m-0 text-light fs-md">Jobs Posted</p>
-									<i class="fas fa-file"></i>
-								</div>
-							</div>
+							{% if request.user.role == 'Service Provider' %}
 							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 								<div class="dash-widgets py-5 px-4 bg-info rounded">
 									<h2 class="ft-medium mb-1 fs-xl text-light">{{ applied_jobs }}</h2>
 									<p class="p-0 m-0 text-light fs-md">Applied Jobs</p>
-									<i class="fas fa-file"></i>
+									<i class="fas fa-briefcase"></i>
 								</div>
 							</div>
-							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-								<div class="dash-widgets py-5 px-4 bg-danger rounded">
-									<h2 class="ft-medium mb-1 fs-xl text-light">87</h2>
-									<p class="p-0 m-0 text-light fs-md">Applications</p>
-									<i class="fas fa-users"></i>								
-								</div>
-							</div>
-							
 							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 								<div class="dash-widgets py-5 px-4 bg-warning rounded">
 									<h2 class="ft-medium mb-1 fs-xl text-light">312</h2>
 									<p class="p-0 m-0 text-light fs-md">Alert Jobs</p>
-									<i class="fas fa-chart-bar"></i>
+									<i class="fas fa-bell"></i>
 								</div>
 							</div>
 							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-								<div class="dash-widgets py-5 px-4 bg-danger rounded">
-									<h2 class="ft-medium mb-1 fs-xl text-light">312</h2>
-									<p class="p-0 m-0 text-light fs-md">Notifications</p>
+								<div class="dash-widgets py-5 px-4 bg-secondary rounded">
+									<h2 class="ft-medium mb-1 fs-xl text-light">रु.12,000 </h2>
+									<p class="p-0 m-0 text-light fs-md">Est. Monthly Earning</p>
+								<i class="fas fa-coins"></i>
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+								<div class="dash-widgets py-5 px-4 bg-primary rounded">
+									<h2 class="ft-medium mb-1 fs-xl text-light">रु.10,000</h2>
+									<p class="p-0 m-0 text-light fs-md">Earning of this month</p>
 									<i class="fas fa-chart-bar"></i>
 								</div>
 							</div>
+							{% else %}
+							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+								<div class="dash-widgets py-5 px-4 bg-success rounded">
+									<h2 class="ft-medium mb-1 fs-xl text-light">{{jobs_posted}}</h2>
+									<p class="p-0 m-0 text-light fs-md">Jobs Posted</p>
+									<i class="fa-solid fa-briefcase"></i>
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+								<div class="dash-widgets py-5 px-4 bg-info rounded">
+									<h2 class="ft-medium mb-1 fs-xl text-light">{{total_applications}}</h2>
+									<p class="p-0 m-0 text-light fs-md">Applications</p>
+									<i class="fas fa-users"></i>								
+								</div>
+							</div>
+							{% endif %}							
 						</div>
 					</div>
 					
 					<!-- footer -->
 				</div>
 			</div>
+			{% comment %} modal to upload document {% endcomment %}
+			<!-- Modal -->
+					<div class="modal fade" id="uploadDocument" tabindex="-1" role="dialog" aria-labelledby="uploadDocumentLabel" aria-hidden="true" data-backdrop="false">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="uploadDocumentLabel">Uplaod your document</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p>You can upload any legal document to prove your identity.</p>
+								</p>
+								<form action="{% url 'edit-user-profile' %}" method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+								<input type="file" name="document">
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Save changes</button>
+							</div>
+							</form>
+							</div>
+						</div>
+					</div>
 			{% endblock content %}
 {% block extra_js %}
 {% endblock %}
