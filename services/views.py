@@ -84,12 +84,15 @@ def services_detail(request, id):
 @login_required(login_url='/auth/login/')
 def user_dashboard(request):
     # jobs posted by user
-    jobs_posted = JobApplications.objects.filter(user=request.user).count()
+    jobs_posted = Services.objects.filter(posted_by=request.user).count()
     applied_jobs = JobApplications.objects.filter(user=request.user).count()
+    total_applications = JobApplications.objects.filter(service__posted_by=request.user).count()
     template_name='services/dashboard.html'
+    print(total_applications)
     context={
         'jobs_posted': jobs_posted,
-        # 'applied_jobs': applied_jobs,
+        'applied_jobs': applied_jobs,
+        'total_applications': total_applications,
     }
     return render(request, template_name, context)
 
@@ -127,6 +130,7 @@ def post_job(request, job_id=None):
                 messages.success(request, 'Job updated successfully')
                 return redirect('dashboard')
             else:
+                print(form.errors)
                 messages.error(request, 'Error updating job')
                 return redirect('post-job')
     else:
@@ -135,15 +139,14 @@ def post_job(request, job_id=None):
             if request.method == 'POST':
                 form = PostJobForm(request.POST, request.FILES)
                 if form.is_valid():
-                    print('form is valid')
                     add_post_by=form.save(commit=False)
                     add_post_by.posted_by = request.user
-                    if add_post_by.save():
-                        form.save_m2m()
-                        request.user.points.points -= 10
-                        request.user.points.save()
-                        messages.success(request, 'Job posted successfully')
-                        return redirect('dashboard')
+                    add_post_by.save()
+                    form.save_m2m()
+                    request.user.points.points -= 10
+                    request.user.points.save()
+                    messages.success(request, 'Job posted successfully')
+                    return redirect('manage-job')
                 else:
                     messages.error(request, 'Error posting job')
                     return redirect('post-job')
@@ -192,6 +195,9 @@ def manage_applicant(request, id):
             return redirect('manage-applicant' , id=job.service.id)
         elif jobstatus == 'Hired':
             job = JobApplications.objects.get(service=service, user=user)
+            job_in_service = Services.objects.get(id=service, posted_by=request.user)
+            job_in_service.status = 'Active'
+            job_in_service.save()
             job.status = jobstatus
             job.save()
             notification = Notification.objects.create(
@@ -268,7 +274,7 @@ def job_skill(request):
         form = JobSkillForm(request.POST or None)
         if form.is_valid():
             form.save()
-            messages.success(request, "jobskill added successfully")
+            messages.success(request, "Jobskill added successfully")
             return redirect ('dashboard')
     template_name = 'services/job-skill.html'
     context = {
@@ -284,7 +290,13 @@ def review(request):
 
 @login_required(login_url='/auth/login/')
 def delete_job(request, id):
-    job = Services.objects.get(id=id)
-    job.delete()
-    messages.success(request, 'Job deleted successfully')
+    job_applications = JobApplications.objects.filter(service=id, status='Hired')
+    print(job_applications)
+    if job_applications:
+        messages.error(request, 'You cannot delete this job because it has been hired')
+        return redirect('manage-job')
+    else:
+        job = Services.objects.get(id=id)
+        job.delete()
+        messages.success(request, 'Job deleted successfully')
     return redirect('manage-job')

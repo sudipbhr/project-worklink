@@ -1,13 +1,10 @@
 
 #Sudip
-show applied jobs
-posting one legal document by the worker
+user approval
 verify worker's identity by admin
-worker can see his/her applied jobs 
 payment method
 worker can see his/her payment history
 category based job filtering
-
 
 
  #Asha
