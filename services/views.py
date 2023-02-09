@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Services, Category, JobApplications
 from account.models import User
+from chat.models import Chat, Notification
 from django.contrib import messages
 from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
@@ -83,15 +84,20 @@ def services_detail(request, id):
 @login_required(login_url='/auth/login/')
 def user_dashboard(request):
     # jobs posted by user
-    jobs_posted = JobApplications.objects.filter(user=request.user).count()
+    jobs_posted = Services.objects.filter(posted_by=request.user).count()
     applied_jobs = JobApplications.objects.filter(user=request.user).count()
+    total_applications = JobApplications.objects.filter(service__posted_by=request.user).count()
     template_name='services/dashboard.html'
+    print(total_applications)
     context={
         'jobs_posted': jobs_posted,
-        # 'applied_jobs': applied_jobs,
+        'applied_jobs': applied_jobs,
+        'total_applications': total_applications,
     }
     return render(request, template_name, context)
 
+
+# this function load the about us page
 def about_us(request):
     template_name = 'about-us.html'
     context={}
@@ -113,23 +119,34 @@ def categories(request):
 
 
 @login_required(login_url='/auth/login/')
-def post_job(request):
-    try:
+def post_job(request, job_id=None):
+    if job_id is not None:
+        job_id = get_object_or_404(Services, id=job_id)
+        form = PostJobForm(instance=job_id)
+        if request.method == 'POST':
+            form = PostJobForm(request.POST, request.FILES, instance=job_id)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Job updated successfully')
+                return redirect('dashboard')
+            else:
+                print(form.errors)
+                messages.error(request, 'Error updating job')
+                return redirect('post-job')
+    else:
         form = PostJobForm() or None
         if request.user.can_post_job == True:
             if request.method == 'POST':
                 form = PostJobForm(request.POST, request.FILES)
                 if form.is_valid():
-                    print('form is valid')
                     add_post_by=form.save(commit=False)
                     add_post_by.posted_by = request.user
-                    if add_post_by.save():
-                        print('job posted successfully')
-                        form.save_m2m()
-                        request.user.points.points -= 10
-                        request.user.points.save()
-                        messages.success(request, 'Job posted successfully')
-                        return redirect('dashboard')
+                    add_post_by.save()
+                    form.save_m2m()
+                    request.user.points.points -= 10
+                    request.user.points.save()
+                    messages.success(request, 'Job posted successfully')
+                    return redirect('manage-job')
                 else:
                     messages.error(request, 'Error posting job')
                     return redirect('post-job')
@@ -139,8 +156,6 @@ def post_job(request):
         else:
             messages.error(request, 'You cannot post job')
             return redirect('dashboard')
-    except Exception as e:
-        print(e)
     context={
                 'form':form
             }
@@ -180,8 +195,21 @@ def manage_applicant(request, id):
             return redirect('manage-applicant' , id=job.service.id)
         elif jobstatus == 'Hired':
             job = JobApplications.objects.get(service=service, user=user)
+            job_in_service = Services.objects.get(id=service, posted_by=request.user)
+            job_in_service.status = 'Active'
+            job_in_service.save()
             job.status = jobstatus
             job.save()
+            notification = Notification.objects.create(
+                receiver=job.user, sender= job.service.posted_by,
+                message='You have been hired for {job}'.format(job=job.service.title),
+            )
+            notification.save()
+            chat = Chat.objects.create(
+                sender=job.service.posted_by, receiver=job.user,
+                message='You have been hired for {job}'.format(job=job.service.title),
+            )
+            chat.save()
             messages.success(request, 'Applicant hired')
             return redirect('manage-applicant' , id=job.service.id)
         elif jobstatus == 'Rejected':
@@ -246,7 +274,7 @@ def job_skill(request):
         form = JobSkillForm(request.POST or None)
         if form.is_valid():
             form.save()
-            messages.success(request, "jobskill added successfully")
+            messages.success(request, "Jobskill added successfully")
             return redirect ('dashboard')
     template_name = 'services/job-skill.html'
     context = {
@@ -259,3 +287,16 @@ def review(request):
     template_name='services/review.html'
     context={}
     return render(request, template_name, context)
+
+@login_required(login_url='/auth/login/')
+def delete_job(request, id):
+    job_applications = JobApplications.objects.filter(service=id, status='Hired')
+    print(job_applications)
+    if job_applications:
+        messages.error(request, 'You cannot delete this job because it has been hired')
+        return redirect('manage-job')
+    else:
+        job = Services.objects.get(id=id)
+        job.delete()
+        messages.success(request, 'Job deleted successfully')
+    return redirect('manage-job')

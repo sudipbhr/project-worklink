@@ -79,7 +79,7 @@ class JobApplications(models.Model):
         ('Rejected', 'Rejected')
     )
     status = models.CharField(max_length=100, choices=STATUS, default='Hiring')
-    applied_on = models.DateTimeField(auto_now=True)
+    applied_on = models.DateTimeField(auto_now_add=True)
     resume = models.FileField(upload_to='resume/', blank=True, null=True)
     updated_on = models.DateTimeField(auto_now=True)
 

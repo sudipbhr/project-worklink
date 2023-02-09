@@ -26,8 +26,8 @@
                     <td>
                         <div class="dash-action">
                             <a href="{% url 'manage-applicant' job.id %}" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="fas fa-pen"></i></a>
-                            <a href="#" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="fas fa-trash"></i></a>
+                            <a href="{% url 'post-job' job.id %}" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="fas fa-pen"></i></a>
+                            <a href="{% url 'delete-job' job.id%}" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="fas fa-trash"></i></a>
                         </div>
                     </td>
                 </tr>

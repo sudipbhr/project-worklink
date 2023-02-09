@@ -17,9 +17,10 @@ class User(AbstractUser):
     profession = models.CharField(max_length=100, blank=True)
     USER_STATUS_CHOICES= (
         ('active', 'Active'),
+        ('pending', 'Pending'),
         ('suspended', 'Suspended')
     )
-    user_status = models.CharField(max_length=20, choices = USER_STATUS_CHOICES, default='active')
+    user_status = models.CharField(max_length=20, choices = USER_STATUS_CHOICES, default='pending')
     GENDER_CHOICES= (
         ('male', 'Male'),
         ('female', 'Female'),
@@ -29,6 +30,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='avatar/', default='avatar/default.webp', blank=True)
     experience = models.IntegerField(default=0, help_text="Duration in years", blank=True)
     address = models.CharField(max_length=100, blank=True)
+    identity_proof = models.ImageField(upload_to='identity_proof/', blank=True)
     REQUIRED_FIELDS=[]
 
     objects = UserManager()
@@ -39,6 +41,13 @@ class User(AbstractUser):
     @property
     def can_post_job(self):
         if self.role == 'Service Seeker' and self.points.points >= 10 and self.user_status == 'active':
+            return True
+        else:
+            return False
+
+    @property
+    def can_apply_job(self):
+        if self.role == 'Service Provider' and self.points.points >= 10 and self.user_status == 'active':
             return True
         else:
             return False
