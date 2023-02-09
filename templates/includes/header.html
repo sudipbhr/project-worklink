@@ -2,62 +2,84 @@
 
 <!-- Start Navigation -->
 <div class="header header-light dark-text">
-    <div class="container">
-        <nav id="navigation" class="navigation navigation-landscape">
-            <div class="nav-header">
-                <a class="nav-brand" href="{% url 'home-page' %}">
-                    <img src="{% static 'img/logo.png' %}" class="logo" alt="" />
-                </a>
-                <div class="nav-toggle"></div>
-                <div class="mobile_nav">
-                    <ul>
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#login" class="worklink-theme fs-lg">
-                                <i class="lni lni-user"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="nav-menus-wrapper" style="transition-property: none;">
-                <ul class="nav-menu">
-                    <li><a href="{% url 'home-page' %}">Home</a></li>
-                    <li><a href="{% url 'about-us' %}">About Us</a></li>
-                    {% if request.user.is_authenticated %}
-                        {% if request.user.role == 'Service Provider' %}
-                            <li><a href="{% url 'service-search' %}">Find Job</a></li>
-                        {% endif %}
-                    {% endif %}
-                    <li><a href="{% url 'contact-us' %}">Contact Us</a></li>                
-                </ul>
+  <div class="container">
+    <nav id="navigation" class="navigation navigation-landscape">
+      <div class="nav-header">
+        <a class="nav-brand" href="{% url 'home-page' %}">
+          <img src="{% static 'img/logo.png' %}" class="logo" alt="" />
+        </a>
+        <div class="nav-toggle"></div>
+        <div class="mobile_nav">
+          <ul>
+            <li>
+              <a
+                href="#"
+                data-toggle="modal"
+                data-target="#login"
+                class="worklink-theme fs-lg"
+              >
+                <i class="lni lni-user"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav-menus-wrapper" style="transition-property: none">
+        <ul class="nav-menu">
+          <li><a href="{% url 'home-page' %}">Home</a></li>
+          <li><a href="{% url 'about-us' %}">About Us</a></li>
+          {% if request.user.is_authenticated %} {% if request.user.role == 'Service Provider' %}
+          <li><a href="{% url 'service-search' %}">Find Job</a></li>
+          {% endif %} 
+          {% endif %}
+          <li><a href="{% url 'contact-us' %}">Contact Us</a></li>
+        </ul>
 
-                <ul class="nav-menu nav-menu-social align-to-right">
-                    <li>
-                        {% if request.user.is_authenticated %}
-                        <a href="#" class="worklink-theme ft-medium">
-                             <i class="fa fa-user"></i> {{ request.user.get_full_name}}
-                            <ul class="nav-dropdown nav-submenu">
-                                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                                <li><a href="{% url 'logout' %}" class="text-danger">Logout</a></li>
-                            </ul>
-                        </a>
-                        <p class="btn btn-outline-primary ft-medium rounded p-2 ml-3">{{request.user.points.points}} points</p>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="worklink-theme ft-medium">
-                            <i class="fa fa-user"></i> Sign in
-                        </a>
-                        <a href="{% url 'register' %}" class="worklink-theme ft-medium">
-                            <i class="fas fa-plus-circle"></i> Register
-                        </a> 
-                    {% endif %}
-
+        <ul class="nav-menu nav-menu-social align-to-right">
+          <li>
+            {% if request.user.is_authenticated %}
+            <a href="#" class="worklink-theme ft-medium">
+              <i class="fa fa-user"></i> {{ request.user.get_full_name}}
+              <ul class="nav-dropdown nav-submenu">
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li>
+                  <a href="{% url 'logout' %}" class="text-danger">Logout</a>
                 </li>
-
-                </ul>
-            </div>
-        </nav>
-    </div>
+              </ul>
+            </a>
+            <p class="btn btn-outline-primary ft-medium rounded p-2 ml-3">
+              {{request.user.points.points}} points
+            </p>
+            {% else %}
+            <a href="{% url 'login' %}" class="worklink-theme ft-medium">
+              <i class="fa fa-user"></i> Sign in
+            </a>
+            <a href="{% url 'register' %}" class="worklink-theme ft-medium">
+              <i class="fas fa-plus-circle"></i> Register
+            </a>
+            {% endif %}
+          </li>
+        </ul>
+        <div class="dropdown" >
+          <button
+            class="worklink-theme ft-medium m-4 align-to-right border-0" style="background-color: white;"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i class="fa fa-bell"></i>
+            <span class="badge bg-danger" style="border-radius:50%; top:0;right:0;width:20px; height:20px;">0</span>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
 </div>
 <!-- End Navigation -->
-
-            
