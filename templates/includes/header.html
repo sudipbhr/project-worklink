@@ -50,6 +50,25 @@
             <p class="btn btn-outline-primary ft-medium rounded p-2 ml-3">
               {{request.user.points.points}} points
             </p>
+            <li class="ml-3">
+              <div class="dropdown d-flex">
+                <a class="fas fa-bell worklink-theme ft-medium"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  style="font-size: 24px"
+                  >
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              <p class="fs-sm rounded-circle border border-danger px-2 bg-danger text-white" style="margin-top:-18px">2</p>
+              </div>
+            </li>
             {% else %}
             <a href="{% url 'login' %}" class="worklink-theme ft-medium">
               <i class="fa fa-user"></i> Sign in
@@ -60,24 +79,7 @@
             {% endif %}
           </li>
         </ul>
-        <div class="dropdown" >
-          <button
-            class="worklink-theme ft-medium m-4 align-to-right border-0" style="background-color: white;"
-            type="button"
-            id="dropdownMenuButton"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <i class="fa fa-bell"></i>
-            <span class="badge bg-danger" style="border-radius:50%; top:0;right:0;width:20px; height:20px;">0</span>
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </div>
+        
       </div>
     </nav>
   </div>

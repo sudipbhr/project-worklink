@@ -24,8 +24,3 @@ def buy_points(request):
     template_name = 'payment/buy-points.html'
     context={}
     return render(request, template_name, context)
-
-def notification(request):
-    template_name='payment/notification.html'
-    context={}
-    return render(request, template_name, context)

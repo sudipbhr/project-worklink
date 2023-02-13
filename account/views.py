@@ -51,3 +51,13 @@ def user_profile(request):
         'user' : user
     }
     return render(request, template_name, context)
+
+@login_required(login_url = '/auth/login/')
+def manage_users(request):
+    if request.user.role == 'Admin':
+        users = User.objects.all()
+        template_name = 'account/manage-users.html'
+        context = {
+            'users' : users
+        }
+        return render(request, template_name, context)
