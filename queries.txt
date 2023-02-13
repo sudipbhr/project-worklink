@@ -1,0 +1,4 @@
+# Basic query
+1. select * from table_name;
+    table_name(model).objects.all()  => ORM (Objects relational mapping)
+    Services.objects.all()

@@ -5017,32 +5017,25 @@ footer.skin-dark-footer ul.footer-bottom-social li a:focus {
     color: #333c56;
 }
 
+
 /* --------review page start here---------- */
 
-
-.star-widget{
-font-size:40px;
-color:#444;
-padding:10px;
-transition: all 0.2s ease;
-margin-top: 20px;
-  
+.star-widget {
+    font-size: 40px;
+    color: #444;
+    padding: 10px;
+    transition: all 0.2s ease;
+    margin-top: 20px;
 }
 
-.checked:hover{
-color:#fd4;
-
+.checked:hover {
+    color: #fd4;
 }
-.form-group text button{
+
+.form-group text button {
     margin-top: 40px;
     margin-bottom: 30px;
 }
 
 
 /* --------review page end here---------- */
-
-
-
-
-
-
