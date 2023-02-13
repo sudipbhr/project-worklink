@@ -5,5 +5,4 @@ from . import views
 urlpatterns = [
     path('', views.chats, name="chat"),
     path('notification/',views.notification, name='notification')
-
 ]

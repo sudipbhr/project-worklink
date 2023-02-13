@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from .models import Notification
 from django.contrib.auth.decorators import login_required
+from chat.models import Chat
 
 # Create your views here.
-@login_required(login_url = '/auth/login/')
+
 def chats(request):
+    messages = Chat.objects.all()
     template_name= 'chat/chats.html'
-    context={}
-    return render(request, template_name, context)
+    context={
+        'messages' : messages
+    }
+    return render (request, template_name, context)
+
 
 @login_required(login_url = '/auth/login/')
 def notification(request):
