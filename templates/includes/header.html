@@ -62,11 +62,11 @@
                   >
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  {% for notification in request.user.noti_receiver.all %}
+                  <a class="dropdown-item" href="#">{{notification}}</a>
+                  {% endfor %}
                 </div>
-              <p class="fs-sm rounded-circle border border-danger px-2 bg-danger text-white" style="margin-top:-18px">2</p>
+              <p class="fs-sm rounded-circle border border-danger px-2 bg-danger text-white" style="margin-top:-15px">{{request.user.noti_receiver.all|length}}</p>
               </div>
             </li>
             {% else %}

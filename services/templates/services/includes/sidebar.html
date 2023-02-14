@@ -7,9 +7,9 @@
 
 							<ul data-submenu-title="">
 								<li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+								{% if request.user.role == 'Service Seeker'%}
 								<li><a href="{% url 'post-job' %}"><i class="fas fa-tasks mr-2"></i>Post New Job</a></li>
-								<li><a href="{% url 'add-category' %}"><i class="fas fa-list mr-2"></i>Add Category</a></li>
-								<li><a href="{% url 'job-skill' %}"><i class="fas fa-user-graduate mr-2"></i>Add Job Skills</a></li>
+								{% endif %}
 								<li><a href="{% url 'manage-job' %}"><i class="fas fa-folder-open mr-2"></i>Manage Jobs</a></li>
                 				<li><a href="{% url 'chat' %}"><i class="fas fa-envelope mr-2"></i>Messages</a></li>
 								<li><a href="{% url 'review' %}">Review</a></li>

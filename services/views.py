@@ -88,7 +88,6 @@ def user_dashboard(request):
     applied_jobs = JobApplications.objects.filter(user=request.user).count()
     total_applications = JobApplications.objects.filter(service__posted_by=request.user).count()
     template_name='services/dashboard.html'
-    print(total_applications)
     context={
         'jobs_posted': jobs_posted,
         'applied_jobs': applied_jobs,
@@ -130,7 +129,6 @@ def post_job(request, job_id=None):
                 messages.success(request, 'Job updated successfully')
                 return redirect('dashboard')
             else:
-                print(form.errors)
                 messages.error(request, 'Error updating job')
                 return redirect('post-job')
     else:
@@ -291,7 +289,6 @@ def review(request):
 @login_required(login_url='/auth/login/')
 def delete_job(request, id):
     job_applications = JobApplications.objects.filter(service=id, status='Hired')
-    print(job_applications)
     if job_applications:
         messages.error(request, 'You cannot delete this job because it has been hired')
         return redirect('manage-job')

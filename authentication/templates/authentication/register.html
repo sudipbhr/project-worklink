@@ -38,15 +38,19 @@ input[type=checkbox]:checked + label {
                                 </label>
                             </li>
                         </div>
-                    </ul>               
+                    </ul> 
+                                                                        <p id="user_type_error" class="text-danger"></p>
+              
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label>First Name *</label>
                             <input type="text" name="first_name" class="form-control" placeholder="First Name">
+                            <p id="first_name_error" class="text-danger"></p>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Last Name *</label>
                             <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+                            <p id="last_name_error" class="text-danger"></p>
                         </div>
                     </div>
                     <p class="text-warning">**Either email or phone number is required**</p>
@@ -59,18 +63,22 @@ input[type=checkbox]:checked + label {
                             <label>Phone number(optional)</label>
                             <input type="number" name="phone" class="form-control" placeholder="Phone number">
                         </div>
+                        <p id="error" class="text-danger"></p>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label>Password *</label>
                             <input type="password" name="password1" class="form-control" placeholder="Password*">
+                            <p id="password1_error" class="text-danger"></p>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label>Confirm Password *</label>
                             <input type="password" name="password2" class="form-control" placeholder="Confirm Password*">
+                            <p id="password2_error" class="text-danger"></p>
                         </div>
                     </div>
+                    <p id="password_error" class="text-danger"></p>
                     <div class="form-group">
                         <p>By registering your details, you agree with our Terms & Conditions, and Privacy Policy.</p>
                     </div>
@@ -97,6 +105,44 @@ input[type=checkbox]:checked + label {
                     $('#myCheckbox1').prop('checked', false);
                 }
             });
+            // on submit check if the fields are empty and avoid the form submission
+            $('form').submit(function(e){
+                var user_type = $('input[name=user_type]:checked').val();
+                var first_name = $('input[name=first_name]').val();
+                var last_name = $('input[name=last_name]').val();
+                var email = $('input[name=email]').val();
+                var phone = $('input[name=phone]').val();
+                var password1 = $('input[name=password1]').val();
+                var password2 = $('input[name=password2]').val();
+                if(user_type == undefined){
+                    e.preventDefault();
+                    $('#user_type_error').text('Please select a user type');
+                }
+                if(first_name == ''){
+                    e.preventDefault();
+                    $('#first_name_error').text('Please enter your first name');
+                }
+                if(last_name == ''){
+                    e.preventDefault();
+                    $('#last_name_error').text('Please enter your last name');
+                }
+                if(email == '' || phone == ''){
+                    $('#error').text('Please enter your email or phone number');
+                }
+                if(password1 == ''){
+                    e.preventDefault();
+                    $('#password1_error').text('Please enter your password');
+                }
+                if(password2 == ''){
+                    e.preventDefault();
+                    $('#password2_error').text('Please confirm your password');
+                }
+                if(password1 != password2){
+                    e.preventDefault();
+                    $('#password_error').text('Passwords do not match');
+                }
+            });
+            
         });
     </script>
 {% endblock extra_js %}
