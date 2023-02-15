@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from chat.models import Chat
+from chat.models import Chat, Notification
+
 
 # Create your views here.
 
@@ -12,6 +13,10 @@ def chats(request):
     return render (request, template_name, context)
 
 def notification(request):
+    notification=Notification.objects.all()
     templete_name='chat/notification.html'
-    context={}
+    print(notification)
+    context={
+     'alerts':notification
+    }
     return render(request, templete_name, context)
