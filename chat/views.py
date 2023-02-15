@@ -16,9 +16,6 @@ def chats(request):
 
 @login_required(login_url = '/auth/login/')
 def notification(request):
-    notifications = Notification.objects.all()
-    template_name= 'chat/notification.html'
-    context={
-        'n' : notifications
-    }
-    return render(request, template_name, context)
+    templete_name='chat/notification.html'
+    context={}
+    return render(request, templete_name, context)
