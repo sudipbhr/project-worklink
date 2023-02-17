@@ -17,7 +17,7 @@
 								{% if request.user.role == 'Admin' %}
 								<li><a href="{% url 'add-category' %}"><i class="fa-plus-circle mr-2"></i>Add Category</a></li>
 								<li><a href="{% url 'job-skill' %}"><i class="lni lni-files mr-2"></i>Add Job Skills</a></li>
-								<li><a href="{% url 'manage-users' %}"><i class="fas fa-folder-open mr-2"></i>Manage Users</a></li>
+								<li><a href="{% url 'manage-users' %}"><i class="fas fa-users mr-2"></i>Manage Users</a></li>
 								{% endif %}
 								<li><a href="{% url 'transaction' %}"><i class="fas fa-exchange-alt mr-2"></i>Transaction Page</a></li>
 							</ul>

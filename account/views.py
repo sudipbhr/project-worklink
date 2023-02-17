@@ -57,6 +57,14 @@ def user_profile(request):
 def manage_users(request):
     if request.user.role == 'Admin':
         users = User.objects.all()
+        if request.method == "POST":
+            user_id = request.POST.get('user')
+            status = request.POST.get('status')
+            user = User.objects.get(id = user_id)
+            user.user_status = status
+            user.save()
+            messages.success(request, "User status updated successfully")
+            return redirect('manage-users')
         template_name = 'account/manage-users.html'
         context = {
             'users' : users

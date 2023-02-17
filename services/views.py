@@ -63,16 +63,20 @@ def services_detail(request, id):
             messages.error(request, 'Invalid points')
             return redirect('service-detail', id=services.id)
         else:
-            job_apply = JobApplications.objects.create(
-                user=request.user,
-                service= services,
-                resume=resume,
-                        )
-            job_apply.save()
-            request.user.points.points -= int(points)
-            request.user.points.save()
-            messages.success(request, 'Job application sent successfully')
-            return redirect('manage-job')
+            if request.user.can_apply_job == True:
+                job_apply = JobApplications.objects.create(
+                    user=request.user,
+                    service= services,
+                    resume=resume,
+                            )
+                job_apply.save()
+                request.user.points.points -= int(points)
+                request.user.points.save()
+                messages.success(request, 'Job application sent successfully')
+                return redirect('manage-job')
+            else:
+                messages.error(request, 'You cannot apply for job')
+                return redirect('service-detail', id=services.id)
     context={
         'services': services,
         'has_applied': has_applied,

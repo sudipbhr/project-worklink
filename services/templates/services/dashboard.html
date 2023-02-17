@@ -23,7 +23,7 @@
 						<p class="mb-0">These documents are protected and arenot share with any other accept in the legal cases.</p>
 					</div>
 					{% endif %}
-					{% if request.user.can_apply_job %}
+					{% if not request.user.can_apply_job and request.user.role == 'Service Provider' %}
 					<div class="alert alert-info" role="alert">
 						<a href="{% url 'contact-us' %}" class="btn btn-primary float-right">Contact us</a>
 						<h4 class="alert-heading">You are not allowed to apply for jobs !!!</h4>

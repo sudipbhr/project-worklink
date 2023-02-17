@@ -1,84 +1,121 @@
 {% extends 'base.html' %}
-{% block title %} Manage Users {% endblock title%}
+{% load humanize %}
+{% load static %}
+{% block title %} Manage Users {% endblock title %}
 {% block content %}
-
 <div class="dashboard-wrap bg-light">
     {% include 'services/includes/sidebar.html' %}
-<div class="dashboard-content">
-    <div class="dashboard-tlbar d-block mb-5">
-        <div class="row">
-            <div class="colxl-12 col-lg-12 col-md-12">
-                <h1 class="ft-medium">Manage Users</h1>
-                
-            </div>
-        </div>
-    </div>
-    
-    <div class="dashboard-widg-bar d-block">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12">
-               
-                <div class="mb-4 tbl-lg rounded overflow-hidden">
-                    <div class="table-responsive bg-white">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                  <th scope="col">Serial No</th>
-                                  <th scope="col">Transaction Id</th>
-                                  <th scope="col">Date</th>
-                                  <th scope="col">Action</th>
-                                  <th scope="col">Change in Points</th>
-                                  <th scope="col">Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><div><h4 class="mb-0 ft-medium fs-sm text-center">1</h4></div></td>
-                                    <td><div class="text-center">111</div></td>
-                                    <td>10 Sep 2021</td>
-                                    <td>Added</td>
-                                    <td class="text-center">100</td>
-                                    <td>
-                                    <p>Completed Successfully</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div><h4 class="mb-0 ft-medium fs-sm text-center ">2</h4></div></td>
-                                    <td><div class="text-center" >112</div></td>
-                                    <td>10 Sep 2021</td>
-                                    <td>Substracted</td>
-                                    <td class="text-center">10</td>
-                                    <td>
-                                    <p>Completed Successfully</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div><h4 class="mb-0 ft-medium fs-sm text-center">3</h4></div></td>
-                                    <td><div class="text-center" >113</div></td>
-                                    <td>10 Sep 2021</td>
-                                    <td>Added</td>
-                                    <td class="text-center">20</td>
-                                    <td>
-                                    <p>Completed Successfully</p>
-                                    </td>
- 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <div class="dashboard-content">
+        <div class="dashboard-tlbar d-block mb-1">
+            <div class="row">
+                <div class="colxl-12 col-lg-12 col-md-12">
+                    <h1 class="ft-medium">Manage Users</h1>
                 </div>
             </div>
         </div>
-            
+        
+        <div class="dashboard-widg-bar d-block">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="data-responsive">
+									{% for user in users%}
+									<!-- Single List -->
+									<div class="dashed-list-wrap bg-white rounded mb-3">
+										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+											<div class="dashed-list-short d-flex align-items-center">
+												<div class="dashed-list-short-first">
+													<div class="dashed-avater">
+                                                        <img src="{{user.avatar.url}}" class="img-fluid circle" width="70" alt="" />
+                                                    </div>
+												</div>
+												<div class="dashed-list-short-last">
+													<div class="cats-box-caption px-2">
+														<h4 class="fs-lg mb-0 ft-medium theme-cl">{{user.get_full_name}}</h4>
+														<div class="d-block mb-2 position-relative">
+															<span><i class="fas fa-location-arrow mr-1"></i>{{user.address}}</span>
+															<span class="ml-2"><i class="fas fa-briefcase mr-1"></i>
+                                                               {{ user.profession}}
+                                                            </span>
+														</div>
+    													</div>
+												</div>
+											</div>
+											<div class="dashed-list-last">
+												<div class="text-left d-flex">
+                                                    {% if user.identity_proof %}
+													<a class="btn gray ft-medium apply-btn fs-sm rounded mr-1 document-image" url="{{user.identity_proof.url}}" data-toggle="modal" data-target="#documentModal"><i class="fas fa-eye mr-1"></i>View Document</a>
+                                                    {% endif %}
+													<form action="{% url 'manage-users' %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="user" value="{{user.id}}">
+                                                        <select name="status" id="" class="btn 
+                                                                        {% if user.user_status == 'pending' %}
+                                                                            bg-info text-white
+                                                                        {% elif user.user_status == 'active' %}
+                                                                            bg-success text-white
+                                                                        {% else %}
+                                                                           bg-danger text-white
+                                                                        {% endif %}
+                                                                        ft-medium apply-btn fs-sm rounded mr-1">
+                                                            <option value="pending" class="bg-light text-dark" {% if user.user_status == 'pending' %} selected {% endif %}>Pending</option>
+                                                            <option value="active" class="bg-light text-dark" {% if user.user_status == 'active' %} selected {% endif %}>Active</option>
+                                                            <option value="suspended" class="bg-light text-dark" {% if user.user_status == 'suspended' %} selected {% endif %}>Suspended</option>
+                                                        </select>
+                                                    </form>
+												</div>
+											</div>
+										</div>
+										<div class="dashed-list-footer p-3 br-top">
+											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+											</div>
+											<div class="ico-content">
+												<ul>
+													<li><span><i class="fas fa-calendar mr-1"></i>User created on: {{user.date_joined | naturaltime}}</span></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+                                    {% endfor %}
+								</div>
+                </div>
+            </div>
+        </div>
     </div>
-    
-   
-
 </div>
-
-</div>
-<!-- ======================= dashboard Detail End ======================== -->
-
-<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+// modal for imageModal
+    <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true" data-backdrop="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="applyJobModalLabel">Identity proof image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="" srcset="" class="document-image img-fluid">
+            </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
+{% block extra_js %}
+<script>
+    $(document).ready(function(){
+        $('select').change(function(){
+            $(this).parent().submit();
+        });
+        $('.document-image').click(function(){
+            var url = $(this).attr('url');
+            $('.document-image').attr('src', url);
+        });
+
+    })
+</script>
+{% endblock extra_js %}
