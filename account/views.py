@@ -56,7 +56,7 @@ def user_profile(request):
 @login_required(login_url = '/auth/login/')
 def manage_users(request):
     if request.user.role == 'Admin':
-        users = User.objects.all()
+        users = User.objects.all().exclude(username = request.user.username or role == 'Admin' or  is_superuser == True).order_by('-date_joined')
         if request.method == "POST":
             user_id = request.POST.get('user')
             status = request.POST.get('status')
@@ -81,3 +81,21 @@ def header_info(request):
         'notifications' : notifications,
     }
     return render(request, template_name, context)
+
+@login_required(login_url = '/auth/login/')
+def disqualify_document(request, id):
+    user = get_object_or_404(User, id = id)
+    user.identity_verifies = False
+    user.save()
+    messages.success(request, "Identity document disqualified")
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required(login_url = '/auth/login/')
+def verify_document(request, id):
+    user= get_object_or_404(User, id = id)
+    user.identity_verifies = True
+    user.save()
+    messages.success(request, "Identity document verified")
+    return redirect(request.META.get('HTTP_REFERER'))
+
+    

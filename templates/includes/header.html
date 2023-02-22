@@ -47,9 +47,11 @@
                 </li>
               </ul>
             </a>
+            {% if not request.user.role == 'Admin' %}
             <p class="btn btn-outline-primary ft-medium rounded p-2 ml-3">
               {{request.user.points.points}} points
             </p>
+            {% endif %}
             <li class="ml-3">
               <div class="dropdown d-flex">
                 <a class="fas fa-bell worklink-theme ft-medium"

@@ -88,10 +88,3 @@ class JobApplications(models.Model):
 
     class Meta:
         verbose_name_plural = 'Job applications'
-
-
-
-
-
-
-

@@ -13,7 +13,17 @@
                 </div>
             </div>
         </div>
-        
+        {% comment %} <div class="card">
+            <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                        <a href="" class="btn btn-outline-primary mr-2 nav">All Users</a>
+                        <a href="" class="btn btn-outline-primary mr-2 nav">Unverified Users</a>
+                        <a href="" class="btn btn-outline-primary mr-2 nav">Service Providers</a>
+                        <a href="" class="btn btn-outline-primary mr-2 nav">Service Seekers</a>
+                </div>
+                <p class="text-center fs-md mt-4 helper-text"> <i class="fas fa-hand-pointer"></i> PLease select the user role</p>
+            </div>
+        </div> {% endcomment %}
         <div class="dashboard-widg-bar d-block">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12">
@@ -21,7 +31,7 @@
 									{% for user in users%}
 									<!-- Single List -->
 									<div class="dashed-list-wrap bg-white rounded mb-3">
-										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+										<div class="dashed-list-full bg-white rounded p-3 ">
 											<div class="dashed-list-short d-flex align-items-center">
 												<div class="dashed-list-short-first">
 													<div class="dashed-avater">
@@ -43,7 +53,11 @@
 											<div class="dashed-list-last">
 												<div class="text-left d-flex">
                                                     {% if user.identity_proof %}
-													<a class="btn gray ft-medium apply-btn fs-sm rounded mr-1 document-image" url="{{user.identity_proof.url}}" data-toggle="modal" data-target="#documentModal"><i class="fas fa-eye mr-1"></i>View Document</a>
+													<a class="btn gray ft-medium apply-btn fs-sm rounded mr-1 document-image"
+                                                        url="{{user.identity_proof.url}}" user-id="{{user.id}}" 
+                                                        data-toggle="modal" data-target="#documentModal">
+                                                        <i class="fas fa-eye mr-1"></i>View Document
+                                                    </a>
                                                     {% endif %}
 													<form action="{% url 'manage-users' %}" method="POST">
                                                         {% csrf_token %}
@@ -65,14 +79,8 @@
 												</div>
 											</div>
 										</div>
-										<div class="dashed-list-footer p-3 br-top">
-											<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star"></i>
-											</div>
+                                        <p class="pl-3">Registered as :{{user.role}}</p>
+										<div class="dashed-list-footer pl-3 br-top">
 											<div class="ico-content">
 												<ul>
 													<li><span><i class="fas fa-calendar mr-1"></i>User created on: {{user.date_joined | naturaltime}}</span></li>
@@ -93,8 +101,8 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="applyJobModalLabel">Identity proof image</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <a class="btn btn-danger rounded ms-auto">Disqualify</a>
+                <a class="btn btn-primary rounded ms-auto verify">Verify</a>
                 </button>
             </div>
             <div class="modal-body">
@@ -114,7 +122,14 @@
         $('.document-image').click(function(){
             var url = $(this).attr('url');
             $('.document-image').attr('src', url);
+            var id = $(this).attr('user-id');
+            $('.modal-header a').attr('href', '/user/disqualify-document/'+id+'/');
+            $('.modal-header a.verify').attr('href', '/user/verify-document/'+id+'/');
+
         });
+        $('.nav').click(function(){
+            var helper_text = $('.helper-text').attr('class', 'd-none');
+        })
 
     })
 </script>
