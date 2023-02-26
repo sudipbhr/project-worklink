@@ -119,7 +119,7 @@
 						{% for category in categories%}
 						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
 							<div class="cats-wrap text-center">
-								<a href="{% url 'service-search' %}" class="cats-box d-block rounded bg-white px-2 py-4">
+								<a href="{% url 'category-jobs' category.id %}" class="cats-box d-block rounded bg-white px-2 py-4">
 									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle">
 										<i class="fs-lg theme-cl">{{category.name | slice:1}}</i>
 									</div>

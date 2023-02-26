@@ -1,32 +1,73 @@
 {% extends 'base.html' %}
 {% block title %}Buy points {% endblock %}
+{% block extra_css %}
+{% endblock %}
 {% block content %}
-				<div class="container">
-					<div class="row d-flex align-items-center justify-content-center ht-100">
-						<div class="col-xl-6 col-lg-6 col-md-8 col-sm-8">
-                            <p class="fs-md ft-regular">Your Good Balance : <span class="text-primary">{{request.user.user_balance.balance}}</span></p>
-							<form class="border p-3 rounded" action="{% url 'buy-points' %}" method="POST" >	
-								<h3 class="text-center ft-bold p-2">Buy points</h3>
-                                <p>Buying points for <b>{{request.user}} | {{request.user.get_full_name}}</b></p>
-								{% csrf_token %}
-                                <input type="hidden" value="{{request.user.id}}" name="user">	
-								<div class="form-group">
-									<label>Enter amount(Rs.)</label>
-									<input type="number" class="form-control" name="amount" placeholder="Enter amount in Rs.">
-								</div>
-                                <div class="form-group">
-                                    <label>Equivalent points</label>
-                                    <input type="text" class="form-control" disabled>
-                                </div>
-
-								<div class="form-group">
-									<button type="submit" class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Submit</button>
-								</div>
-							</form>
-						</div>
-							
-					</div>
+	<div class="container">
+		<div class="row d-flex align-items-center justify-content-center ht-100">
+			<div class="col-xl-6 col-lg-6 col-md-8 col-sm-8">
+				<div class="d-flex justify-content-between">
+					<p class="fs-md ft-regular">Your Good Balance : <span class="text-primary">{{request.user.user_balance.balance}}</span></p>
+					<a class="btn btn-info mb-2" href="{% url 'load-balance' %}">Load Balance</a>
 				</div>
+				<form class="border p-3 rounded" action="{% url 'buy-points' %}" method="POST" >	
+					<h3 class="text-center ft-bold p-2">Buy points</h3>
+					<p>Buying points for <b>{{request.user}} | {{request.user.get_full_name}}</b></p>
+					{% csrf_token %}
+					<input type="hidden" value="{{request.user.id}}" name="user">	
+					<div class="form-group">
+						<label>Enter amount(Rs.)</label>
+						<input type="number" class="form-control" name="amount" placeholder="Enter amount in Rs.">
+					</div>
+					<div class="form-group">
+						<label>Equivalent points</label>
+						<input type="text" class="form-control" disabled>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Submit</button>
+					</div>
+				</form>
+			</div>
+				
+		</div>
+	</div>
+{% comment %} modal form for loading balance {% endcomment %}
+{% comment %} modal {% endcomment %}
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true" data-backdrop="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Load Balance</h5>
+            </div>
+            <div class="modal-body">
+				<form class="border p-3 rounded" action="{% url 'buy-points' %}" method="POST" >
+					{% csrf_token %}
+					<input type="hidden" value="{{request.user.id}}" name="user">
+					<div class="form-group">
+						<label class="font-weight-bold">User</label>
+						<p>{{request.user.get_full_name}}</p>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold">Enter amount(Rs.)</label>
+						<input type="number" class="form-control" name="amount" placeholder="Enter amount in Rs." required>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold">Remarks *</label>
+						<input type="text" class="form-control" name="remarks" placeholder="Enter remarks" required>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
 {% block extra_js %}
@@ -39,5 +80,4 @@
         });
     });
 </script>
-
 {% endblock extra_js%}

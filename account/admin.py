@@ -12,7 +12,7 @@ class MyUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal', {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'role', 'avatar')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_status')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_status', 'identity_verifies')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')})
     )
     # this is for update view
