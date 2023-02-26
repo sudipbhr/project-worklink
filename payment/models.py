@@ -34,4 +34,24 @@ class BuyPoints(models.Model):
 
     class Meta:
         verbose_name_plural = 'Bought Points'
+
+class LoadBalance(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+    remarks = models.TextField(blank=True, null=True)
+    identity = models.CharField(max_length=100, blank=True, null=True)
+    STATUS = (
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed')
+    )
+    status = models.CharField(max_length=100, choices=STATUS, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name_plural = 'Load Balance'
         

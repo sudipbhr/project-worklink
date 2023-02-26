@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Load balance{% endblock %}
+{% block extra_css %}
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row d-flex align-items-center justify-content-center ht-100">
+			<div class="col-xl-6 col-lg-6 col-md-8 col-sm-8">
+				<div class="">
+					<p class="fs-md ft-regular">Your Good Balance : <span class="text-primary">{{request.user.user_balance.balance}}</span></p>
+				</div>
+                {% if not condition %}
+                <form class="border p-3 rounded" method="POST" url={% url 'load-balance'%}>
+					{% csrf_token %}
+					<input type="hidden" value="{{request.user.id}}" name="user">
+					<div class="form-group">
+						<label class="font-weight-bold">User</label>
+						<p>{{request.user.get_full_name}}</p>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold">Enter amount(Rs.)</label>
+						<input type="number" class="form-control" name="amount" placeholder="Enter amount in Rs.">
+                        <p id="amount-error" class="text-danger"></p>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold">Remarks *</label>
+						<input type="text" class="form-control" name="remarks" placeholder="Enter remarks">
+                        <p id="remarks-error" class="text-danger"></p>
+					</div>
+					<div class="d-flex justify-content-end">
+						<button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
+						<button class="btn btn-primary mr-2" id="payment">Submit</button>
+					</div>
+				</form>
+				{% else %}
+                <!-- payment confirmation-->
+                <div class="card">
+                    <div class="card-body">
+                        Please confirm your payment
+                        <p>
+                            <span class="font-weight-bold">Amount : </span>
+                            <span class="text-primary">{{amount}}</span>
+                            <span class="font-weight-bold">Remarks : </span>
+                            <span class="text-primary">{{remarks}}</span>
+                        </p>
+                    </div>
+                        
+                </div>
+                <button id="payment-button" class="btn btn-info text-center mt-2">Load Balance</button>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    
+    {% comment %} check amount and remarks arenot empty {% endcomment %}
+    $('#payment').click(function(e){
+        var amount = $('input[name="amount"]').val();
+        var remarks = $('input[name="remarks"]').val();
+        if (amount == '' || remarks == ''){
+            if(amount == ''){
+                e.preventDefault();
+                $('#amount-error').html('Amount is required');
+            }
+            else{
+                $('#amount-error').html('');
+            }
+            if(remarks == ''){
+                e.preventDefault();
+                $('#remarks-error').html('Remarks is required');
+            }
+            else{
+                $('#remarks-error').html('');
+            }
+        }
+    });
+    $('#payment-button').trigger('click');
+</script>
+<script>
+        var config = {
+            // replace the publicKey with yours
+            "publicKey": "test_public_key_d002df6db9a94dd49e0adaebf6ce1467",
+            "productIdentity": "{{transcation_id}}",
+            "productName": "{{remarks}}",
+            "productUrl": "{{product_url}}",
+            "paymentPreference": [
+                "KHALTI",
+                "EBANKING",
+                "MOBILE_BANKING",
+                "CONNECT_IPS",
+                "SCT",
+                ],
+            "eventHandler": {
+                onSuccess (payload) {
+                    // hit merchant api for initiating verfication
+                    console.log(payload);
+                },
+                onError (error) {
+                    console.log(error);
+                },
+                onClose () {
+                    console.log('widget is closing');
+                }
+            }
+        };
+
+        var checkout = new KhaltiCheckout(config);
+        var btn = document.getElementById("payment-button");
+        btn.onclick = function () {
+            // minimum transaction amount must be 10, i.e 1000 in paisa.
+            checkout.show({amount: {{amount}}});
+        }
+</script>
+{% endblock extra_js%}

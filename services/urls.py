@@ -12,7 +12,9 @@ urlpatterns = [
     path('dashboard/', views.user_dashboard, name="dashboard"),
     path('about-us/', views.about_us, name="about-us"),
     path('contact-us/', views.contact_us, name="contact-us"),
+    # categories
     path('categories/', views.categories, name="categories"),
+    path('category/<int:id>/jobs/', views.category_jobs, name="category-jobs"),
     path('post-job/', views.post_job, name="post-job"),
     path('post-job/<int:job_id>', views.post_job, name="post-job"),
     path('delete-job/<int:id>', views.delete_job, name="delete-job"),
@@ -22,6 +24,9 @@ urlpatterns = [
     path('change-password/', views.change_password, name="change-password"),
     path('add-category/', views.add_category, name="add-category"),
     path('job-skill/', views.job_skill, name = "job-skill"),
+    # quering all jobs of the particular skill
+    path('skill/<int:id>/jobs/', views.skill_jobs, name="skill-jobs"),
+
     path('review/', views.review, name="review"),
     path('transactions/', views.transactions, name = "transaction"),
 ]

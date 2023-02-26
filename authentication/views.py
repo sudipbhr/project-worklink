@@ -28,15 +28,13 @@ def send_otp(user):
                     print("mail sent1")
                 else:
                     print("mail not sent1")
-                
         else:
-            print("creating new otp")
             otp=random.randint(10000,99999)
             user_otp = UserOTP.objects.create(user=user, otp=otp)
             user_otp.save()
             subject = "OTP verfication"
             message = "Your OTP is " + str(otp)
-            from_email = "sudipbhandari67@gmail.com"
+            from_email = setting.EMAIL_HOST_USER
             recepient_list = [user.email]
             mail= send_mail(subject, message, from_email, recepient_list, fail_silently=False)
             if mail:
@@ -109,7 +107,7 @@ def user_register(request):
                             | Q(phone_number=user_phone), Q(first_name=first_name), Q(last_name=last_name)).exists()
         if user_exists:
             messages.error(request, "User already exists")
-            return redirect('login')
+            return redirect('register')
         elif (user_password != user_password2):
             messages.error(request, "Passwords don't match")
             return redirect('register')

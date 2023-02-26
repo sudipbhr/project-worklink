@@ -22,15 +22,16 @@
 						<p>Dear valuable customers, you need to upload one legal document for your verifications. </p>
 						<p class="mb-0">These documents are protected and arenot share with any other accept in the legal cases.</p>
 					</div>
-					{% endif %}
-					{% if request.user.can_apply_job %}
+					{% else %}
+					{% if request.user.user_status != 'active' and request.user.role == 'Service Provider' %}
 					<div class="alert alert-info" role="alert">
 						<a href="{% url 'contact-us' %}" class="btn btn-primary float-right">Contact us</a>
 						<h4 class="alert-heading">You are not allowed to apply for jobs !!!</h4>
 						<p>Your profile is under verification.Verification may take more than 24 hrs.</p>
 					</div>
 					{% endif %}
-				
+					{% endif %}
+					{% if request.user.user_status == 'active' %}
 					<div class="dashboard-widg-bar d-block">
 						<div class="row">
 							{% if request.user.role == 'Service Provider' %}
@@ -80,6 +81,7 @@
 							{% endif %}							
 						</div>
 					</div>
+					{% endif %}
 					
 					<!-- footer -->
 				</div>

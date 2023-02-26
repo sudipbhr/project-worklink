@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Services, Category, JobApplications
+from .models import Services, Category, JobApplications, JobSkills
 from account.models import User
 from chat.models import Chat, Notification
 from django.contrib import messages
 from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
@@ -25,6 +26,9 @@ def services_search(request):
         return redirect('dashboard')
     categories = Category.objects.all()
     services = Services.objects.all()
+    paginator = Paginator(services, 9)
+    page = request.GET.get('page')
+    services = paginator.get_page(page)
     context={
         'services': services,
         'categories': categories,
@@ -63,16 +67,20 @@ def services_detail(request, id):
             messages.error(request, 'Invalid points')
             return redirect('service-detail', id=services.id)
         else:
-            job_apply = JobApplications.objects.create(
-                user=request.user,
-                service= services,
-                resume=resume,
-                        )
-            job_apply.save()
-            request.user.points.points -= int(points)
-            request.user.points.save()
-            messages.success(request, 'Job application sent successfully')
-            return redirect('manage-job')
+            if request.user.can_apply_job == True:
+                job_apply = JobApplications.objects.create(
+                    user=request.user,
+                    service= services,
+                    resume=resume,
+                            )
+                job_apply.save()
+                request.user.points.points -= int(points)
+                request.user.points.save()
+                messages.success(request, 'Job application sent successfully')
+                return redirect('manage-job')
+            else:
+                messages.error(request, 'You cannot apply for job')
+                return redirect('service-detail', id=services.id)
     context={
         'services': services,
         'has_applied': has_applied,
@@ -88,7 +96,6 @@ def user_dashboard(request):
     applied_jobs = JobApplications.objects.filter(user=request.user).count()
     total_applications = JobApplications.objects.filter(service__posted_by=request.user).count()
     template_name='services/dashboard.html'
-    print(total_applications)
     context={
         'jobs_posted': jobs_posted,
         'applied_jobs': applied_jobs,
@@ -113,7 +120,8 @@ def categories(request):
     categories = Category.objects.all()
     template_name= 'services/categories.html'
     context={
-        'categories': categories
+        'categories': categories,
+    
     }
     return render (request, template_name, context)
 
@@ -130,7 +138,6 @@ def post_job(request, job_id=None):
                 messages.success(request, 'Job updated successfully')
                 return redirect('dashboard')
             else:
-                print(form.errors)
                 messages.error(request, 'Error updating job')
                 return redirect('post-job')
     else:
@@ -291,7 +298,6 @@ def review(request):
 @login_required(login_url='/auth/login/')
 def delete_job(request, id):
     job_applications = JobApplications.objects.filter(service=id, status='Hired')
-    print(job_applications)
     if job_applications:
         messages.error(request, 'You cannot delete this job because it has been hired')
         return redirect('manage-job')
@@ -300,3 +306,27 @@ def delete_job(request, id):
         job.delete()
         messages.success(request, 'Job deleted successfully')
     return redirect('manage-job')
+
+# quering the jobs of the particular skill
+@login_required(login_url='/auth/login/')
+def skill_jobs(request, id):
+    jobs = Services.objects.filter(skills=id)
+    skill_name = JobSkills.objects.get(id=id)
+    template_name='services/services-search.html'
+    context={
+        'services': jobs,
+        'filter_name': skill_name.name,
+    }
+    return render(request, template_name, context)
+
+# quering the jobs of the particular category
+@login_required(login_url='/auth/login/')
+def category_jobs(request, id):
+    jobs = Services.objects.filter(category=id)
+    category_name = Category.objects.get(id=id)
+    template_name='services/services-search.html'
+    context={
+        'services': jobs,
+        'filter_name': category_name.name,
+    }
+    return render(request, template_name, context)

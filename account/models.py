@@ -31,6 +31,7 @@ class User(AbstractUser):
     experience = models.IntegerField(default=0, help_text="Duration in years", blank=True)
     address = models.CharField(max_length=100, blank=True)
     identity_proof = models.ImageField(upload_to='identity_proof/', blank=True)
+    identity_verifies = models.BooleanField(default=False, blank=True)
     REQUIRED_FIELDS=[]
 
     objects = UserManager()
@@ -95,7 +96,7 @@ class UserEducation(models.Model):
     class Meta:
         verbose_name_plural = "User Education"
 class UserSkills(models.Model):
-    user= models.ForeignKey(User, on_delete=models.CASCADE, related_name='skill')
+    user= models.ForeignKey(User, on_delete=models.CASCADE, related_name='skill', blank=True, null=True)
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

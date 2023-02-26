@@ -28,13 +28,14 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
     @property
+    # no of jobs in a category
     def no_of_jobs(self):
         return self.services_set.all().count()
 
     def skills_of_category(self):
         return self.skills.all()
-
-
+    
+   
 
 class Services(models.Model):
     # model for jobs in online job portal
@@ -88,10 +89,3 @@ class JobApplications(models.Model):
 
     class Meta:
         verbose_name_plural = 'Job applications'
-
-
-
-
-
-
-
