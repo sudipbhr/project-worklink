@@ -1,3 +1,6 @@
 
 #Sudip
 payment method
+forgot password
+chat 
+job filter

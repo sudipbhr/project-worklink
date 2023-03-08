@@ -6,6 +6,7 @@ from django.contrib import messages
 from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# from .filters import ServicesFilter
 
 # Create your views here.
 
@@ -24,6 +25,7 @@ def home(request):
 def services_search(request):
     if request.user.role == 'Service Seeker':
         return redirect('dashboard')
+    # services_filter = ServicesFilter(request.GET, queryset=service_list)
     categories = Category.objects.all()
     services = Services.objects.all()
     paginator = Paginator(services, 9)

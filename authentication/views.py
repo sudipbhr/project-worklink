@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from account.models import User, Points, UserBalance
 from authentication.models import UserVerification, UserOTP
 from django.contrib.auth import authenticate, login, logout
@@ -17,8 +17,7 @@ def send_otp(user):
     try:
         find_otp = UserOTP.objects.filter(user=user).first()
         if find_otp:
-            print("user found")
-            if find_otp.otp_created_at < timezone.now() - timedelta(minutes=5):
+            if find_otp.otp_created_at < timezone.now() - timedelta(minutes=1):
                 subject = "OTP verfication"
                 message = "Your OTP is " + str(find_otp.otp)
                 from_email = setting.EMAIL_HOST_USER
@@ -51,6 +50,7 @@ def user_login(request):
     if request.method == "POST":
         user_email = request.POST["email"]
         user_password = request.POST["password"]
+        remember_me = request.POST.get("remember_me")
         user_exists = User.objects.filter(Q(email=user_email) | Q(phone_number=user_email)).first()
         if user_exists:
             user = authenticate(request, username=user_exists.username, password=user_password)

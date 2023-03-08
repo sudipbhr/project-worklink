@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Load balance{% endblock %}
 {% block extra_css %}
-<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
-{% endblock %}
+<script src="https://www.paypal.com/sdk/js?client-id=AVsoq3vKSls0SiS2gTPBj5RVMcRF9-dzuaonV6_-SIMzPzrtJLz0SSH_MFYPXdAodE38H_0_VJQkD6H5&currency=USD"></script>{% endblock %}
 {% block content %}
 	<div class="container">
 		<div class="row d-flex align-items-center justify-content-center ht-100">
@@ -47,7 +46,7 @@
                     </div>
                         
                 </div>
-                <button id="payment-button" class="btn btn-info text-center mt-2">Load Balance</button>
+                <div id="paypal-button-container"></div>
                 {% endif %}
 			</div>
 		</div>
@@ -77,41 +76,69 @@
             }
         }
     });
-    $('#payment-button').trigger('click');
 </script>
-<script>
-        var config = {
-            // replace the publicKey with yours
-            "publicKey": "test_public_key_d002df6db9a94dd49e0adaebf6ce1467",
-            "productIdentity": "{{transcation_id}}",
-            "productName": "{{remarks}}",
-            "productUrl": "{{product_url}}",
-            "paymentPreference": [
-                "KHALTI",
-                "EBANKING",
-                "MOBILE_BANKING",
-                "CONNECT_IPS",
-                "SCT",
-                ],
-            "eventHandler": {
-                onSuccess (payload) {
-                    // hit merchant api for initiating verfication
-                    console.log(payload);
-                },
-                onError (error) {
-                    console.log(error);
-                },
-                onClose () {
-                    console.log('widget is closing');
-                }
-            }
-        };
 
-        var checkout = new KhaltiCheckout(config);
-        var btn = document.getElementById("payment-button");
-        btn.onclick = function () {
-            // minimum transaction amount must be 10, i.e 1000 in paisa.
-            checkout.show({amount: {{amount}}});
+  <script>
+
+    //generating csrf token
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            const csrftoken = getCookie('csrftoken');
+
+       function completeBalanceLoad(){
+            var url = "{% url 'payment-success' %}";
+            
+            fetch(url, {
+                method:'POST',
+                headers:{
+                    'Content-type':"application/json",
+                    'X-CSRFToken':csrftoken,
+                },
+                body:JSON.stringify({
+                    'user': {{request.user.id}},
+                    'transcation_id': {{transcation_id}},
+                    'amount': {{amount}}
+                })
+            
+            })
         }
-</script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{amount}}'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    // Successful capture! For demo purposes:
+                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    var transaction = orderData.purchase_units[0].payments.captures[0];
+                    alert('Transaction '+ transaction.status + ': ' + transaction.id );
+                    completeBalanceLoad();
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
 {% endblock extra_js%}
