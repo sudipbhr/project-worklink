@@ -30,7 +30,7 @@ class Category(models.Model):
     @property
     # no of jobs in a category
     def no_of_jobs(self):
-        return self.services_set.all().count()
+        return self.category.all().count()
 
     def skills_of_category(self):
         return self.skills.all()
@@ -49,8 +49,8 @@ class Services(models.Model):
         ('hiring', 'Hiring')
     )
     status = models.CharField(max_length=100, choices=STATUS, default='hiring')
-    category = models.ManyToManyField(Category, blank=True)
-    skills =models.ManyToManyField(JobSkills, blank=True)
+    category = models.ManyToManyField(Category, blank=True, related_name='category')
+    skills =models.ManyToManyField(JobSkills, blank=True, related_name='skills')
     vacancy = models.IntegerField(help_text="Enter number of vacancies", default='1')
     posted_by= models.ForeignKey(User, on_delete=models.CASCADE, related_name='services', null=True)
     location =models.CharField(max_length=200)
@@ -68,6 +68,7 @@ class Services(models.Model):
     @property
     def no_of_applications(self):
         return self.services.all().count()
+    
         
     
 class JobApplications(models.Model):

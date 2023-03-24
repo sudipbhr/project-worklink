@@ -54,3 +54,8 @@ class UserSkillsForm(forms.ModelForm):
             self.fields[field].widget.attrs=({
                 'class': 'form-control',
             })
+            if field == 'name':
+                self.fields[field].widget.attrs=({
+                    'class': 'form-control select2',
+                    'placeholder': 'Enter your skills',
+                })

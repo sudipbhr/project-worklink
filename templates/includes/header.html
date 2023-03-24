@@ -12,14 +12,16 @@
         <div class="mobile_nav">
           <ul>
             <li>
+              {% if request.user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="worklink-theme ">{{request.user.get_full_name}}</a>
+              {% else %}
               <a
-                href="#"
-                data-toggle="modal"
-                data-target="#login"
+                href="{% url 'login' %}"
                 class="worklink-theme fs-lg"
               >
-                <i class="lni lni-user"></i>
+                <i class="fas fa-user"></i>
               </a>
+              {% endif %}
             </li>
           </ul>
         </div>
