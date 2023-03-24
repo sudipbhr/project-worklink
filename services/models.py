@@ -69,6 +69,8 @@ class Services(models.Model):
     def no_of_applications(self):
         return self.services.all().count()
     
+    
+    
         
     
 class JobApplications(models.Model):
