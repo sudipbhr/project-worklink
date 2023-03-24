@@ -3370,7 +3370,12 @@ li.login-attri .account-drop a {
     display: block;
     margin-bottom: 30px;
     background: #ffffff;
-    min-height: 280px;
+    height: 300px;
+}
+
+.job_grid_thumb img {
+    height: 95px;
+    width: 95px;
 }
 
 .skills_tag li {

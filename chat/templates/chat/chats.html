@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %} Chats {% endblock title %}
 {% block content %} 
 <div class="dashboard-wrap bg-light">
    
     {% include 'services/includes/sidebar.html' %}
-
-    {% comment %} <div class="dashboard-content">
+<div class="dashboard-content">
         <div class="dashboard-widg-bar d-block">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12">
@@ -14,184 +14,41 @@
                         <div class="_dashboard_content_body">
                             <!-- Convershion -->
                             <div class="messages-container margin-top-0">
-                                <div class="messages-headline">
-                                    <h4>Connor Griffin</h4>
-                                    <a href="#" class="message-action"><i class="ti-trash"></i> Delete Conversation</a>
-                                </div>
-
                                 <div class="messages-container-inner">
 
                                     <!-- Messages -->
                                     <div class="dash-msg-inbox">
                                         <ul>
+                                            {% if chats %}
+                                            {% for chat in chats %}
                                             <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-1.jpg" alt=""><span class="_user_status online"></span></div>
+                                                {% if chat.receiver == request.user %}
+                                                <a href="{% url 'user-chat' chat.sender.id chat.receiver.id chat.id %}">
+                                                    <div class="dash-msg-avatar"><img src="{{chat.sender.avatar.url}}" alt=""><span class="_user_status online"></span></div>
 
                                                     <div class="message-by">
                                                         <div class="message-by-headline">
-                                                            <h5>Tilly Bartlett</h5>
-                                                            <span>36 min ago</span>
+                                                            <h5>{{chat.sender.get_full_name}}</h5>
+                                                            <span>{{chat.created_at | naturaltime}}</span>
                                                         </div>
-                                                        <p>Hello, I am a web designer with 5 year.. </p>
+                                                        <p>messages</p>
                                                     </div>
                                                 </a>
-                                            </li>
-
-                                            <li class="active-message">
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-2.jpg" alt=""><span class="_user_status offline"></span></div>
+                                                {% else %}
+                                                <a href="{% url 'user-chat' chat.sender.id chat.receiver.id chat.id %}">
+                                                    <div class="dash-msg-avatar"><img src="{{chat.receiver.avatar.url}}" alt=""><span class="_user_status online"></span></div>
 
                                                     <div class="message-by">
                                                         <div class="message-by-headline">
-                                                            <h5>George Howarth</h5>
-                                                            <span>2 hours ago</span>
+                                                            <h5>{{chat.receiver.get_full_name}}</h5>
+                                                            <span>{{chat.created_at | naturaltime}}</span>
                                                         </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
+                                                        <p>messages</p>
                                                     </div>
-                                                </a>
+                                                {% endif %}
                                             </li>
-                                            
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-3.jpg" alt=""><span class="_user_status busy"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Harriet Ball</h5>
-                                                            <span>Yesterday</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-4.jpg" alt=""><span class="_user_status online"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Sienna Bruce</h5>
-                                                            <span>02.01.2020</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-5.jpg" alt=""><span class="_user_status busy"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Leo Stewart</h5>
-                                                            <span>03.01.2020</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-1.jpg" alt=""><span class="_user_status online"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Shaurya Preet</h5>
-                                                            <span>05.01.2020</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-2.jpg" alt=""><span class="_user_status offline"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Dan Preet</h5>
-                                                            <span>04.01.2020</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-3.jpg" alt=""><span class="_user_status online"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Maddison</h5>
-                                                            <span>31.05.2019</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-4.jpg" alt=""><span class="_user_status busy"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Maddison</h5>
-                                                            <span>27.05.2019</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-5.jpg" alt=""><span class="_user_status busy"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Eleanor Lloyd</h5>
-                                                            <span>24.05.2019</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-1.jpg" alt=""><span class="_user_status offline"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Anna Curtis</h5>
-                                                            <span>05.01.2020</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <div class="dash-msg-avatar"><img src="assets/img/team-2.jpg" alt=""><span class="_user_status online"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>Tyler Fraser</h5>
-                                                            <span>07.01.2020</span>
-                                                        </div>
-                                                        <p>Hello, I am a web designer with 5 year..</p>
-                                                    </div>
-                                                </a>
-                                            </li>
-
+                                            {% endfor %}
+                                            {% endif %}
                                         </ul>
                                     </div>
                                     <!-- Messages / End -->
@@ -253,7 +110,7 @@
             </div>
                 
         </div>
-    </div> {% endcomment %}
+    </div>
 </div>
 <!-- ======================= dashboard Detail End ======================== -->
 {% endblock content %} 

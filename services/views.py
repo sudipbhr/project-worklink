@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import PostJobForm, CategoryForm, JobSkillForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .filters import ServicesFilter
+from django.db.models import Q
 
 # Create your views here.
 
@@ -24,16 +26,61 @@ def home(request):
 def services_search(request):
     if request.user.role == 'Service Seeker':
         return redirect('dashboard')
+    
     categories = Category.objects.all()
     services = Services.objects.all()
+    services_count = services.count()
+    services_filter = ServicesFilter(request.GET, queryset=services)
     paginator = Paginator(services, 9)
     page = request.GET.get('page')
     services = paginator.get_page(page)
     context={
         'services': services,
+        'total_services': services_count,
         'categories': categories,
+        'services_filter': services_filter,
+        'locations': Services.objects.values_list('location', flat=True).distinct(),
     }
     return render(request, 'services/services-search.html', context)
+
+
+@login_required(login_url='/auth/login/')
+def search(request):
+    template_name = 'services/services-search.html'
+    # all categories
+    categories = Category.objects.all()
+    if request.method == 'GET':
+        q = request.GET.get('query')
+        category = request.GET.get('category')
+        if q:
+            search_services = Services.objects.filter(
+                Q(title__icontains=q)| Q(location__icontains=q)|Q(category__name__icontains = q) |
+                Q(skills__name__icontains = q) | Q(description__icontains = q)
+            )
+        else:
+            search_services=[]
+
+        if category:
+            category_services = Services.objects.filter(
+                Q(category__name__icontains = category)
+            )
+        else:
+            category_services = []
+        
+        services = set(search_services).union(set(category_services))
+        
+        context={
+            'services': services,
+            'categories': categories,
+            'filter_name': q or category,
+            'total_services': len(services),
+        }
+        return render(request, template_name, context)
+    
+    
+
+
+
 
 @login_required(login_url='/auth/login/')
 def service_search_map(request):
@@ -127,47 +174,53 @@ def categories(request):
 
 
 @login_required(login_url='/auth/login/')
-def post_job(request, job_id=None):
-    if job_id is not None:
-        job_id = get_object_or_404(Services, id=job_id)
-        form = PostJobForm(instance=job_id)
+def post_job(request):
+    title = "Post a new job"
+    form = PostJobForm() or None
+    if request.user.can_post_job == True:
         if request.method == 'POST':
-            form = PostJobForm(request.POST, request.FILES, instance=job_id)
+            form = PostJobForm(request.POST, request.FILES)
             if form.is_valid():
-                form.save()
-                messages.success(request, 'Job updated successfully')
-                return redirect('dashboard')
-            else:
-                messages.error(request, 'Error updating job')
-                return redirect('post-job')
+                add_post_by=form.save(commit=False)
+                add_post_by.posted_by = request.user
+                add_post_by.save()
+                form.save_m2m()
+                request.user.points.points -= 10
+                request.user.points.save()
+                messages.success(request, 'Job posted successfully')
+                return redirect('manage-job')
+    elif request.user.points.points < 10:
+        messages.error(request, 'You do not have enough points to post job')
+        return redirect('buy-points')
     else:
-        form = PostJobForm() or None
-        if request.user.can_post_job == True:
-            if request.method == 'POST':
-                form = PostJobForm(request.POST, request.FILES)
-                if form.is_valid():
-                    add_post_by=form.save(commit=False)
-                    add_post_by.posted_by = request.user
-                    add_post_by.save()
-                    form.save_m2m()
-                    request.user.points.points -= 10
-                    request.user.points.save()
-                    messages.success(request, 'Job posted successfully')
-                    return redirect('manage-job')
-                else:
-                    messages.error(request, 'Error posting job')
-                    return redirect('post-job')
-        elif request.user.points.points < 10:
-            messages.error(request, 'You dont have enough points to post job')
-            return redirect('buy-points')
-        else:
-            messages.error(request, 'You cannot post job')
-            return redirect('dashboard')
+        messages.error(request, 'You cannot post job')
+        return redirect('dashboard')
     context={
-                'form':form
+            'title': title,
+            'form':form,
+            'forms': [form]
             }
     template_name='services/post-job.html'
     return render(request, template_name, context)
+
+@login_required(login_url='/auth/login/')
+def update_job(request, job_id):
+    job_id = get_object_or_404(Services, id=job_id)
+    form = PostJobForm(instance=job_id)
+    if request.method == 'POST':
+        form = PostJobForm(request.POST, request.FILES, instance=job_id)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Job updated successfully')
+            return redirect('manage-job')
+    context={
+        'form': form,
+        'forms': [form]
+    }
+    template_name='services/post-job.html'
+    return render(request, template_name, context)
+
+
 
 @ login_required(login_url='/auth/login/')
 def manage_job(request):
@@ -268,6 +321,7 @@ def add_category(request):
     template_name='services/add-category.html'
     context={
         'form': category_add,
+        'forms': [category_add]
     }
     return render(request, template_name, context)
 
@@ -275,7 +329,6 @@ def add_category(request):
 
 @ login_required(login_url='/auth/login/')
 def job_skill(request):
-
     form = JobSkillForm()
     if request.method == "POST":
         form = JobSkillForm(request.POST or None)
@@ -286,6 +339,7 @@ def job_skill(request):
     template_name = 'services/job-skill.html'
     context = {
         'form' : form,
+        'forms': [form]
     
     }
     return render(request, template_name, context)

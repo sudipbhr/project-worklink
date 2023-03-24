@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
+    'django_filters',
     'services',
     'account',
     'authentication',
@@ -137,7 +138,7 @@ TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -163,3 +164,12 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
+
+# session expire on browser close
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+
+

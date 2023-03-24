@@ -14,8 +14,22 @@ class PostJobForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs=({
                 'class': 'form-control',
+                'placeholder': 'Enter your ' + field,
             })
 
+            if field == 'skills':
+                self.fields[field].widget.attrs=({
+                    'class': 'form-control select2',
+                    'placeholder': 'Enter your skills',
+                    'multiple': 'multiple',
+                })
+            if field == 'category':
+                self.fields[field].widget.attrs=({
+                    'class': 'form-control form-select select2',
+                    'placeholder': 'Enter your category',
+                    'multiple': 'multiple',
+
+                })
 # category form
 
 class CategoryForm(forms.ModelForm):
@@ -28,7 +42,9 @@ class CategoryForm(forms.ModelForm):
         super(CategoryForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs=({
-                'class': 'form-control',
+                'class': 'form-control form-select select2',
+                'multiple': 'multiple',
+
             })
 
 # Job skills form
@@ -43,6 +59,7 @@ class JobSkillForm(forms.ModelForm):
         super(JobSkillForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs=({
-                'class': 'form-control',
+                'class': 'form-control form-select select2',
+                'multiple': 'multiple',
             })
 

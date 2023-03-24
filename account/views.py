@@ -40,7 +40,8 @@ def user_profile_edit(request):
         'form' : form,
         'user_education' : user_education,
         'user_skill' :user_skill,
-        'user' : user        
+        'user' : user,
+        'forms' : [form, user_education, user_skill]  
     }
     return render(request, template_name, context)
 
