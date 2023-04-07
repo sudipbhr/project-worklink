@@ -194,6 +194,17 @@ def contact_us(request):
     return render (request, template_name, context)
 
 
+def privacy_policy(request):
+    template_name= 'privacy-policy.html'
+    context={}
+    return render (request, template_name, context)
+
+
+def faq(request):
+    template_name= 'faq.html'
+    context={}
+    return render (request, template_name, context)
+
 def categories(request):
     categories = Category.objects.all()
     template_name= 'services/categories.html'
