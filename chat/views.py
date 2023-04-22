@@ -5,6 +5,7 @@ from chat.models import Chat
 from account.models import User
 from django.db.models import Q
 from services.models import Services
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -35,6 +36,10 @@ def single_chat(request, chat_id, id):
     
     # get all the messages
     msgs = Chat.objects.filter(Q(job_id=chat_id), Q(sender=request.user) | Q(receiver=request.user)).order_by('-created_at')
+    for msg in msgs:
+        if msg.status == 'Unseen':
+            msg.status = 'Seen'
+            msg.save()
     if request.method == 'POST':
         # find the receiver id
         receiver_id = id
@@ -61,5 +66,15 @@ def notification(request):
     notifications= Notification.objects.filter(receiver=request.user).order_by('-created_at')
     context={
         'alerts':notifications,
+    }
+    return render(request, templete_name, context)
+
+
+@login_required(login_url = '/auth/login/')
+def notification_detail(request, id):
+    templete_name='chat/notification_detail.html'
+    notification= get_object_or_404(id=id)
+    context={
+        'notification':notification,
     }
     return render(request, templete_name, context)

@@ -12,7 +12,7 @@
 								{% endif %}
 								<li><a href="{% url 'manage-job' %}"><i class="fas fa-folder-open mr-2"></i>Manage Jobs</a></li>
                 				<li><a href="{% url 'chat' %}"><i class="fas fa-envelope mr-2"></i>Messages
-									<span class="fs-sm rounded-circle border border-success px-2 bg-success text-white" style="margin-top:-15px">{{notifications|length}}</span>
+									<span class="fs-sm rounded-circle border border-success px-2 bg-success text-white" style="margin-top:-15px">{{no_unseen_messages}}</span>
 								</a></li>
 								<li><a href="{% url 'review' %}">Review</a></li>
 								<li><a href="{% url 'notification' %}"><i class="fa fa-bell mr-2"></i>Notifications <span class="fs-sm rounded-circle border border-success px-2 bg-success text-white" style="margin-top:-15px">{{notifications|length}}</span></a>

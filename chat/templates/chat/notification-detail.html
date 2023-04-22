@@ -1,0 +1,40 @@
+{% load humanize %}  
+{% extends 'base.html' %}
+{% block title %} All notifications {%endblock title%}
+{% block content %}
+ <div class="dashboard-wrap bg-light">
+    {% include 'services/includes/sidebar.html' %}
+
+    <div class="dashboard-content">
+        <div class="dashboard-widg-bar d-block">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="mb-4 tbl-lg rounded overflow-hidden">
+                        <div class="card card-body">
+                            <div class="d-flex">
+                                <img src="{{request.user.avatar.url}}" class="avatar-md" alt="">
+                                <div>
+                                    <p>{{request.user.get_full_name}}</p>
+                                    <p>{{request.user.email}}</p>
+                                </div>
+                                <p>{{notification.created_at | naturaltime }}</p>
+                            </div>
+                            <div class="msg">
+                                <p>{{notification.message}}</p>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div> 
+    
+    
+
+
+
+
+
+{%endblock content%} -->
