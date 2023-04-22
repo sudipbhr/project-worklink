@@ -23,7 +23,7 @@
 							<div class="d-block border rounded mfliud-bot mb-4">
 								<div class="cdt_author px-2 pt-5 pb-4">
 									<div class="dash_auth_thumb circle p-1 border d-inline-flex mx-auto mb-2">
-										<img src="{{user.avatar.url}}" class="img-fluid circle" width="100" alt="" />
+										<img src="{% if user.avatar %}{{user.avatar.url}}{% endif%}" class="img-fluid circle" width="100" alt="" />
 									</div>
 									<div class="dash_caption mb-3">
 										<h4 class="fs-lg ft-medium mb-0 lh-1">{{user.get_full_name}}</h4>

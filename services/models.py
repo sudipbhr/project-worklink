@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import User
+from django.urls import reverse
 
 
 # Create your models here.
@@ -53,6 +54,7 @@ class Services(models.Model):
     skills =models.ManyToManyField(JobSkills, blank=True, related_name='skills')
     vacancy = models.IntegerField(help_text="Enter number of vacancies", default='1')
     posted_by= models.ForeignKey(User, on_delete=models.CASCADE, related_name='services', null=True)
+    job_holder = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_holder', null=True, blank=True)
     location =models.CharField(max_length=200)
     image = models.ImageField(upload_to='services/')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,7 +71,14 @@ class Services(models.Model):
     def no_of_applications(self):
         return self.services.all().count()
     
-        
+    @property
+    def employee_chat_url(self):
+        return reverse('user-chat', args=[self.id, self.posted_by.id])
+    
+    @property
+    def employer_chat_url(self):
+        return reverse('user-chat', args=[self.id, self.job_holder.id])
+            
     
 class JobApplications(models.Model):
     # model for job applications

@@ -22,11 +22,22 @@ def home(request):
     return render(request, template_name, context)
 
 
+def salary_range():
+    salaries = Services.objects.values_list('amount', flat=True).distinct()
+    low_salary = min(salaries)
+    high_salary = max(salaries)
+    ranges = []
+    # create a range of salaries
+    while low_salary <= high_salary:
+        range_filter = "Rs."+ str(round(low_salary, -3)) + " - Rs." + str(round((low_salary + 4000), -3))
+        ranges.append(range_filter)
+        low_salary += 4000
+    return ranges
+
 @login_required(login_url='/auth/login/')
 def services_search(request):
     if request.user.role == 'Service Seeker':
         return redirect('dashboard')
-    
     categories = Category.objects.all()
     services = Services.objects.all()
     services_count = services.count()
@@ -34,12 +45,14 @@ def services_search(request):
     paginator = Paginator(services, 9)
     page = request.GET.get('page')
     services = paginator.get_page(page)
+    
     context={
         'services': services,
         'total_services': services_count,
         'categories': categories,
         'services_filter': services_filter,
         'locations': Services.objects.values_list('location', flat=True).distinct(),
+        'ranges': salary_range(),
     }
     return render(request, 'services/services-search.html', context)
 
@@ -52,6 +65,18 @@ def search(request):
     if request.method == 'GET':
         q = request.GET.get('query')
         category = request.GET.get('category')
+        area = request.GET.get('area')
+        salary = request.GET.get('salary')
+        if salary:
+            salary = salary.split(' - ')
+            min_salary = int(salary[0].replace('Rs.', ''))
+            max_salary = int(salary[1].replace('Rs.', ''))
+            salary_services = Services.objects.filter(
+                Q(amount__gte = min_salary) & Q(amount__lte = max_salary)
+            )
+        else:
+            salary_services = []
+            
         if q:
             search_services = Services.objects.filter(
                 Q(title__icontains=q)| Q(location__icontains=q)|Q(category__name__icontains = q) |
@@ -66,20 +91,26 @@ def search(request):
             )
         else:
             category_services = []
+
+        if area:
+            area_services = Services.objects.filter(
+                Q(location__icontains = area)
+            )
+        else:
+            area_services = []
         
-        services = set(search_services).union(set(category_services))
-        
+        services = set(search_services).union(set(category_services).union(set(area_services)).union(set(salary_services)))
         context={
             'services': services,
             'categories': categories,
-            'filter_name': q or category,
+            'filter_name': q or category or area or salary,
             'total_services': len(services),
+            'locations': Services.objects.values_list('location', flat=True).distinct(),
+            'ranges': salary_range(),
+
         }
         return render(request, template_name, context)
     
-    
-
-
 
 
 @login_required(login_url='/auth/login/')
@@ -162,6 +193,17 @@ def contact_us(request):
     context={}
     return render (request, template_name, context)
 
+
+def privacy_policy(request):
+    template_name= 'privacy-policy.html'
+    context={}
+    return render (request, template_name, context)
+
+
+def faq(request):
+    template_name= 'faq.html'
+    context={}
+    return render (request, template_name, context)
 
 def categories(request):
     categories = Category.objects.all()
@@ -257,17 +299,19 @@ def manage_applicant(request, id):
             job = JobApplications.objects.get(service=service, user=user)
             job_in_service = Services.objects.get(id=service, posted_by=request.user)
             job_in_service.status = 'Active'
+            job_in_service.job_holder = User.objects.get(id=user)
             job_in_service.save()
             job.status = jobstatus
             job.save()
             notification = Notification.objects.create(
                 receiver=job.user, sender= job.service.posted_by,
-                message='You have been hired for {job}'.format(job=job.service.title),
+                message='Dear {job_holder}, you have been hired for {job}. We look forward for your successful job. Thank you for choosing WorkLink'.format(job_holder=job.service.job_holder.first_name+ " "+ job.service.job_holder.last_name,job=job.service.title),
             )
             notification.save()
             chat = Chat.objects.create(
                 sender=job.service.posted_by, receiver=job.user,
-                message='You have been hired for {job}'.format(job=job.service.title),
+                message='Dear {job_holder}, you have been hired for {job}. We look forward for your successful job. Thank you for choosing WorkLink'.format(job_holder=job.service.job_holder.first_name+ " "+ job.service.job_holder.last_name, job=job.service.title),
+                job_id=job.service
             )
             chat.save()
             messages.success(request, 'Applicant hired')

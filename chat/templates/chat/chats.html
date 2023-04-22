@@ -4,113 +4,58 @@
 {% block content %} 
 <div class="dashboard-wrap bg-light">
    
-    {% include 'services/includes/sidebar.html' %}
+{% include 'services/includes/sidebar.html' %}
 <div class="dashboard-content">
-        <div class="dashboard-widg-bar d-block">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="_dashboard_content bg-white rounded mb-4">
-                        
-                        <div class="_dashboard_content_body">
-                            <!-- Convershion -->
-                            <div class="messages-container margin-top-0">
-                                <div class="messages-container-inner">
-
-                                    <!-- Messages -->
-                                    <div class="dash-msg-inbox">
-                                        <ul>
-                                            {% if chats %}
-                                            {% for chat in chats %}
-                                            <li>
-                                                {% if chat.receiver == request.user %}
-                                                <a href="{% url 'user-chat' chat.sender.id chat.receiver.id chat.id %}">
-                                                    <div class="dash-msg-avatar"><img src="{{chat.sender.avatar.url}}" alt=""><span class="_user_status online"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>{{chat.sender.get_full_name}}</h5>
-                                                            <span>{{chat.created_at | naturaltime}}</span>
-                                                        </div>
-                                                        <p>messages</p>
+    <div class="dashboard-widg-bar d-block">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="_dashboard_content bg-white rounded mb-4" style="min-height:700px;">
+                    <div class="_dashboard_content_body">
+                        <!-- Convershion -->
+                        <div class="messages-container margin-top-0">
+                            <div class="messages-container-inner row">
+                                <!-- Messages -->
+                                <div class="dash-msg-inbox col-md-5">
+                                    <ul>
+                                        {% for user in chats %}
+                                        {% if request.user.role == "Service Provider" %}
+                                        <li class="">
+                                            <a href="{{ user.job_id.employee_chat_url }}">
+                                                <div class="dash-msg-avatar"><img src="{{user.job_id.posted_by.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
+                                                <div class="message-by">
+                                                    <div class="message-by-headline">
+                                                        <h5>{{user.job_id.posted_by.get_full_name}}</h5>
                                                     </div>
-                                                </a>
-                                                {% else %}
-                                                <a href="{% url 'user-chat' chat.sender.id chat.receiver.id chat.id %}">
-                                                    <div class="dash-msg-avatar"><img src="{{chat.receiver.avatar.url}}" alt=""><span class="_user_status online"></span></div>
-
-                                                    <div class="message-by">
-                                                        <div class="message-by-headline">
-                                                            <h5>{{chat.receiver.get_full_name}}</h5>
-                                                            <span>{{chat.created_at | naturaltime}}</span>
-                                                        </div>
-                                                        <p>messages</p>
+                                                    <p>{{user.message}}</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        {% else %}
+                                        <li>
+                                            <a href="{{ user.job_id.employer_chat_url }}"> 
+                                                <div class="dash-msg-avatar"><img src="{{user.job_id.job_holder.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
+                                                <div class="message-by">
+                                                    <div class="message-by-headline">
+                                                        <h5>{{user.job_id.job_holder.get_full_name}}</h5>
+                                                        <span></span>
                                                     </div>
-                                                {% endif %}
-                                            </li>
-                                            {% endfor %}
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    <!-- Messages / End -->
-
-                                    <!-- Message Content -->
-                                    <div class="dash-msg-content">
-
-                                        <div class="message-plunch">
-                                            <div class="dash-msg-avatar"><img src="../../../image.flaticon.com/icons/png/512/145/145849.html" alt=""></div>
-                                            <div class="dash-msg-text"><p>Hello, Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin</p></div>
-                                        </div>
-
-                                        <div class="message-plunch me">
-                                            <div class="dash-msg-avatar"><img src="https://via.placeholder.com/400x400" alt=""></div>
-                                            <div class="dash-msg-text"><p>looked up one of the more obscure Latin words, consectetur, from a Lorem</p></div>
-                                        </div>
-
-                                        <div class="message-plunch">
-                                            <div class="dash-msg-avatar"><img src="../../../image.flaticon.com/icons/png/512/145/145849.html" alt=""></div>
-                                            <div class="dash-msg-text"><p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing</p></div>
-                                        </div>
-
-                                        <div class="message-plunch me">
-                                            <div class="dash-msg-avatar"><img src="https://via.placeholder.com/400x400" alt=""></div>
-                                            <div class="dash-msg-text"><p>please consider donating a small sum to help pay for the hosting and bandwidth bill.</p></div>
-                                        </div>
-
-                                        <div class="message-plunch">
-                                            <div class="dash-msg-avatar"><img src="../../../image.flaticon.com/icons/png/512/145/145849.html" alt=""></div>
-                                            <div class="dash-msg-text"><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p></div>
-                                        </div>
-
-                                        <div class="message-plunch me">
-                                            <div class="dash-msg-avatar"><img src="https://via.placeholder.com/400x400" alt=""></div>
-                                            <div class="dash-msg-text"><p>numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p></div>
-                                        </div>
-
-                                        <div class="message-plunch">
-                                            <div class="dash-msg-avatar"><img src="../../../image.flaticon.com/icons/png/512/145/145849.html" alt=""></div>
-                                            <div class="dash-msg-text"><p>But I must explain to you how all this mistaken idea of denouncing pleasure</p></div>
-                                        </div>
-                                        
-                                        <!-- Reply Area -->
-                                        <div class="clearfix"></div>
-                                        <div class="message-reply">
-                                            <textarea cols="40" rows="3" class="form-control with-light" placeholder="Your Message"></textarea>
-                                            <button type="submit" class="btn theme-bg text-white">Send Message</button>
-                                        </div>
-                                        
-                                    </div>
-                                    <!-- Message Content -->
-
+                                                    <p>{{user.message}}</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}                                            
+                                    </ul>
                                 </div>
-
+                                <!-- Messages / End -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-                
         </div>
     </div>
+</div>
 </div>
 <!-- ======================= dashboard Detail End ======================== -->
 {% endblock content %} 

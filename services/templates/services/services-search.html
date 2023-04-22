@@ -124,92 +124,22 @@
                                             </h4>
                                             
                                         </div>
-                                        <div class="widget-boxed-body collapse" id="locations" data-parent="#locations">
+                                        <div class="widget-boxed-body" id="locations" data-parent="#locations">
                                             <div class="side-list no-border">
                                                 <!-- Single Filter Card -->
                                                 <div class="single_filter_card">
                                                     <div class="card-body p-0">
                                                         <div class="inner_widget_link">
                                                             <ul class="no-ul-list filter-list">
-                                                              {% for area in services %}
+                                                            <form action="{% url 'search' %}" method="get" id="location-form">
+                                                              {% for area in locations %}
                                                                 <li>
-                                                                    <input id="{{area.location}}" class="checkbox-custom" name="area" type="checkbox" id="{{area.location}}">
-                                                                    <label for="{{area.location}}" class="checkbox-custom-label">{{area.location}}</label>
+                                                                    <input id="{{area}}" class="checkbox-custom area-checkbox" name="area" type="checkbox" id="{{area}}" value={{area}}>
+                                                                    <label for="{{area}}" class="checkbox-custom-label">{{area}}</label>
                                                                 </li>
                                                                 {% endfor %} 
+                                                                </form>
                                                                 
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    <!-- Experience Search -->
-                                    <div class="single_search_boxed px-4 pt-0 br-bottom">
-                                        <div class="widget-boxed-header">
-                                            <h4>
-                                                <a href="#experience" data-toggle="collapse" aria-expanded="false" role="button" class="ft-medium fs-md pb-0 collapsed">Experience</a>
-                                            </h4>
-                                            
-                                        </div>
-                                        <div class="widget-boxed-body collapse" id="experience" data-parent="#experience">
-                                            <div class="side-list no-border">
-                                                <!-- Single Filter Card -->
-                                                <div class="single_filter_card">
-                                                    <div class="card-body p-0">
-                                                        <div class="inner_widget_link">
-                                                            <ul class="no-ul-list filter-list">
-                                                                <li>
-                                                                    <input id="d1" class="checkbox-custom" name="ADA" type="checkbox" checked="">
-                                                                    <label for="d1" class="checkbox-custom-label">Beginner (54)</label>
-                                                                </li>
-                                                                <li>
-                                                                    <input id="d2" class="checkbox-custom" name="Parking" type="checkbox">
-                                                                    <label for="d2" class="checkbox-custom-label">1+ Year (32)</label>
-                                                                </li>
-                                                                <li>
-                                                                    <input id="d3" class="checkbox-custom" name="Coffee" type="checkbox">
-                                                                    <label for="d3" class="checkbox-custom-label">2 Year (09)</label>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Job types Search -->
-                                    <div class="single_search_boxed px-4 pt-0 br-bottom">
-                                        <div class="widget-boxed-header">
-                                            <h4>
-                                                <a href="#jbtypes" data-toggle="collapse" aria-expanded="false" role="button" class="ft-medium fs-md pb-0 collapsed">Working Days</a>
-                                            </h4>
-                                            
-                                        </div>
-                                        <div class="widget-boxed-body collapse" id="jbtypes" data-parent="#jbtypes">
-                                            <div class="side-list no-border">
-                                                <!-- Single Filter Card -->
-                                                <div class="single_filter_card">
-                                                    <div class="card-body p-0">
-                                                        <div class="inner_widget_link">
-                                                            <ul class="no-ul-list filter-list">
-                                                                <li>
-                                                                    <input id="e2" class="radio-custom" name="jtype" type="radio">
-                                                                    <label for="e2" class="radio-custom-label">Full time</label>
-                                                                </li>
-                                                                <li>
-                                                                    <input id="e3" class="radio-custom" name="jtype" type="radio">
-                                                                    <label for="e3" class="radio-custom-label">Part Time</label>
-                                                                </li>
-
-                                                                <li>
-                                                                    <input id="e6" class="radio-custom" name="jtype" type="radio">
-                                                                    <label for="e6" class="radio-custom-label">Regular</label>
-                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -219,32 +149,28 @@
                                     </div>
 
                                     <!-- Expected budget Search -->
-                                    <div class="single_search_boxed px-4 pt-0 mb-2">
+                                    <div class="single_search_boxed px-4 pt-0 mb-2 pb-3">
                                         <div class="widget-boxed-header">
                                             <h4>
                                                 <a href="#salary" data-toggle="collapse" aria-expanded="false" role="button" class="ft-medium fs-md pb-0 collapsed">Job Budget</a>
                                             </h4>
                                             
                                         </div>
-                                        <div class="widget-boxed-body collapse" id="salary" data-parent="#salary">
+                                        <div class="widget-boxed-body" id="salary" data-parent="#salary">
                                             <div class="side-list no-border">
                                                 <!-- Single Filter Card -->
                                                 <div class="single_filter_card">
                                                     <div class="card-body p-0">
                                                         <div class="inner_widget_link">
                                                             <ul class="no-ul-list filter-list">
+                                                                <form action="{% url 'search' %}" method="get" id="salary-form">
+                                                                {% for range in ranges %}
                                                                 <li>
-                                                                    <input id="g1" class="checkbox-custom" name="ADA" type="checkbox" checked="">
-                                                                    <label for="g1" class="checkbox-custom-label">Rs. 100 - Rs.500</label>
+                                                                    <input id="{{range}}" class="checkbox-custom salary-checkbox" name="salary" type="checkbox" id="{{range}}" value="{{range}}">
+                                                                    <label for="{{range}}" class="checkbox-custom-label">{{range}}</label>
                                                                 </li>
-                                                                <li>
-                                                                    <input id="g1" class="checkbox-custom" name="ADA" type="checkbox" checked="">
-                                                                    <label for="g1" class="checkbox-custom-label">Rs. 1000 - Rs.5000</label>
-                                                                </li>
-                                                                <li>
-                                                                    <input id="g1" class="checkbox-custom" name="ADA" type="checkbox" checked="">
-                                                                    <label for="g1" class="checkbox-custom-label">Rs. 100000 - Rs.500000</label>
-                                                                </li>
+                                                                {% endfor %}
+                                                                </form>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -353,6 +279,38 @@
                 $("#category-form").submit();
             });
         });
+
+        $(".area-checkbox").each(function(){
+            $(this).on("click", function(){
+                $("#location-form").submit();
+            });
+        });
+
+        $(".salary-checkbox").each(function(){
+            $(this).on("click", function(){
+                $("#salary-form").submit();
+            });
+        });
+
+        var sa = "{{filter_name|safe}}";
+        const replacedStr = sa.replace(/'|\]|\[|\,/g, '');
+        var salary = replacedStr.replace(' ', ' - ');
+        if (salary){
+            $(".salary-checkbox").each(function(){
+                if($(this).val() == salary){
+                    $(this).prop("checked", true);
+                }
+            });
+        }
+
+        var area= "{{filter_name}}";
+        if (area){
+            $(".area-checkbox").each(function(){
+                if($(this).val() == area){
+                    $(this).prop("checked", true);
+                }
+            });
+        }
 
         //keep the checkbox checked
         var category = "{{filter_name}}";

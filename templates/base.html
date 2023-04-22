@@ -37,11 +37,10 @@
 
         <!-- Top header  -->
 
-        {% include 'includes/header.html' with notifications=notications %}
+        {% include 'includes/header.html'%}
          
         <div class="clearfix"></div>
-
-        {% block content %} {% endblock content %} 
+        {% block content %}{% endblock content %} 
         {% include 'includes/footer.html' %} 
 
         <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="fas fa-arrow-up"></i></a>

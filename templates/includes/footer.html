@@ -17,11 +17,11 @@
 									</div>
 									<div class="address mt-2">
 										<ul class="list-inline">
-											<li class="list-inline-item"><a href="#" class="worklink-theme"><i class="fas fa-facebook"></i></a></li>
-											<li class="list-inline-item"><a href="#" class="worklink-theme"><i class="fas fa-twitter"></i></a></li>
-											<li class="list-inline-item"><a href="#" class="worklink-theme"><i class="fas fa-youtube"></i></a></li>
-											<li class="list-inline-item"><a href="#" class="worklink-theme"><i class="fas fa-instagram"></i></a></li>
-											<li class="list-inline-item"><a href="#" class="worklink-theme"><i class="fas fa-linkedin"></i></a></li>
+											<li class="list-inline-item"><a href="https://fb.com/" class="worklink-theme"><i class="fas fa-facebook"></i></a></li>
+											<li class="list-inline-item"><a href="https://fb.com/" class="worklink-theme"><i class="fas fa-twitter"></i></a></li>
+											<li class="list-inline-item"><a href="https://fb.com/" class="worklink-theme"><i class="fas fa-youtube"></i></a></li>
+											<li class="list-inline-item"><a href="https://fb.com/" class="worklink-theme"><i class="fas fa-instagram"></i></a></li>
+											<li class="list-inline-item"><a href="https://fb.com/" class="worklink-theme"><i class="fas fa-linkedin"></i></a></li>
 										</ul>
 									</div>
 								</div>
@@ -31,7 +31,7 @@
 								<div class="footer_widget">
 									<h4 class="widget_title">Service Seeker</h4>
 									<ul class="footer-menu">
-										<li><a href="#">Submit Job</a></li>
+										<li><a href="{% url 'post-job' %}">Submit Job</a></li>
 									</ul>
 								</div>
 							</div>
@@ -40,9 +40,9 @@
 								<div class="footer_widget">
 									<h4 class="widget_title">Service Provider</h4>
 									<ul class="footer-menu">
-										<li><a href="#">All Jobs</a></li>
-										<li><a href="#">Browse Categories</a></li>
-										<li><a href="#">Saved Jobs</a></li>
+										<li><a href="{% url 'service-search' %}">All Jobs</a></li>
+										<li><a href="{% url 'categories' %}">Browse Categories</a></li>
+										<li><a href="{% url 'manage-job' %}">Saved Jobs</a></li>
 									</ul>
 								</div>
 							</div>
@@ -51,9 +51,9 @@
 								<div class="footer_widget">
 									<h4 class="widget_title">Helpful Topics</h4>
 									<ul class="footer-menu">
-										<li><a href="#">Contact</a></li>
-										<li><a href="#">FAQ's Page</a></li>
-										<li><a href="#">Privacy</a></li>
+										<li><a href="{% url 'contact-us'%}">Contact</a></li>
+										<li><a href="{% url 'faq'%}">FAQ's Page</a></li>
+										<li><a href="{% url 'privacy-policy'%}">Privacy Policy</a></li>
 									</ul>
 								</div>
 							</div>

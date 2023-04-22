@@ -28,6 +28,32 @@ html {
     background: #ffffff;
 }
 
+
+/*------------------------------------------------------------
+	Page Loader
+-------------------------------------------------------------*/
+
+.no-js #loader {
+    display: none;
+}
+
+.js #loader {
+    display: block;
+    position: absolute;
+    left: 100px;
+    top: 0;
+}
+
+.preloader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999;
+    background: url(../img/loader.gif) center no-repeat #ffffff;
+}
+
 a {
     color: #111111;
     text-decoration: none;
@@ -116,6 +142,12 @@ p {
 
 .tbl {
     display: table;
+}
+
+.table .thead-dark th {
+    color: #fff;
+    background-color: #212529;
+    border-color: #32383e;
 }
 
 .full-height {
@@ -2367,7 +2399,11 @@ span.expiration {
 }
 
 .messages-container-inner .dash-msg-content {
-    padding: 30px;
+    padding: 10px;
+    min-height: 70vh;
+    max-height: 70vh;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .messages-container-inner .dash-msg-inbox,
@@ -2386,6 +2422,7 @@ span.expiration {
 
 .dash-msg-inbox ul li.active-message {
     border-left: 3px solid #166ef3;
+    background-color: #aef3ca;
 }
 
 .dash-msg-inbox ul li {
@@ -2396,6 +2433,10 @@ span.expiration {
 
 .dash-msg-inbox ul li:last-child {
     border-bottom: none;
+}
+
+.dash-msg-inbox ul li a:hover {
+    background-color: #aef3ca;
 }
 
 .message-by-headline h5 {
@@ -2475,63 +2516,48 @@ span.expiration {
     line-height: 27px;
 }
 
-.message-plunch {
+.single-message {
     display: block;
     position: relative;
     margin-bottom: 25px;
 }
 
-.message-plunch .dash-msg-avatar {
+.single-message .dash-msg-avatar {
     position: absolute;
     left: 0;
     top: 0;
 }
 
-.message-plunch .dash-msg-avatar img {
+.single-message .dash-msg-avatar img {
     width: 50px;
     height: 50px;
     display: inline-block;
     border-radius: 50%;
 }
 
-.message-plunch .dash-msg-text {
-    margin-left: 70px;
+.single-message .dash-msg-text {
     background-color: #f4f5f7;
     border-radius: 4px;
     padding: 20px;
+    width: fit-content;
     position: relative;
+    margin-left: auto;
+    max-width: 420px !important;
 }
 
-.message-plunch .dash-msg-text:before {
-    position: absolute;
-    top: 12px;
-    left: -9px;
-    content: "\f0d9";
-    font-family: fontawesome;
-    font-size: 31px;
-    color: #f4f5f7;
-}
-
-.message-plunch .dash-msg-text p {
+.single-message .dash-msg-text p {
     font-size: 15px;
     padding: 0;
     margin: 0;
     line-height: 27px;
 }
 
-.message-plunch.me .dash-msg-avatar {
-    left: auto;
-    right: 0;
-    position: absolute;
-    top: 0;
-}
-
-.message-plunch.me .dash-msg-text {
+.single-message.me .dash-msg-text {
     color: #39b36e;
     background-color: rgba(57, 179, 110, 0.1);
 }
 
-.message-plunch.me .dash-msg-text {
+.single-message.me .dash-msg-text {
     margin-left: 0;
     margin-right: 70px;
     border-radius: 4px;
@@ -2539,22 +2565,15 @@ span.expiration {
     position: relative;
 }
 
-.message-plunch.me .dash-msg-text:before {
-    color: rgb(235 247 240);
-}
-
-.message-plunch.me .dash-msg-text:before {
-    left: auto;
-    right: -11px;
-    content: "\f0da";
-}
-
 .message-reply {
     display: block;
-    margin-top: 15px;
+    position: sticky;
+    bottom: 0;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 
-.message-reply textarea {
+.message-reply input {
     max-width: 100%;
     width: 100%;
     font-size: 15px;
@@ -2565,7 +2584,8 @@ span.expiration {
 
 .message-reply button {
     border-radius: 4px;
-    margin-top: 5px;
+    margin-top: 2px;
+    margin-left: 0.5rem;
 }
 
 span._user_status {
