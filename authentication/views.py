@@ -21,6 +21,7 @@ def send_otp(user):
             if find_otp.otp_created_at < timezone.now() - timedelta(minutes=5):
                 subject = "OTP verfication"
                 message = "Your OTP is " + str(find_otp.otp)
+                print(find_otp.otp)
                 from_email = setting.EMAIL_HOST_USER
                 recepient_list = [user.email]
                 mail=send_mail(subject, message, from_email, recepient_list, fail_silently=False)
@@ -35,6 +36,7 @@ def send_otp(user):
             subject = "OTP verfication"
             message = "Your OTP is " + str(otp)
             from_email = setting.EMAIL_HOST_USER
+            print(otp)
             recepient_list = [user.email]
             mail= send_mail(subject, message, from_email, recepient_list, fail_silently=False)
             if mail:
