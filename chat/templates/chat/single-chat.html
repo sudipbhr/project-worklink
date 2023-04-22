@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %} Chats {% endblock title %}
+{% block content %} 
+<div class="dashboard-wrap bg-light">
+   
+{% include 'services/includes/sidebar.html' %}
+<div class="dashboard-content">
+        <div class="dashboard-widg-bar d-block">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="_dashboard_content bg-white rounded mb-4">
+                        
+                        <div class="_dashboard_content_body">
+                            <!-- Convershion -->
+                            <div class="messages-container margin-top-0">
+                                <div class="messages-container-inner row">
+                                    <!-- Messages -->
+                                    <div class="dash-msg-inbox col-md-5">
+                                        <ul>
+                                            {% for user in chats %}
+                                            {% if request.user.role == "Service Provider" %}
+                                                <li>
+                                                    <a href="{{ user.job_id.employee_chat_url }}">
+                                                        <div class="dash-msg-avatar"><img src="{{user.job_id.posted_by.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
+                                                        <div class="message-by">
+                                                            <div class="message-by-headline">
+                                                                <h5>{{user.job_id.posted_by.get_full_name}}</h5>
+                                                            </div>
+                                                            <p>{{user.message}}</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                {% else %}
+                                                <li>
+                                                    <a href="{{ user.job_id.employer_chat_url }}"> 
+                                                        <div class="dash-msg-avatar"><img src="{{user.job_id.job_holder.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
+                                                        <div class="message-by">
+                                                            <div class="message-by-headline">
+                                                                <h5>{{user.job_id.job_holder.get_full_name}}</h5>
+                                                                <span></span>
+                                                            </div>
+                                                            <p>{{user.message}}</p>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% endfor %}                                            
+                                        </ul>                                         
+                                    </div>
+                                    <!-- Messages / End -->
+
+                                    <!-- Message Content -->
+                                    <div class="dash-msg-main col-md-9">
+                                        <div class="dash-msg-content d-flex justify-content-start flex-column-reverse">
+                                            {% for message in msgs %}
+                                            {% if message.sender == request.user %}
+                                                <div class="single-message me">
+                                                    <div class="dash-msg-text p-2"><p>{{message.message}}</p></div>
+                                                </div>
+                                            {% else %}
+                                                <div class="single-message d-flex">
+                                                    <div class="dash-msg-text p-2"><p class="text-end">{{message.message}}</p></div>
+                                                </div>
+                                            {% endif %}
+                                            {% endfor %}                                 
+                                        </div>
+                                    <!-- Message Content -->
+                                     <!-- Reply Area -->
+                                    <div class="message-reply">
+                                        <form action="#" class="d-flex" method="POST">
+                                        {% csrf_token %}
+                                            <input type="text" class="form-control with-light" name="message" placeholder="Your Message">
+                                            <button type="submit" class="btn theme-bg text-white">Send <i class="fa fa-paper-plane"></i></button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+    </div>
+</div>
+<!-- ======================= dashboard Detail End ======================== -->
+{% endblock content %} 
+{% block extra_js %}
+<script>
+    //on submit call ajax
+    $(document).ready(function(){
+        $('.message-reply form').submit(function(e){
+            e.preventDefault();
+            var form = $(this);
+            var url = window.location.href;
+            var data = form.serialize();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (data) {
+                    message: data.message
+                    receiver_id: data.receiver_id
+                }
+            });
+            
+
+        });
+        //empty input field
+        $('.message-reply form').on('submit', function(){
+            $(this).find('input[type=text]').val('');
+        });
+
+        setInterval(function(){
+            $(".dash-msg-content").load(window.location.href + " .dash-msg-content")
+        }, 3000)
+    });
+</script>
+{% endblock extra_js %}

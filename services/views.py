@@ -299,17 +299,19 @@ def manage_applicant(request, id):
             job = JobApplications.objects.get(service=service, user=user)
             job_in_service = Services.objects.get(id=service, posted_by=request.user)
             job_in_service.status = 'Active'
+            job_in_service.job_holder = User.objects.get(id=user)
             job_in_service.save()
             job.status = jobstatus
             job.save()
             notification = Notification.objects.create(
                 receiver=job.user, sender= job.service.posted_by,
-                message='You have been hired for {job}'.format(job=job.service.title),
+                message='Dear {job_holder}, you have been hired for {job}. We look forward for your successful job. Thank you for choosing WorkLink'.format(job_holder=job.service.job_holder.first_name+ " "+ job.service.job_holder.last_name,job=job.service.title),
             )
             notification.save()
             chat = Chat.objects.create(
                 sender=job.service.posted_by, receiver=job.user,
-                message='You have been hired for {job}'.format(job=job.service.title),
+                message='Dear {job_holder}, you have been hired for {job}. We look forward for your successful job. Thank you for choosing WorkLink'.format(job_holder=job.service.job_holder.first_name+ " "+ job.service.job_holder.last_name, job=job.service.title),
+                job_id=job.service
             )
             chat.save()
             messages.success(request, 'Applicant hired')

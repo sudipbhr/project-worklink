@@ -21,7 +21,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'gender', 'avatar', 'experience', 'address', 
+        fields = ('first_name', 'last_name', 'gender', 'avatar', 'experience', 'address', 
                   'phone_number','profession')
 
     def __init__(self, *args, **kwargs):

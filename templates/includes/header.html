@@ -1,4 +1,14 @@
 {% load static %}
+{% load humanize %}
+{% block extra_css %}
+<style>
+  .single-notification:hover {
+    background-color: #f5f5f5;
+  }
+</style>
+{% endblock extra_css%}
+
+
 
 <!-- Start Navigation -->
 <div class="header header-light dark-text">
@@ -15,12 +25,12 @@
               {% if request.user.is_authenticated %}
                 <a href="{% url 'dashboard' %}" class="worklink-theme ">{{request.user.get_full_name}}</a>
               {% else %}
-              <a
-                href="{% url 'login' %}"
-                class="worklink-theme fs-lg"
-              >
-                <i class="fas fa-user"></i>
-              </a>
+                <a
+                  href="{% url 'login' %}"
+                  class="worklink-theme fs-lg"
+                >
+                  <i class="fas fa-user"></i>
+                </a>
               {% endif %}
             </li>
           </ul>
@@ -30,9 +40,10 @@
         <ul class="nav-menu">
           <li><a href="{% url 'home-page' %}">Home</a></li>
           <li><a href="{% url 'about-us' %}">About Us</a></li>
-          {% if request.user.is_authenticated %} {% if request.user.role == 'Service Provider' %}
-          <li><a href="{% url 'service-search' %}">Find Job</a></li>
-          {% endif %} 
+          {% if request.user.is_authenticated %} 
+            {% if request.user.role == 'Service Provider' %}
+              <li><a href="{% url 'service-search' %}">Find Job</a></li>
+            {% endif %} 
           {% endif %}
           <li><a href="{% url 'contact-us' %}">Contact Us</a></li>
         </ul>
@@ -65,25 +76,31 @@
                   style="font-size: 24px"
                   >
                 </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  {% for notification in request.user.noti_receiver.all %}
-                  <a class="dropdown-item" href="#">{{notification}}</a>
+                <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton" style="min-width:300px; min-height:300px;">
+                  <div class="d-flex justify-content-between">
+                    <p class="ft-bold">New Notifications</p>
+                    <a href="#" class="worklink-theme">View all</a>
+                  </div>
+                  {% for notification in notifications %}
+                    <div class="p-1 single-notification">
+                      <p class="fs-sm">{{notification.message | truncatechars:90}} <span class="float-right ft-medium">{{notification.created_at | naturaltime}}</span></p>
+                    </div>
+                    <hr>
                   {% endfor %}
                 </div>
-              <p class="fs-sm rounded-circle border border-danger px-2 bg-danger text-white" style="margin-top:-15px">{{request.user.noti_receiver.all|length}}</p>
+              <p class="fs-sm rounded-circle border border-danger px-2 bg-danger text-white" style="margin-top:-15px">{{notifications|length}}</p>
               </div>
             </li>
             {% else %}
-            <a href="{% url 'login' %}" class="worklink-theme ft-medium">
-              <i class="fa fa-user"></i> Sign in
-            </a>
-            <a href="{% url 'register' %}" class="worklink-theme ft-medium">
-              <i class="fas fa-plus-circle"></i> Register
-            </a>
+              <a href="{% url 'login' %}" class="worklink-theme ft-medium">
+                <i class="fa fa-user"></i> Sign in
+              </a>
+              <a href="{% url 'register' %}" class="worklink-theme ft-medium">
+                <i class="fas fa-plus-circle"></i> Register
+              </a>
             {% endif %}
           </li>
         </ul>
-        
       </div>
     </nav>
   </div>

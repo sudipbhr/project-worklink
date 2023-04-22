@@ -31,17 +31,14 @@
                         <div class="_dashboard_content_body py-3 px-3">
                             
                             <form  action="{% url 'edit-user-profile' %}" method="POST" enctype="multipart/form-data">
-
-                                    {% csrf_token %}
-
-                                
+                                {% csrf_token %}
                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 d-flex justify-content-end">
                                     <div class="form-group col-md-6">
                                         {{form.avatar}}
                                     </div>
                                     <div class="form-group col-md-6">
                                         <p>Current Image</p>
-                                        <img src="{{request.user.avatar.url}}" class="img-thumbnail h-70 w-50 rounded-circle">
+                                        <img src="{% if request.user.avatar %}{{request.user.avatar.url}} {% endif %}" class="img-thumbnail h-70 w-50 rounded-circle">
                                     </div> 
                                 </div>
                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
@@ -62,12 +59,6 @@
                                             <div class="form-group">
                                                 <label class="text-dark ft-medium">Phone Number</label>
                                                 {{form.phone_number}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Email</label>
-                                                {{form.email}}
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">

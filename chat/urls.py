@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.chats, name='chat'),
-    path('<str:sender_id>/<str:receiver_id>/<str:chat_id>/', views.chats, name="user-chat"),
+    path('<str:chat_id>/<str:id>/', views.single_chat, name="user-chat"),
     path('notification/',views.notification, name='notification'),
 
 ]
