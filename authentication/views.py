@@ -19,27 +19,49 @@ def send_otp(user):
         if find_otp:
             if find_otp.otp_created_at < timezone.now() - timedelta(minutes=1):
                 subject = "OTP verfication"
-                message = "Your OTP is " + str(find_otp.otp)
+                message = """Dear Sir/Madam,
+                        Do NOT SHARE your OTP/Password with anyone..
+                        Your OTP is {otp}
+                        
+                        If you have any queries, Please contact us at,
+
+                        Project WorkLink,
+                        Bagar,Pokhara, Nepal.
+                        Phone # 977-01-4523333
+                        Email Id: support@worklink.com.np
+
+                        Warm Regards,
+                        Project WorkLink
+                        "Connecting Job Seekers and Providers"
+                        """
+                message=message.format(otp=find_otp.otp)
                 from_email = setting.EMAIL_HOST_USER
                 recepient_list = [user.email]
                 mail=send_mail(subject, message, from_email, recepient_list, fail_silently=False)
-                if mail:
-                    print("mail sent1")
-                else:
-                    print("mail not sent1")
         else:
             otp=random.randint(10000,99999)
             user_otp = UserOTP.objects.create(user=user, otp=otp)
             user_otp.save()
             subject = "OTP verfication"
-            message = "Your OTP is " + str(otp)
+            message = """Dear Sir/Madam,
+                        Do NOT SHARE your OTP/Password with anyone..
+                        Your OTP is {otp}
+                        
+                        If you have any queries, Please contact us at,
+
+                        Project WorkLink,
+                        Bagar,Pokhara, Nepal.
+                        Phone # 977-01-4523333
+                        Email Id: support@worklink.com.np
+
+                        Warm Regards,
+                        Project WorkLink
+                        "Connecting Job Seekers and Providers"
+                        """
+            message=message.format(otp=find_otp.otp)
             from_email = setting.EMAIL_HOST_USER
             recepient_list = [user.email]
             mail= send_mail(subject, message, from_email, recepient_list, fail_silently=False)
-            if mail:
-                print("mail sent")
-            else:
-                print("mail not sent")
             
     except Exception as e:
         print(e)
@@ -66,11 +88,6 @@ def user_login(request):
                 
                 is_verified = UserVerification.objects.filter(user=user_exists).first()
                 if is_verified.email_verified == False | is_verified.phone_verified == False:
-                    if send_otp(user):
-                        print(send_otp)
-                        print("hello")
-                    else:
-                        print("not working")
                     messages.warning(request, "User must be verified first")
                     context = {
                         'user': user
