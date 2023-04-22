@@ -14,60 +14,52 @@
     </div>
     
     <div class="dashboard-widg-bar d-block">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12">
-               
+      
+	<div class="container">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+				<div class="d-flex justify-content-between">
+					<p class="fs-md ft-regular">Your Good Balance : <span class="text-primary">{{request.user.user_balance.balance}}</span></p>
+                    <a class="btn btn-info mb-2" href="{% url 'load-balance' %}">Load Balance</a>
+				</div>
                 <div class="mb-4 tbl-lg rounded overflow-hidden">
                     <div class="table-responsive bg-white">
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
-                                  <th scope="col">Serial No</th>
-                                  <th scope="col">Transaction Id</th>
-                                  <th scope="col">Date</th>
-                                  <th scope="col">Action</th>
-                                  <th scope="col">Change in Points</th>
-                                  <th scope="col">Remarks</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Applied Date</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                
+                                {% for job in applied_jobs %}
                                 <tr>
-                                    <td><div><h4 class="mb-0 ft-medium fs-sm text-center">1</h4></div></td>
-                                    <td><div class="text-center">111</div></td>
-                                    <td>10 Sep 2021</td>
-                                    <td>Added</td>
-                                    <td class="text-center">100</td>
                                     <td>
-                                    <p>Completed Successfully</p>
+                                        <div class="dash-title">
+                                            <h4 class="mb-0 ft-medium fs-sm">{{job.service}}
+                                            </h4>
+                                        </div>
+                                    </td>
+                                    <td>{{job.applied_on}}</td>
+                                    <td>
+                                        <div class="dash-action">
+                                            <a href="#" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="fas fa-pen"></i></a>
+                                            <a href="#" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="fas fa-trash"></i></a>
+                                        </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><div><h4 class="mb-0 ft-medium fs-sm text-center ">2</h4></div></td>
-                                    <td><div class="text-center" >112</div></td>
-                                    <td>10 Sep 2021</td>
-                                    <td>Substracted</td>
-                                    <td class="text-center">10</td>
-                                    <td>
-                                    <p>Completed Successfully</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div><h4 class="mb-0 ft-medium fs-sm text-center">3</h4></div></td>
-                                    <td><div class="text-center" >113</div></td>
-                                    <td>10 Sep 2021</td>
-                                    <td>Added</td>
-                                    <td class="text-center">20</td>
-                                    <td>
-                                    <p>Completed Successfully</p>
-                                    </td>
- 
-                                </tr>
+                                {% endfor %}
+                                
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
+                <!-- payment confirmation-->
+                <div id="paypal-button-container"></div>
+			</div>
+	</div>
             
     </div>
     

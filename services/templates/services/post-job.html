@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Dashboard {% endblock title %}
+{% block title %} Create a job {% endblock title %}
 {% block content %}
 <div class="dashboard-wrap bg-light">
     {% include 'services/includes/sidebar.html' %}
@@ -8,11 +8,10 @@
         <div class="dashboard-tlbar d-block mb-5">
             <div class="row">
                 <div class="colxl-12 col-lg-12 col-md-12">
-                    <h1 class="ft-medium">Post A New Job {{request.user.can_post_job}}</h1>
+                    <h1 class="ft-medium">{{title}}</h1>
                 </div>
             </div>
         </div>
-        
         
         <div class="dashboard-widg-bar d-block">
             <div class="row">
@@ -24,8 +23,7 @@
                             </div>
                         </div>
                         <div class="_dashboard_content_body py-3 px-3">
-                            <form  action="{% url 'post-job' %}" method="POST" enctype="multipart/form-data">
-                               
+                            <form  action="" method="POST" enctype="multipart/form-data" novalidate>
                                 {% csrf_token %}
                                 <form class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12">

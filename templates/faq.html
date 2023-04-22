@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block title %} About Us {% endblock title %} 
+{% block content %}
+<section class="middle">
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12">
+        <div class="abt_caption">
+          <h2 class="ft-medium mb-4">Welcome to WorkLink</h2>
+          <h2 class="mb-4">
+            FAQ
+          </h2>
+          <p class="mb-4">
+            FAQ page
+          </p>
+          <p class="mb-4">
+            We believe that by connecting service seekers with service
+            providers, we can help create a more efficient and effective
+            marketplace for all parties involved.
+          </p>
+          <p class="mb-4">
+            Whether you're a service seeker in need of a plumber, electrician,
+            or other professional, or a service provider looking to expand your
+            client base, WorkLink is here to help. Thank you for choosing
+            WorkLink, and we look forward to helping you connect with the
+            service provider you need.
+          </p>
+          <div class="form-group mt-4">
+            <a href="{% url 'contact-us' %}" class="btn theme-bg text-white">See More Info</a>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+</section>
+<!-- ======================= About Us End ======================== -->
+
+{% endblock content %}

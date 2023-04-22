@@ -1,26 +1,40 @@
   {% extends 'base.html' %}
-{% block title %} Add Resume {%endblock title%}
-{%block content%}
+{% block title %} All notifications {%endblock title%}
+{% block content %}
  <div class="dashboard-wrap bg-light">
     {% include 'services/includes/sidebar.html' %}
-    
 
     <div class="dashboard-content">
-        <div class="dashboard-tlbar d-block mb-5">
+        <div class="dashboard-widg-bar d-block">
             <div class="row">
-                <div class="colxl-12 col-lg-12 col-md-12">
-                    <h1 class="ft-medium">Your Notification </h1>
-                    {% for alert in alerts %}
-                    {{alert}}
-                    {% endfor %}
-                    
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="mb-4 tbl-lg rounded overflow-hidden">
+                        <div class="table-responsive bg-white">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="w-25">Date created</th>
+                                        <th class="w-50">Title</th>
+                                        <th class="w-25">Sender</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for alert in alerts %}
+                                    <tr>                               
+                                        <td>
+                                            <h4 class="mb-0 ft-medium fs-sm">{{alert.created_at}}</h4>
+                                        </td>
+                                        <td width>{{alert.message}}</td>
+                                        <td>{{alert.sender.get_full_name}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        
-        <!-- footer -->
-        
+        </div>       
     </div>
 </div> 
     

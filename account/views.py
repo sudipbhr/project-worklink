@@ -40,7 +40,8 @@ def user_profile_edit(request):
         'form' : form,
         'user_education' : user_education,
         'user_skill' :user_skill,
-        'user' : user        
+        'user' : user,
+        'forms' : [form, user_education, user_skill]  
     }
     return render(request, template_name, context)
 
@@ -71,16 +72,6 @@ def manage_users(request):
         }
         return render(request, template_name, context)
 
-
-@login_required(login_url = '/auth/login/')
-def header_info(request):
-    user = get_object_or_404(User, username = request.user.username)
-    template_name = 'base.html'
-    notifications= Notification.objects.filter(receiver=user).order_by('-created_at')
-    context = {
-        'notifications' : notifications,
-    }
-    return render(request, template_name, context)
 
 @login_required(login_url = '/auth/login/')
 def disqualify_document(request, id):

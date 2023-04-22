@@ -80,9 +80,16 @@
 								</div>
 								<div class="job_grid_footer pb-4 px-3">
 									<ul class="p-0 skills_tag text-center">
-										{% for skill in service.skills.all %}
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill}}</span></li>
-										{% endfor %}
+										{% if service.skills.all|length <= 2%}
+											{% for skill in service.skills.all %}
+											<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill}}</span></li>
+											{% endfor %}
+										{% else %}
+											{% for skill in service.skills.all|slice:":2" %}
+											<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill}}</span></li>
+											{% endfor %}
+											<li><span class="px-2 py-1 medium theme-bg rounded text-light">+{{service.skills.all|length|add:"-2"}} More</span></li>
+										{% endif %}
 									</ul>
 								</div>
 							</div>

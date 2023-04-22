@@ -21,7 +21,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'gender', 'avatar', 'experience', 'address', 
+        fields = ('first_name', 'last_name', 'gender', 'avatar', 'experience', 'address', 
                   'phone_number','profession')
 
     def __init__(self, *args, **kwargs):
@@ -54,3 +54,8 @@ class UserSkillsForm(forms.ModelForm):
             self.fields[field].widget.attrs=({
                 'class': 'form-control',
             })
+            if field == 'name':
+                self.fields[field].widget.attrs=({
+                    'class': 'form-control select2',
+                    'placeholder': 'Enter your skills',
+                })

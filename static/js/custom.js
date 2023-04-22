@@ -187,6 +187,15 @@ $(function() {
         }
     });
 
+    //on click back2top add animate
+    $("#back2Top").on('click', function(event) {
+        event.preventDefault();
+        $("html, body").animate({
+            scrollTop: 0
+        }, "slow");
+        return false;
+    });
+
 
     // Script For Fix Header on Scroll
     $(window).on('scroll', function() {
