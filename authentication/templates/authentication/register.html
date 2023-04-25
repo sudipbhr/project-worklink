@@ -19,8 +19,8 @@ input[type=checkbox]:checked + label {
                 <h3 class="text-center ft-bold pb-4">Join as Service Provider or Service Seeker</h3>
                 <form class="border p-3 rounded" action="{% url 'register' %}" method="POST">
                         {% csrf_token %}
-                    <ul class="d-flex">
-                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <ul class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                             <li>
                                 <input type="checkbox" id="myCheckbox1" name="user_type" value="Service Provider"/>
                                 <label for="myCheckbox1" class="d-flex flex-column justify-content-center align-items-center">
@@ -29,7 +29,7 @@ input[type=checkbox]:checked + label {
                                 </label>
                             </li>
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                             <li>
                                 <input type="checkbox" id="myCheckbox2" name="user_type" value="Service Seeker"/>
                                 <label for="myCheckbox2" class="d-flex flex-column justify-content-center align-items-center">
@@ -39,7 +39,7 @@ input[type=checkbox]:checked + label {
                             </li>
                         </div>
                     </ul> 
-                                                                        <p id="user_type_error" class="text-danger"></p>
+                    <p id="user_type_error" class="text-danger"></p>
               
                     <div class="row">
                         <div class="form-group col-md-6">

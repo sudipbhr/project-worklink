@@ -389,7 +389,7 @@ def job_skill(request):
     return render(request, template_name, context)
 
 def review(request):
-    template_name='services/review.html'
+    template_name='reviews/review.html'
     context={}
     return render(request, template_name, context)
 
