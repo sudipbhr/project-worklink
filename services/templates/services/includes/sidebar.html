@@ -15,7 +15,7 @@
 									<span class="fs-sm rounded-circle border border-success px-2 bg-success text-white" style="margin-top:-15px">{{no_unseen_messages}}</span>
 								</a></li>
 								<li><a href="{% url 'review' %}">Review</a></li>
-								<li><a href="{% url 'notification' %}"><i class="fa fa-bell mr-2"></i>Notifications <span class="fs-sm rounded-circle border border-success px-2 bg-success text-white" style="margin-top:-15px">{{notifications|length}}</span></a>
+								<li><a href="{% url 'notification' %}"><i class="fa fa-bell mr-2"></i>Notifications <span class="fs-sm rounded-circle border border-success px-2 bg-success text-white" style="margin-top:-15px">{{no_unseen_notif}}</span></a>
 								</li>
 								
 								{% if request.user.role == 'Admin' %}

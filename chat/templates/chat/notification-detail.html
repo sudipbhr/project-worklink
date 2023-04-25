@@ -1,5 +1,5 @@
-{% load humanize %}  
 {% extends 'base.html' %}
+{% load humanize %} 
 {% block title %} All notifications {%endblock title%}
 {% block content %}
  <div class="dashboard-wrap bg-light">
@@ -8,19 +8,21 @@
     <div class="dashboard-content">
         <div class="dashboard-widg-bar d-block">
             <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="col-xl-8 col-lg-8 col-md-8">
                     <div class="mb-4 tbl-lg rounded overflow-hidden">
                         <div class="card card-body">
-                            <div class="d-flex">
-                                <img src="{{request.user.avatar.url}}" class="avatar-md" alt="">
-                                <div>
-                                    <p>{{request.user.get_full_name}}</p>
-                                    <p>{{request.user.email}}</p>
+                            <div class="d-flex justify-content-between mb-4">
+                                <div class="d-flex">
+                                    <img src="{{request.user.avatar.url}}" class="dash-noti-avatar rounded-circle" alt="">
+                                    <div class="ml-2 mr-2 justify-content-center align-items-center">
+                                        <h6>{{request.user.get_full_name}}</h6>
+                                        <h6>{{request.user.email}}</h6>
+                                    </div>
                                 </div>
-                                <p>{{notification.created_at | naturaltime }}</p>
+                                <h6>Created {{noti.created_at | naturaltime }}</h6>
                             </div>
-                            <div class="msg">
-                                <p>{{notification.message}}</p>
+                            <div class="msg ">
+                                <h6>{{noti.message}}</h6>
                             </div>
                             <hr>
                         </div>

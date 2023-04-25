@@ -71,10 +71,12 @@ def notification(request):
 
 
 @login_required(login_url = '/auth/login/')
-def notification_detail(request, id):
-    templete_name='chat/notification_detail.html'
-    notification= get_object_or_404(id=id)
+def notification_detail(request, noti_id):
+    templete_name='chat/notification-detail.html'
+    notification= get_object_or_404(Notification, id=noti_id)
+    notification.status= 'seen'
+    notification.save()
     context={
-        'notification':notification,
+        'noti':notification,
     }
     return render(request, templete_name, context)
