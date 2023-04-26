@@ -8,8 +8,25 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .filters import ServicesFilter
 from django.db.models import Q
+import os
+from twilio.rest import Client
+from django.conf import settings as setting
+from django.core.mail import send_mail
+
 
 # Create your views here.
+
+def send_sms(phone_number, mess):
+    account_sid = 'ACb8ae87c4a2773aea0919d8f3c4a73eea'
+    auth_token = '7343e7a4a672c4b966a70f4b78cfcf1f'
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+                                body=mess,
+                                from_='+16203122398',
+                                to='+977'+phone_number
+                            )
+
 
 def home(request):
     categories = Category.objects.all()[:6]
@@ -39,7 +56,7 @@ def services_search(request):
     if request.user.role == 'Service Seeker':
         return redirect('dashboard')
     categories = Category.objects.all()
-    services = Services.objects.all()
+    services = Services.objects.filter(~Q(status='completed'))
     services_count = services.count()
     services_filter = ServicesFilter(request.GET, queryset=services)
     paginator = Paginator(services, 9)
@@ -119,6 +136,7 @@ def service_search_map(request):
     context={}
     return render(request, template_name, context)
 
+
 @login_required(login_url='/auth/login/')
 def candidate_detail(request, id):
     user = get_object_or_404(User, id=id)
@@ -173,11 +191,25 @@ def user_dashboard(request):
     jobs_posted = Services.objects.filter(posted_by=request.user).count()
     applied_jobs = JobApplications.objects.filter(user=request.user).count()
     total_applications = JobApplications.objects.filter(service__posted_by=request.user).count()
+    # find all the job applied by the user
+    jobs_applied = JobApplications.objects.filter(user=request.user)
+    estimated_earning = 0
+    for job in jobs_applied:
+        estimated_earning += job.service.amount
+        
+    possible_earning = 0
+    jobs_hired = jobs_applied.filter(status='Hired')
+    for job in jobs_hired:
+        possible_earning -= job.service.amount
+    
+
     template_name='services/dashboard.html'
     context={
         'jobs_posted': jobs_posted,
         'applied_jobs': applied_jobs,
         'total_applications': total_applications,
+        'estimated_earning': estimated_earning,
+        'possible_earning': possible_earning,
     }
     return render(request, template_name, context)
 
@@ -303,17 +335,23 @@ def manage_applicant(request, id):
             job_in_service.save()
             job.status = jobstatus
             job.save()
+            mess = 'Dear {job_holder}, you have been hired for {job}. We look forward for your successful job. Thank you for choosing WorkLink'.format(job_holder=job.service.job_holder.first_name+ " "+ job.service.job_holder.last_name,job=job.service.title)
             notification = Notification.objects.create(
                 receiver=job.user, sender= job.service.posted_by,
-                message='Dear {job_holder}, you have been hired for {job}. We look forward for your successful job. Thank you for choosing WorkLink'.format(job_holder=job.service.job_holder.first_name+ " "+ job.service.job_holder.last_name,job=job.service.title),
+                message=mess,
             )
             notification.save()
             chat = Chat.objects.create(
                 sender=job.service.posted_by, receiver=job.user,
-                message='Dear {job_holder}, you have been hired for {job}. We look forward for your successful job. Thank you for choosing WorkLink'.format(job_holder=job.service.job_holder.first_name+ " "+ job.service.job_holder.last_name, job=job.service.title),
+                message=mess,
                 job_id=job.service
             )
             chat.save()
+            try:
+                send_mail('Applicant Hired', mess, setting.EMAIL_HOST_USER, [job.service.job_holder.email])
+                send_sms(job.service.job_holder.phone_number, mess)
+            except:
+                pass
             messages.success(request, 'Applicant hired')
             return redirect('manage-applicant' , id=job.service.id)
         elif jobstatus == 'Rejected':

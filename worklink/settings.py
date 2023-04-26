@@ -173,4 +173,16 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 
+# django_project/settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'login'
+
+
 
