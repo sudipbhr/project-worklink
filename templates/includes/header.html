@@ -94,9 +94,11 @@
                     <a href="#" class="worklink-theme">View all</a>
                   </div>
                   {% for notification in notifications %}
+                  <a href="{% url 'notification-details' notification.id %}">
                     <div class="p-1 single-notification">
                       <p class="fs-sm">{{notification.message | truncatechars:90}} <span class="float-right ft-medium">{{notification.created_at | naturaltime}}</span></p>
                     </div>
+                    </a>
                     <hr>
                   {% endfor %}
                 </div>

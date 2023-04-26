@@ -10,58 +10,45 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.conf import settings as setting
 from django.contrib.auth.decorators import login_required
+from services.views import send_sms
 
 # Create your views here.
 def send_otp(user):
     # generate 6 digit random number
     try:
-        find_otp = UserOTP.objects.filter(user=user).first()
-        if find_otp:
-            if find_otp.otp_created_at < timezone.now() - timedelta(minutes=1):
-                subject = "OTP verfication"
-                message = """Dear Sir/Madam,
-                        Do NOT SHARE your OTP/Password with anyone..
-                        Your OTP is {otp}
-                        
-                        If you have any queries, Please contact us at,
+        otp=random.randint(10000,99999)
+        user_otp = UserOTP.objects.create(user=user, otp=otp)
+        user_otp.save()
+        subject = "OTP verfication"
+        message = """
+Dear Sir/Madam,
+Do NOT SHARE your OTP/Password with anyone..
+Your OTP is {otp}
 
-                        Project WorkLink,
-                        Bagar,Pokhara, Nepal.
-                        Phone # 977-01-4523333
-                        Email Id: support@worklink.com.np
+If you have any queries, Please contact us at,
 
-                        Warm Regards,
-                        Project WorkLink
-                        "Connecting Job Seekers and Providers"
+Project WorkLink,
+Bagar,Pokhara, Nepal.
+Phone # 977-01-4523333
+Email Id: support@worklink.com.np
+
+Warm Regards,
+Project WorkLink
+"Connecting Job Seekers and Providers"
                         """
-                message=message.format(otp=find_otp.otp)
-                from_email = setting.EMAIL_HOST_USER
-                recepient_list = [user.email]
-                mail=send_mail(subject, message, from_email, recepient_list, fail_silently=False)
+        message=message.format(otp=otp)
+        from_email = setting.EMAIL_HOST_USER
+        recepient_list = [user.email]
+        mail= send_mail(subject, message, from_email, recepient_list, fail_silently=False)
+        sms= send_sms(user.phone_number, message)
+        if mail:
+            print("mail sent")
         else:
-            otp=random.randint(10000,99999)
-            user_otp = UserOTP.objects.create(user=user, otp=otp)
-            user_otp.save()
-            subject = "OTP verfication"
-            message = """Dear Sir/Madam,
-                        Do NOT SHARE your OTP/Password with anyone..
-                        Your OTP is {otp}
-                        
-                        If you have any queries, Please contact us at,
-
-                        Project WorkLink,
-                        Bagar,Pokhara, Nepal.
-                        Phone # 977-01-4523333
-                        Email Id: support@worklink.com.np
-
-                        Warm Regards,
-                        Project WorkLink
-                        "Connecting Job Seekers and Providers"
-                        """
-            message=message.format(otp=find_otp.otp)
-            from_email = setting.EMAIL_HOST_USER
-            recepient_list = [user.email]
-            mail= send_mail(subject, message, from_email, recepient_list, fail_silently=False)
+            print("mail not sent")
+        if sms:
+            print("sms sent")
+        else:
+            print("sms not sent")
             
     except Exception as e:
         print(e)
@@ -88,6 +75,11 @@ def user_login(request):
                 
                 is_verified = UserVerification.objects.filter(user=user_exists).first()
                 if is_verified.email_verified == False | is_verified.phone_verified == False:
+                    if send_otp(user):
+                        print(send_otp)
+                        print("hello")
+                    else:
+                        print("not working")
                     messages.warning(request, "User must be verified first")
                     context = {
                         'user': user
@@ -98,9 +90,10 @@ def user_login(request):
                     messages.success(request, "Logged in successfully")
                     return redirect('dashboard')
             else:
-                print('not authenticated')
+                messages.error(request, "Invalid credentials")
+                return redirect('login')
         else:
-            messages.error(request, "Invalid credentials")
+            messages.error(request, "Couldnot find user, please register first")
             return redirect('login')
     
     if request.user.is_authenticated:
@@ -174,7 +167,46 @@ def user_logout(request):
 
 @ login_required(login_url='/auth/login/')
 def change_password(request):
+    if request.method == "POST":
+        old_password = request.POST["old_password"]
+        new_password = request.POST["new_password"]
+        new_password2 = request.POST["new_password2"]
+        user = User.objects.filter(id=request.user.id).first()
+
+        if user.check_password(old_password):
+            if new_password == new_password2:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, "Password changed successfully")
+                return redirect('dashboard')
+            else:
+                messages.error(request, "Passwords don't match")
+                return redirect('change-password')
+        else:
+            messages.error(request, "Invalid password")
+            return redirect('change-password')
+        
+
     template_name='authentication/change-password.html'
     context={}
     return render(request, template_name, context)
+
+# def forgot_password(request):
+#     if request.method == "POST":
+#         user_email_phone = request.POST["email_or_phone"]
+#         user_exists = User.objects.filter(Q(email=user_email_phone) | Q(phone_number=user_email_phone)).first()
+#         if user_exists:
+#             if send_otp(user_exists):
+#                 print("hello")
+#             else:
+#                 print("not working")
+#             messages.success(request, "OTP sent successfully")
+#             return render(request, 'authentication/verify.html', {'user': user_exists})
+#         else:
+#             messages.error(request, "No user found with the given details")
+#             return redirect('forgot-password')
+
+#     template_name='authentication/forgot-password.html'
+#     context={}
+#     return render(request, template_name, context)
 
