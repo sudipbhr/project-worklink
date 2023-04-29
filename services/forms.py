@@ -1,5 +1,5 @@
 from django import forms
-from services.models import Services, JobSkills, Category
+from services.models import Services, JobSkills, Category, Inquries
 
 
 class PostJobForm(forms.ModelForm):
@@ -16,6 +16,11 @@ class PostJobForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Enter your ' + field,
             })
+            if field == 'description':
+                self.fields[field].widget.attrs=({
+                    'class': 'form-control tinymce',
+                    'rows': '30',
+                })
 
             if field == 'skills':
                 self.fields[field].widget.attrs=({
@@ -41,10 +46,14 @@ class CategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs=({
-                'class': 'form-control form-select select2',
-                'multiple': 'multiple',
+            if field == 'skills':
+                self.fields[field].widget.attrs=({
+                    'class': 'form-control select2',
+                    'multiple': 'multiple',
+                })
 
+            self.fields[field].widget.attrs=({
+                'class': 'form-control',
             })
 
 # Job skills form
@@ -59,7 +68,35 @@ class JobSkillForm(forms.ModelForm):
         super(JobSkillForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs=({
-                'class': 'form-control form-select select2',
-                'multiple': 'multiple',
+                'class': 'form-control',
+                'placeholder': 'Enter field name' ,
+              
+            })
+
+
+class ContactUsForm(forms.ModelForm):
+
+    def validate(self):
+        cleaned_data = super(ContactUsForm, self).clean()
+        email = cleaned_data.get('email')
+        name = cleaned_data.get('name')
+        message = cleaned_data.get('message')
+        if not email:
+            raise forms.ValidationError('Please enter your email')
+        if not name:
+            raise forms.ValidationError('Please enter your name')
+        if not message:
+            raise forms.ValidationError('Please enter your message')
+        
+    class Meta:
+        model = Inquries
+        fields = ['name', 'email', 'message']
+
+    def __init__(self, *args, **kwargs):
+        super(ContactUsForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs=({
+                'class': 'form-control',
+                'placeholder': 'Enter your ' + field,
             })
 

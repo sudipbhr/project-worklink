@@ -20,9 +20,9 @@
 							<div class="col-xl-12 col-lg-12 col-md-12">
 								<div class="_dashboard_content bg-white rounded mb-4">
 									
-						<form action="{% url 'add-category' %}" method="post">
-                            {% csrf_token %}
-                        <form class="row">
+                                <form action="{% url 'add-category' %}" method="post">
+                                    {% csrf_token %}
+                                <form class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12">
                                         <div class="row">
                                         
@@ -36,7 +36,7 @@
                                             <div class="col-xl-12 col-lg-12 col-md-12">
                                                 <div class="form-group">
                                                     <label class="text-dark ft-medium">Skills</label>
-                                                {{form.skills}}
+                                                        {{form.skills}}
                                                 </div>
                                             </div>
                                             
