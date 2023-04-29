@@ -1,6 +1,6 @@
 from django.db import models
-from account.models import User
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
@@ -39,6 +39,7 @@ class Category(models.Model):
    
 
 class Services(models.Model):
+    from account.models import User
     # model for jobs in online job portal
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -81,6 +82,8 @@ class Services(models.Model):
             
     
 class JobApplications(models.Model):
+    
+    from account.models import User
     # model for job applications
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applicants')
     service = models.ForeignKey(Services, on_delete= models.CASCADE, related_name='services', null=True)
@@ -99,3 +102,32 @@ class JobApplications(models.Model):
 
     class Meta:
         verbose_name_plural = 'Job applications'
+
+
+# class JobReviews(models.Model):
+#     # model for job reviews
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviewer')
+#     service = models.ForeignKey(Services, on_delete=models.CASCADE, related_name='reviewed_service')
+#     review = models.TextField()
+#     rating = models.IntegerField(default='1')
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+
+#     def __str__(self):
+#         return str(self.rating) + ' stars by ' + self.user.username + ' for ' + self.service.title
+
+#     class Meta:
+#         verbose_name_plural = 'Job reviews'
+
+
+class Inquries(models.Model):
+    name = models.CharField(max_length=100, help_text="Enter your name")
+    email = models.EmailField(help_text="Enter your email")
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.subject
+
+    class Meta:
+        verbose_name_plural = 'Inquries'

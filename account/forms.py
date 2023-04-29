@@ -22,7 +22,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'gender', 'avatar', 'experience', 'address', 
-                  'phone_number','profession')
+                  'phone_number','profession', 'description')
 
     def __init__(self, *args, **kwargs):
          super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -30,6 +30,11 @@ class UserProfileForm(forms.ModelForm):
             self.fields[field].widget.attrs=({
                 'class': 'form-control',
             })
+            if field == 'description':
+                self.fields[field].widget.attrs=({
+                    'class': 'form-control tinymce',
+                    'rows': '30',
+                })
 class UserEducationForm(forms.ModelForm):
 
     class Meta:

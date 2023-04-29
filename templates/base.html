@@ -26,6 +26,9 @@
                 font-size: 12px;
              }
     </style>
+<script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/init-tinymce.js' %}"></script>
+
 </head>
 
 <body>
@@ -84,15 +87,32 @@
                     }
             });
              });
+
     </script>
     <script src="{% static 'js/select2.js' %}"></script>
         
      <script>
         $('.select2').select2();
     </script>
-    
+
+
     {% block extra_js %} {% endblock extra_js %}
     {% include 'includes/messages.html' %}
+
+<script>
+var header = document.getElementById("navigation");  
+var btns = header.getElementsByClassName("nav-link"); 
+for (var i = 0; i < btns.length; i++) {  
+  btns[i].addEventListener("click", function() {  
+  var current = document.getElementsByClassName("active");
+  if (current.length > 0) {   
+    current[0].className = current[0].className.replace(" active", "");  
+  }  
+  this.className += " active";  
+  });  
+}
+</script>
+
 
 
 </body>

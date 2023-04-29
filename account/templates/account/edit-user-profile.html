@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Dashboard {% endblock %}
+{% block title %} Update Profile {% endblock %}
 {% block content %}
 <div class="dashboard-wrap bg-light">
     {% include 'services/includes/sidebar.html' %}
@@ -85,6 +85,12 @@
                                                 {{form.profession}}
                                             </div>
                                         </div>
+                                        <div class="col-xl-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-dark ft-medium">Description</label>
+                                                {{form.description}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                         </div>
@@ -130,7 +136,7 @@
                     <div class="_dashboard_content bg-white rounded mb-4">
                         <div class="_dashboard_content_header br-bottom py-3 px-3">
                             <div class="_dashboard__header_flex">
-                                <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-lock mr-1 worklink-theme fs-sm"></i>User Skills</h4>
+                                <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-lock mr-1 worklink-theme fs-sm"></i>Add your skills</h4>
                             </div>
                         </div>
 

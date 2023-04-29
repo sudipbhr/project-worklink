@@ -27,11 +27,11 @@
 									</div>
 									<div class="dash_caption mb-3">
 										<h4 class="fs-lg ft-medium mb-0 lh-1">{{user.get_full_name}}</h4>
-										<p class="m-0 p-0">{{user.profession}}</p>
+										<span class="m-1 mt-2 p-1 theme-bg-light">{{user.profession}}</span>
 										<span class="text-muted smalls"><i class="lni lni-map-marker mr-1"></i>{{user.address}}</span>
 									</div>
 									<div class="jb-list-01-title px-2">
-										{% for skill in user.skill.all %}
+										{% for skill in user.skill.created_at %}
 										<span class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded worklink-theme theme-bg-light">{{skill}}</span>
 										{% endfor %}
 									</div>
@@ -57,8 +57,9 @@
 								<!-- About -->
 								<div class="abt-cdt d-block full-width mb-4">
 									<h4 class="ft-medium mb-1 fs-md">About {{user.get_full_name}}</h4>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-									<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+									{% autoescape off %}
+										{{user.description}}
+									{% endautoescape %}
 								</div>
 							
 								<h1>Add previous jobs and its ratings here</h1>

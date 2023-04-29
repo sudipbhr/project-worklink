@@ -12,6 +12,7 @@ import os
 from twilio.rest import Client
 from django.conf import settings as setting
 from django.core.mail import send_mail
+from services.models import Inquries
 
 
 # Create your views here.
@@ -221,9 +222,22 @@ def about_us(request):
     return render(request, template_name, context)
 
 def contact_us(request):
-    template_name= 'contact-us.html'
-    context={}
-    return render (request, template_name, context)
+    from .forms import ContactUsForm
+    form = ContactUsForm()
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Message sent successfully')
+            return redirect('contact-us')
+        else:
+            messages.error(request, 'Please fill the form correctly')
+            return redirect('contact-us')
+    template_name = 'contact-us.html'
+    context={
+        'form': form,
+    }
+    return render(request, template_name, context)
 
 
 def privacy_policy(request):
@@ -417,7 +431,7 @@ def job_skill(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Jobskill added successfully")
-            return redirect ('dashboard')
+            return redirect ('job-skill')
     template_name = 'services/job-skill.html'
     context = {
         'form' : form,

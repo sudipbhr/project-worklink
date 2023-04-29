@@ -21,7 +21,6 @@ def user_profile_edit(request):
         user_education = UserEducationForm(request.POST or None, instance = education)
         user_skill = UserSkillsForm(request.POST or None, instance = skill)
         document = request.FILES.get('document')
-        print(document)
         if document:
             user.identity_proof = document
             user.save()
