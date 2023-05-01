@@ -8,4 +8,5 @@ urlpatterns = [
     path('manage-users/', views.manage_users, name='manage-users'),
     path('disqualify-document/<int:id>/', views.disqualify_document, name='disqualify-document'),
     path('verify-document/<int:id>/', views.verify_document, name='verify-document'),
+    path('education/<str:id>/', views.del_education, name='del_education'),
 ]

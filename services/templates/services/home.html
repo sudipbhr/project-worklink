@@ -12,16 +12,15 @@
 								<p class="fs-md ft-medium">Connecting Service Seeker and Service Provider </p>
 							</div>
 							
-							<form class="bg-white rounded p-1">
+							<form class="bg-white rounded p-1" action="{% url 'search' %}" method="get">
 								<div class="row no-gutters">
 									<div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12">
 										<div class="form-group mb-0 position-relative">
-											<input type="text" class="form-control lg left-ico" placeholder="Job Title, Keyword or Company" />
+											<input type="text" class="form-control lg left-ico" name="query" id="search" placeholder="Job Title, Keyword, Location" />
 											<i class="bnc-ico fas fa-search"></i>
 										</div>
 									</div>
-									
-									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
 										<div class="form-group mb-0 position-relative">
 											<button class="btn full-width custom-height-lg theme-bg text-white fs-md" type="button">Find Job</button>
 										</div>
