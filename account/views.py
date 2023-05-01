@@ -12,11 +12,26 @@ from django.contrib.auth.decorators import login_required
 def user_profile_edit(request):
     user = get_object_or_404(User, username = request.user.username)
     form = UserProfileForm(instance = user )
-    education, created = UserEducation.objects.get_or_create(user = user)
-    user_education = UserEducationForm(instance = education)
     skill, created = UserSkills.objects.get_or_create(user = user)
     user_skill = UserSkillsForm(instance = skill)
+
     if request.method == "POST":
+        level = request.POST.get('level') or None
+        degree = request.POST.get('degree') or None
+        college = request.POST.get('college_university_name') or None
+        end_date = request.POST.get('end_date') or None
+        edu_description = request.POST.get('edu_description') or None
+        education = UserEducation.objects.create(
+            user = user,
+            level = level,
+            degree = degree,
+            college_university_name = college,
+            end_date = end_date,
+            edu_description = edu_description
+        ) 
+        education.save()
+        messages.success(request, "Education updated successfully")
+
         form = UserProfileForm(request.POST or None, request.FILES ,instance = user)
         user_education = UserEducationForm(request.POST or None, instance = education)
         user_skill = UserSkillsForm(request.POST or None, instance = skill)
@@ -37,19 +52,24 @@ def user_profile_edit(request):
     template_name= 'account/edit-user-profile.html'
     context= {
         'form' : form,
-        'user_education' : user_education,
         'user_skill' :user_skill,
         'user' : user,
-        'forms' : [form, user_education, user_skill]  
+        'forms' : [form, user_skill]  
     }
     return render(request, template_name, context)
 
 @login_required(login_url = '/auth/login/')
 def user_profile(request):
     user = get_object_or_404(User, username = request.user.username)
+    # get user education recent first
+    education = UserEducation.objects.filter(user = user).order_by('-end_date')
     template_name = 'account/profile.html'
+    skills = UserSkills.objects.get(user = user)
+    
     context = {
-        'user' : user
+        'user' : user,
+        'skills': skills,
+        'education' : education
     }
     return render(request, template_name, context)
 
@@ -86,6 +106,14 @@ def verify_document(request, id):
     user.identity_verifies = True
     user.save()
     messages.success(request, "Identity document verified")
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url = '/auth/login/')
+def del_education(request, id):
+    education = get_object_or_404(UserEducation, id = id)
+    education.delete()
+    messages.success(request, "Education deleted successfully")
     return redirect(request.META.get('HTTP_REFERER'))
 
     

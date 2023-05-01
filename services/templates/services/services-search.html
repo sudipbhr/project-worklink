@@ -11,27 +11,17 @@
                         <h1 class="ft-bold mb-4">The Most Exciting Jobs</h1>
                     </div>
                     
-                    <form class="bg-white rounded p-1">
-                        <div class="row no-gutters">
+                    <form class="bg-white rounded p-1" action="{% url 'search' %}" method="get">
+                        <div class="d-flex justify-content-between row no-gutters">
                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12">
                                 <div class="form-group mb-0 position-relative">
-
-                                    <input type="text" class="form-control lg left-ico" placeholder="Job Title, Keyword" />
+                                    <input type="text" class="form-control lg left-ico" name="query" id="search" placeholder="Job Title, Keyword, skills" />
                                     <i class="bnc-ico lni lni-search-alt"></i>
-                                </div>
-                            </div>
-                            <div class="col-xl-5 col-lg-4 col-md-4 col-sm-12 col-12">
-                                <div class="form-group mb-0 position-relative">
-
-
-                                    <input type="text" class="form-control lg left-ico" placeholder="Location" />
-                                    <i class="bnc-ico lni lni-target"></i>
-
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-12">
                                 <div class="form-group mb-0 position-relative">
-                                    <button class="btn full-width custom-height-lg bg-dark text-white fs-md" type="button">Find Job</button>
+                                    <button class="btn full-width custom-height-lg theme-bg text-white fs-md float-right" type="button">Find Job</button>
                                 </div>
                             </div>
                         </div>

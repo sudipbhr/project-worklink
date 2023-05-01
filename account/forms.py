@@ -22,7 +22,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'gender', 'avatar', 'experience', 'address', 
-                  'phone_number','profession', 'description')
+                  'phone_number','profession', 'description', 'email')
 
     def __init__(self, *args, **kwargs):
          super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -39,7 +39,7 @@ class UserEducationForm(forms.ModelForm):
 
     class Meta:
         model = UserEducation
-        fields = ['level', 'degree', 'add_degree']
+        fields = ['level', 'degree', 'edu_description', 'college_university_name', 'end_date']
         
     def __init__(self, *args, **kwargs):
          super(UserEducationForm, self).__init__(*args, **kwargs)
@@ -47,6 +47,12 @@ class UserEducationForm(forms.ModelForm):
             self.fields[field].widget.attrs=({
                 'class': 'form-control',
             })
+            if field == 'end_date':
+                self.fields[field].widget= forms.DateInput(attrs={
+                    'class': 'form-control datepicker',
+                    'placeholder': 'Select date',
+                    'type': 'date',
+                })
 class UserSkillsForm(forms.ModelForm):
 
     class Meta:

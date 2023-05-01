@@ -39,14 +39,14 @@
       </div>
       <div class="nav-menus-wrapper" style="transition-property: none">
         <ul class="nav-menu">
-          <li class="nav-link active"><a href="{% url 'home-page' %}" class=" ">Home</a></li>
-          <li class="nav-link"><a href="{% url 'about-us' %}" class="">About Us</a></li>
+          <li class="nav-link p-1 active"><a href="{% url 'home-page' %}" class=" ">Home</a></li>
+          <li class="nav-link p-1"><a href="{% url 'about-us' %}" class="">About Us</a></li>
           {% if request.user.is_authenticated %} 
             {% if request.user.role == 'Service Provider' %}
-              <li class="nav-link"><a href="{% url 'service-search' %}" class="">Find Job</a></li>
+              <li class="nav-link p-1"><a href="{% url 'service-search' %}" class="">Find Job</a></li>
             {% endif %} 
           {% endif %}
-          <li class="nav-link"><a href="{% url 'contact-us' %}" class="">Contact Us</a></li>
+          <li class="nav-link p-1"><a href="{% url 'contact-us' %}" class="">Contact Us</a></li>
           {% if not request.user.is_authenticated %}
           <li class="float-right">
             <a href="{% url 'login' %}" class="worklink-theme ft-medium">

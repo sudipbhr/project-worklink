@@ -29,143 +29,165 @@
                         </div>
 
                         <div class="_dashboard_content_body py-3 px-3">
-                            
                             <form  action="{% url 'edit-user-profile' %}" method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 d-flex justify-content-end">
-                                    <div class="form-group col-md-6">
-                                        {{form.avatar}}
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <p>Current Image</p>
-                                        <img src="{% if request.user.avatar %}{{request.user.avatar.url}} {% endif %}" class="img-thumbnail h-70 w-50 rounded-circle">
-                                    </div> 
+                            {% csrf_token %}
+                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 d-flex justify-content-end">
+                                <div class="form-group col-md-6">
+                                    {{form.avatar}}
                                 </div>
-                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
-                                    <div class="row">
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">First Name</label>
-                                                {{form.first_name}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Last Name</label>
-                                                {{form.last_name}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Phone Number</label>
-                                                {{form.phone_number}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Gender</label>
-                                                {{form.gender}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Experience</label>
-                                                {{form.experience}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Address</label>
-                                                {{form.address}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Profession</label>
-                                                {{form.profession}}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12 col-lg-12">
-                                            <div class="form-group">
-                                                <label class="text-dark ft-medium">Description</label>
-                                                {{form.description}}
-                                            </div>
+                                <div class="form-group col-md-6">
+                                    <p>Current Image</p>
+                                    <img src="{% if request.user.avatar %}{{request.user.avatar.url}} {% endif %}" class="img-thumbnail h-70 w-50 rounded-circle">
+                                </div> 
+                            </div>
+                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">First Name</label>
+                                            {{form.first_name}}
                                         </div>
                                     </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Last Name</label>
+                                            {{form.last_name}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Phone Number</label>
+                                            {{form.phone_number}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Email</label>
+                                            {{form.email}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Gender</label>
+                                            {{form.gender}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Experience</label>
+                                            {{form.experience}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Address</label>
+                                            {{form.address}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Profession</label>
+                                            {{form.profession}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="text-dark ft-medium">Description</label>
+                                            {{form.description}}
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="_dashboard_content bg-white rounded mb-4">
+                        <div class="repeater-heading">
+                            <p class="btn btn-primary rounded pull-right ml-3 float-right mt-3 mr-2" 
+                            data-toggle="modal" data-target="#educationModal">
+                                Add
+                            </p>
+                        </div>
                         <div class="_dashboard_content_header br-bottom py-3 px-3">
                             <div class="_dashboard__header_flex">
                                 <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-book-reader mr-1 worklink-theme fs-sm "></i>Education </h4>
-                            
                             </div>
                         </div>
-
-                        <div class="_dashboard_content_body py-3 px-3">
-
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Level</label>
-                                        {{user_education.level}}
-                                    </div>
+                        <div class=" _dashboard_content_body py-3 px-3 ">
+                            <div class="mb-4 tbl-lg rounded overflow-hidden">
+                                <div class="table-responsive bg-white">
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Level</th>
+                                                <th scope="col">Degree</th>
+                                                <th scope="col">College</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            {% for education in user.education.all %}
+                                            <tr>
+                                                <td>
+                                                    <div class="dash-title">
+                                                        <h4 class="mb-0 ft-medium fs-sm">{{education.level}}
+                                                        </h4>
+                                                    </div>
+                                                </td>
+                                                <td>{{education.degree}}</td>
+                                                <td>{{education.college_university_name}}</td>
+                                                <td>
+                                                    <div class="dash-action">
+                                                        <a href="{% url 'del_education' education.id %}" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Degree</label>
-                                        {{user_education.degree}}
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Add-degree</label>
-                                        {{user_education.add_degree}}
-                                    </div>
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-12 col-md-12">
-                    <div class="_dashboard_content bg-white rounded mb-4">
-                        <div class="_dashboard_content_header br-bottom py-3 px-3">
-                            <div class="_dashboard__header_flex">
-                                <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-lock mr-1 worklink-theme fs-sm"></i>Add your skills</h4>
+            <div class="col-lg-12 col-md-12">
+                <div class="_dashboard_content bg-white rounded mb-4">
+                    <div class="_dashboard_content_header br-bottom py-3 px-3">
+                        <div class="_dashboard__header_flex">
+                            <h4 class="mb-0 ft-medium fs-md"><i class="fas fa-lock mr-1 worklink-theme fs-sm"></i>Add your skills</h4>
+                        </div>
+                    </div>
+
+                    <div class="_dashboard_content_body py-3 px-3">
+                            <div class="col-xl-6 col-lg-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="text-dark ft-medium">Name</label>
+                                    {{user_skill.name}}
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="_dashboard_content_body py-3 px-3">
                             
-                                <div class="col-xl-6 col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <label class="text-dark ft-medium">Name</label>
-                                        {{user_skill.name}}
-                                    </div>
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <button type="submit"
+                                        class="btn btn-md ft-medium text-light rounded theme-bg">Save
+                                        Changes</button>
                                 </div>
-                                
-                                <div class="col-xl-12 col-lg-12">
-                                    <div class="form-group">
-                                        <button type="submit"
-                                            class="btn btn-md ft-medium text-light rounded theme-bg">Save
-                                            Changes</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
+                        </form>
 
-                        </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-
-        
+            </div>
+        </div>        
     </div>
 </div>
+
+<!-- Modal -->
+{% include 'account/add-education-modal.html' %}
 {% endblock content%}

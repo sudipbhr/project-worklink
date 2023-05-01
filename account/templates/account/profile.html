@@ -27,23 +27,21 @@
 									</div>
 									<div class="dash_caption mb-3">
 										<h4 class="fs-lg ft-medium mb-0 lh-1">{{user.get_full_name}}</h4>
-										<span class="m-1 mt-2 p-1 theme-bg-light">{{user.profession}}</span>
-										<span class="text-muted smalls"><i class="lni lni-map-marker mr-1"></i>{{user.address}}</span>
-									</div>
-									<div class="jb-list-01-title px-2">
-										{% for skill in user.skill.created_at %}
-										<span class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded worklink-theme theme-bg-light">{{skill}}</span>
-										{% endfor %}
+										<span class="p-1 theme-bg-light text-warning font-size-16">{{user.profession}}</span> <br>
+										<span class="text-muted smalls"><i class="fas fa-map-marker-alt mr-1 text-success mt-2"></i>{{user.address}}</span>
 									</div>
 								</div>
 								
 								<div class="cdt_caps">
 									<div class="job_grid_footer px-3 d-flex align-items-center justify-content-between">
-										<div class="df-1 text-muted"><i class="lni lni-envelope mr-1"></i>{{user.email}}</div>
-										<div class="df-1 text-muted"><i class="lni lni-graduation mr-1"></i>{{user.experience}} Year Exp.</div>
+										<div class="df-1 text-muted"><i class="fas fa-envelope mr-1 text-success"></i>{{user.email}}</div>
+										<div class="df-1 text-muted"><i class="fas fa-graduation-cap mr-1 text-danger"></i>{{user.experience}} Year Exp.</div>
 									</div>
 									<div class="job_grid_footer px-3 d-flex align-items-center justify-content-between">
-										<div class="df-1 text-muted"><i class="lni lni-envelope mr-1"></i>10 jobs completed</div>
+										<div class="df-1 text-muted"><i class="fas fa-briefcase mr-1 text-info"></i>10 jobs completed</div>
+									</div>
+									<div class="cdt_caps py-5 px-3">
+										<a href="#" class="btn btn-md theme-bg text-light rounded full-width">Download Resume</a>
 									</div>
 								</div>								
 							</div>
@@ -61,52 +59,26 @@
 										{{user.description}}
 									{% endautoescape %}
 								</div>
-							
-								<h1>Add previous jobs and its ratings here</h1>
-								
+														
 								<!-- Qualification -->
 								<div class="abt-cdt d-block full-width mb-4">
 									<h4 class="ft-medium mb-1 fs-md">Qualification</h4>
 									<div class="exslio-list mt-3">
 										<ul>
+											{% for edu in education %}
 											<li>
 												<div class="esclio-110 bg-light rounded px-3 py-3">
-													<h4 class="mb-0 ft-medium fs-md">High School</h4>
+													<h4 class="mb-0 ft-medium fs-md">{{edu.level}}, {{edu.degree}}</h4>
 													<div class="esclio-110-info full-width mb-2">
-														<span class="text-muted mr-2"><i class="lni lni-graduation mr-1"></i>LBS Academy</span>
-														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2010</span>
+														<span class="text-muted mr-2"><i class="lni lni-graduation mr-1"></i>{{edu.college_university_name}}</span>
+														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>{{edu.end_date}}</span>
 													</div>
 													<div class="esclio-110-decs full-width">
-														<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="worklink-theme">Read More..</a></p>
+														<p>{{edu.edu_description}}</a></p>
 													</div>
 												</div>
 											</li>
-											
-											<li>
-												<div class="esclio-110 bg-light rounded px-3 py-3">
-													<h4 class="mb-0 ft-medium fs-md">Inter Medium</h4>
-													<div class="esclio-110-info full-width mb-2">
-														<span class="text-muted mr-2"><i class="lni lni-graduation mr-1"></i>International Inter College</span>
-														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2012</span>
-													</div>
-													<div class="esclio-110-decs full-width">
-														<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="worklink-theme">Read More..</a></p>
-													</div>
-												</div>
-											</li>
-											
-											<li>
-												<div class="esclio-110 bg-light rounded px-3 py-3">
-													<h4 class="mb-0 ft-medium fs-md">Gradutation</h4>
-													<div class="esclio-110-info full-width mb-2">
-														<span class="text-muted mr-2"><i class="lni lni-graduation mr-1"></i>Nandani College</span>
-														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2015</span>
-													</div>
-													<div class="esclio-110-decs full-width">
-														<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="worklink-theme">Read More..</a></p>
-													</div>
-												</div>
-											</li>
+											{% endfor %}
 										</ul>
 									</div>
 								</div>
@@ -165,15 +137,17 @@
 								<div class="abt-cdt d-block full-width">
 									<h4 class="ft-medium mb-1 fs-md">Skills</h4>
 									<ul class="p-0 skills_tag text-left">
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Joomla</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">WordPress</span></li>
+										{% for skill in skills.name.all %}
+										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill.name}}</span></li>
+										{% endfor %}
+										{% comment %} <li><span class="px-2 py-1 medium skill-bg rounded text-dark">WordPress</span></li>
 										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Javascript</span></li>
 										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">PHP</span></li>
 										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">HTML5</span></li>
 										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">MS SQL</span></li>
 										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">SQL Development</span></li>
 										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Dynamod</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Database</span></li>
+										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Database</span></li> {% endcomment %}
 									</ul>
 								</div>
 								

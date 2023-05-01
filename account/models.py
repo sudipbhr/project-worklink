@@ -61,6 +61,7 @@ class User(AbstractUser):
     @property
     def applied_job(self):
         return self.applied_jobs.all().count()
+        
 
 
 class Points(models.Model):
@@ -87,9 +88,11 @@ class UserEducation(models.Model):
         ('master','Master Degree'),
         ('doctorate','Doctorate'),
     )
-    level = models.CharField(max_length=50, choices=LEVEL_CHOICES, default='primary')
-    degree= models.CharField(max_length=50, choices=DEGREE_LIST, blank=True )
-    add_degree= models.CharField(max_length=50, blank=True)
+    level = models.CharField(max_length=50, choices=LEVEL_CHOICES, default='primary', blank=True, null=True)
+    degree= models.CharField(max_length=50, choices=DEGREE_LIST, blank=True, null=True)
+    edu_description = models.TextField(blank=True, null=True)
+    college_university_name = models.CharField(max_length=100, blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.user.get_full_name() + ' has ' + self.level + ' education'
