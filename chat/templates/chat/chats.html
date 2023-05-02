@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load humanize %}
 {% block title %} Chats {% endblock title %}
 {% block content %} 
+{% block extra_css %}
+<style>
+    .chat-img{
+        opacity: 0.1;
+    }
+</style>
+{% endblock extra_css %}
 <div class="dashboard-wrap bg-light">
    
 {% include 'services/includes/sidebar.html' %}
@@ -17,37 +25,41 @@
                                 <!-- Messages -->
                                 <div class="dash-msg-inbox col-md-5">
                                     <ul>
-                                        {% for user in chats %}
-                                        {% if request.user.role == "Service Provider" %}
-                                        <li class="">
-                                            <a href="{{ user.job_id.employee_chat_url }}">
-                                                <div class="dash-msg-avatar"><img src="{{user.job_id.posted_by.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
-                                                <div class="message-by">
-                                                    <div class="message-by-headline">
-                                                        <h5>{{user.job_id.posted_by.get_full_name}}</h5>
-                                                    </div>
-                                                    <p>{{user.message}}</p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        {% else %}
-                                        <li>
-                                            <a href="{{ user.job_id.employer_chat_url }}"> 
-                                                <div class="dash-msg-avatar"><img src="{{user.job_id.job_holder.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
-                                                <div class="message-by">
-                                                    <div class="message-by-headline">
-                                                        <h5>{{user.job_id.job_holder.get_full_name}}</h5>
-                                                        <span></span>
-                                                    </div>
-                                                    <p>{{user.message}}</p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        {% endif %}
-                                        {% endfor %}                                            
+                                            {% for user in chats %}
+                                                {% if request.user.role == "Service Provider" %}
+                                                    <li class="">
+                                                        <a href="{{ user.job_id.employee_chat_url }}">
+                                                            <div class="dash-msg-avatar"><img src="{{user.job_id.posted_by.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
+                                                            <div class="message-by">
+                                                                <div class="message-by-headline">
+                                                                    <h5>{{user.job_id.posted_by.get_full_name}}</h5>
+                                                                </div>
+                                                                <p>{{user.message}}</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ user.job_id.employer_chat_url }}"> 
+                                                            <div class="dash-msg-avatar"><img src="{{user.job_id.job_holder.avatar.url}}" alt=""><span class="_user_status offline"></span></div>
+                                                            <div class="message-by">
+                                                                <div class="message-by-headline">
+                                                                    <h5>{{user.job_id.job_holder.get_full_name}}</h5>
+                                                                    <span></span>
+                                                                </div>
+                                                                <p>{{user.message}}</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}   
+                                        
                                     </ul>
                                 </div>
                                 <!-- Messages / End -->
+                                <div class="col-md-7 d-flex justify-content-center">
+                                    <img class="chat-img" src="{% static 'img/chat.png' %}" alt="" srcset="">
+                                </div>
                             </div>
                         </div>
                     </div>

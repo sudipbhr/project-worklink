@@ -13,6 +13,7 @@ from twilio.rest import Client
 from django.conf import settings as setting
 from django.core.mail import send_mail
 from services.models import Inquries
+from account.models import UserSkills
 
 
 # Create your views here.
@@ -63,6 +64,9 @@ def services_search(request):
     paginator = Paginator(services, 9)
     page = request.GET.get('page')
     services = paginator.get_page(page)
+
+    from .main import recommend
+    print(recommend())
     
     context={
         'services': services,
@@ -141,9 +145,13 @@ def service_search_map(request):
 @login_required(login_url='/auth/login/')
 def candidate_detail(request, id):
     user = get_object_or_404(User, id=id)
+    skills = UserSkills.objects.get(user=user)
+    jobs = Services.objects.filter(job_holder=user, status='completed').order_by('-created_at')
     template_name='services/candidate-detail.html'
     context={
         'user': user,
+        'skills': skills,
+        'jobs': jobs,
     }
     return render(request, template_name, context)
 
@@ -310,7 +318,7 @@ def update_job(request, job_id):
 
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def manage_job(request):
     applied_jobs = JobApplications.objects.filter(user=request.user)
     posted_jobs = Services.objects.filter(posted_by=request.user)        
@@ -322,7 +330,7 @@ def manage_job(request):
     return render(request, template_name, context)
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def sidebar(request):
     template_name='services/sidebar.html'
     context={}
@@ -383,27 +391,27 @@ def manage_applicant(request, id):
         'applicants': applicants,
     }
     return render(request, template_name, context)
-
+@login_required
 def transactions(request):
     template_name = 'services/transactions.html'
     context ={}
     return render(request, template_name, context)
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def my_profile(request):
     template_name='services/my-profile.html'
     context={}
     return render(request, template_name, context)
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def change_password(request):
     template_name='services/change-password.html'
     context={}
     return render(request, template_name, context)
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def add_category(request):
 
     category_add= CategoryForm()
@@ -423,7 +431,7 @@ def add_category(request):
 
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def job_skill(request):
     form = JobSkillForm()
     if request.method == "POST":
@@ -440,9 +448,23 @@ def job_skill(request):
     }
     return render(request, template_name, context)
 
-def review(request):
+def review(request, id, s_id):
+    user = User.objects.get(id=id)
+    service = Services.objects.get(id=s_id)
+    # if request.method == 'POST':
+    #     form = ReviewForm(request.POST or None)
+    #     if form.is_valid():
+    #         review = form.save(commit=False)
+    #         review.user = user
+    #         review.service = service
+    #         review.save()
+    #         messages.success(request, 'Review added successfully')
+            # return redirect('review', id=id, s_id=s_id)
     template_name='reviews/review.html'
-    context={}
+    context={
+        'user': user,
+        'service': service,
+    }
     return render(request, template_name, context)
 
 @login_required(login_url='/auth/login/')
