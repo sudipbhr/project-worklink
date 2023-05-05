@@ -1,4 +1,5 @@
 from .models import Services
+
 # from django.db.models.functions import GroupConcat
 # from django.db.models import CharField, Value
 import numpy as np
@@ -32,14 +33,13 @@ from difflib import get_close_matches
 from nltk.stem import SnowballStemmer
 
 
-def recommend():
-    # load the data from the database
-    services = Services.objects.all().prefetch_related('skills', 'category')
 
+def recommend(request):
+    # load the data from the database
+    services = Services.objects.all().prefetch_related('skills', 'category')[:3]
     preprocessed = []
     for service in services:
-        print(service)
-        text = f"{service.title} {service.description} {','.join(service.skills.values_list('name', flat=True))} {','.join(service.category.values_list('name', flat=True))}"
+        text = f"{service.title} {','.join(service.description)} {','.join(service.skills.values_list('name', flat=True))} {','.join(service.category.values_list('name', flat=True))}"
         text = text.lower().translate(str.maketrans('', '', string.punctuation))
         for word in text.split():
             preprocessed.append(''.join(word))
@@ -48,16 +48,23 @@ def recommend():
     vectorizer = TfidfVectorizer()
     tfidf = vectorizer.fit_transform(preprocessed)
 
+
     # # compute pairwise cosine similarity
     cos_sim = cosine_similarity(tfidf)
-
+    from account.models import UserSkills
+    # get skills of request.user in skill_name variable
+    skill_name = UserSkills.objects.filter(user=request.user)
+    skills = []
+    for skill in skill_name:
+        skills.append(skill.name.values('name', flat=True)) 
+    print(skills)
     # # generate recommendations
-    n_recommendations = 5
-    recommendations = {}
-    for i, service in enumerate(services):
-        sim_scores = list(enumerate(cos_sim[i]))
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[1:n_recommendations+1]
-        service_indices = [j for j, _ in sim_scores]
-        recommendations[service] = services.filter(id__in=service_indices)
-        print(recommendations[service])
+    # n_recommendations = 5
+    # recommendations = {}
+    # for i, service in enumerate(services):
+    #     sim_scores = list(enumerate(cos_sim[i]))
+    #     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    #     sim_scores = sim_scores[1:n_recommendations+1]
+    #     service_indices = [j for j, _ in sim_scores]
+    #     recommendations[service] = services.filter(id__in=service_indices)
+        # print(recommendations[service])

@@ -14,6 +14,7 @@ from django.conf import settings as setting
 from django.core.mail import send_mail
 from services.models import Inquries
 from account.models import UserSkills
+from reviews.models import JobReviews
 
 
 # Create your views here.
@@ -65,8 +66,8 @@ def services_search(request):
     page = request.GET.get('page')
     services = paginator.get_page(page)
 
-    from .main import recommend
-    print(recommend())
+    # from .main import recommend
+    # recommend(request)
     
     context={
         'services': services,
@@ -144,13 +145,18 @@ def service_search_map(request):
 
 @login_required(login_url='/auth/login/')
 def candidate_detail(request, id):
-    user = get_object_or_404(User, id=id)
-    skills = UserSkills.objects.get(user=user)
+    user = get_object_or_404(User, id=id)   
     jobs = Services.objects.filter(job_holder=user, status='completed').order_by('-created_at')
+    for job in jobs:
+        review = JobReviews.objects.filter(service=job)
+        if review:
+            for rev in review:
+                print(rev)
+        else:
+            print('no review')
     template_name='services/candidate-detail.html'
     context={
         'user': user,
-        'skills': skills,
         'jobs': jobs,
     }
     return render(request, template_name, context)
@@ -320,8 +326,8 @@ def update_job(request, job_id):
 
 @login_required(login_url='/auth/login/')
 def manage_job(request):
-    applied_jobs = JobApplications.objects.filter(user=request.user)
-    posted_jobs = Services.objects.filter(posted_by=request.user)        
+    applied_jobs = JobApplications.objects.filter(user=request.user).order_by('-id')
+    posted_jobs = Services.objects.filter(posted_by=request.user).order_by('-id')       
     template_name='services/manage-job.html'
     context={
         'applied_jobs': applied_jobs,
@@ -448,24 +454,7 @@ def job_skill(request):
     }
     return render(request, template_name, context)
 
-def review(request, id, s_id):
-    user = User.objects.get(id=id)
-    service = Services.objects.get(id=s_id)
-    # if request.method == 'POST':
-    #     form = ReviewForm(request.POST or None)
-    #     if form.is_valid():
-    #         review = form.save(commit=False)
-    #         review.user = user
-    #         review.service = service
-    #         review.save()
-    #         messages.success(request, 'Review added successfully')
-            # return redirect('review', id=id, s_id=s_id)
-    template_name='reviews/review.html'
-    context={
-        'user': user,
-        'service': service,
-    }
-    return render(request, template_name, context)
+
 
 @login_required(login_url='/auth/login/')
 def delete_job(request, id):

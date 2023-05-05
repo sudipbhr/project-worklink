@@ -79,6 +79,8 @@ class Services(models.Model):
     @property
     def employer_chat_url(self):
         return reverse('user-chat', args=[self.id, self.job_holder.id])
+    
+
             
     
 class JobApplications(models.Model):
@@ -102,22 +104,6 @@ class JobApplications(models.Model):
 
     class Meta:
         verbose_name_plural = 'Job applications'
-
-
-# class JobReviews(models.Model):
-#     # model for job reviews
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviewer')
-#     service = models.ForeignKey(Services, on_delete=models.CASCADE, related_name='reviewed_service')
-#     review = models.TextField()
-#     rating = models.IntegerField(default='1')
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-
-#     def __str__(self):
-#         return str(self.rating) + ' stars by ' + self.user.username + ' for ' + self.service.title
-
-#     class Meta:
-#         verbose_name_plural = 'Job reviews'
 
 
 class Inquries(models.Model):

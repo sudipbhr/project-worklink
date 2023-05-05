@@ -2,6 +2,16 @@
 {% load humanize %}
 {% load static %}
 {% block title %} Review |  {{service.title}}{% endblock title %}
+{% block extra_css %}
+<style>
+.rate:hover{
+    color: #ffcc00;
+    cursor: pointer;
+}
+
+</style>
+
+{% endblock extra_css %}
 {% block content %}
 <div class="dashboard-wrap bg-light">
     {% include 'services/includes/sidebar.html' %}
@@ -18,23 +28,28 @@
             <div class="row">
                 <div class="col-xl-8 col-lg-8 col-md-8">
                   <div class="_dashboard_content bg-white rounded mb-4">
+                    <form action="" method="POST">
+                    {% csrf_token %}
                     <div class="_dashboard_content_body ml-2"> 
+                        
                           <div class="star-widget">
-                          <h5>Review </h5>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked "></span>
-                            <span class="fa fa-star checked "></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
+                          <div><h5>Review </h5></div>
+                          <input type="hidden" name="f_rate">
+                            <span class="fa fa-star rate"><input type="hidden" value="1"></span>
+                            <span class="fa fa-star rate "><input type="hidden" value="2"></span>
+                            <span class="fa fa-star rate "><input type="hidden" value="3"></span>
+                            <span class="fa fa-star rate"><input type="hidden" value="4"></span>
+                            <span class="fa fa-star rate"><input type="hidden" value="5"></span>
                         </div>
                           <div class="form-group text col-xl-10 col-lg-10 col-md-10">
                             <h5>Description</h5>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                            <textarea class="form-control" rows="2" name="review"></textarea>
                             <button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg mt-3 mb-3">Save </button>
                           </div>
                         </div>
+                        </form>
                     </div>
-  								</div>
+  				</div>
                 </div>
             </div>
         </div>
@@ -44,8 +59,51 @@
 {% block extra_js %}
 <script>
     $(document).ready(function(){
-        $('select').change(function(){
-            $(this).parent().submit();
+        $('.rate').click(function(){
+            $(this).addClass('checked');
+            $(this).prevAll().addClass('checked');
+            $(this).nextAll().removeClass('checked');
+
+            //add value to input
+            var rating = $(this).children('input').val();
+            //send this value to rating
+            var review = $(this).parent().next().children('textarea').val();        
+
+
+
+            //add color to stars
+            if(rating == 1){
+                $(this).css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 2){
+                $(this).css('color', '#ffcc00');
+                $(this).prev().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 3){
+                $(this).css('color', '#ffcc00');
+                $(this).prevAll().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 4){
+                $(this).css('color', '#ffcc00');
+                $(this).prevAll().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 5){
+                $(this).css('color', '#ffcc00');
+                $(this).prevAll().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+                        //send this values to form submit
+            $('input[name="f_rate"]').val(rating);
+            $('textarea[name="review"]').val(review);
+
+            //submit form with this values on click save button
+            $('button[type="submit"]').click(function(){
+                $('form').submit();
+            })
         })
     })
 </script>

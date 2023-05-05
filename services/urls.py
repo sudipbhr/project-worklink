@@ -29,7 +29,6 @@ urlpatterns = [
     # quering all jobs of the particular skill
     path('skill/<int:id>/jobs/', views.skill_jobs, name="skill-jobs"),
 
-    path('review/<int:id>/<str:s_id>', views.review, name="review"),
     path('transactions/', views.transactions, name = "transaction"),
 
     # job search features

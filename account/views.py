@@ -62,11 +62,11 @@ def user_profile_edit(request):
 
 @login_required(login_url = '/auth/login/')
 def user_profile(request):
-    user = get_object_or_404(User, username = request.user.username)
-    education = UserEducation.objects.filter(user = user).order_by('-end_date')
-    jobs = Services.objects.filter(job_holder=user, status='completed')
+    user = get_object_or_404(User, id = request.user.id)
+    education = UserEducation.objects.filter(user_id = user).order_by('-end_date')
+    jobs = Services.objects.filter(job_holder_id=user, status='completed')
     template_name = 'account/profile.html'
-    skills = UserSkills.objects.get_or_create(user = user)
+    skills = UserSkills.objects.get(user = user)
     # get or create user skills
 
     context = {
