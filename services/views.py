@@ -13,6 +13,8 @@ from twilio.rest import Client
 from django.conf import settings as setting
 from django.core.mail import send_mail
 from services.models import Inquries
+from account.models import UserSkills
+from reviews.models import JobReviews
 
 
 # Create your views here.
@@ -63,6 +65,9 @@ def services_search(request):
     paginator = Paginator(services, 9)
     page = request.GET.get('page')
     services = paginator.get_page(page)
+
+    # from .main import recommend
+    # recommend(request)
     
     context={
         'services': services,
@@ -140,10 +145,19 @@ def service_search_map(request):
 
 @login_required(login_url='/auth/login/')
 def candidate_detail(request, id):
-    user = get_object_or_404(User, id=id)
+    user = get_object_or_404(User, id=id)   
+    jobs = Services.objects.filter(job_holder=user, status='completed').order_by('-created_at')
+    for job in jobs:
+        review = JobReviews.objects.filter(service=job)
+        if review:
+            for rev in review:
+                print(rev)
+        else:
+            print('no review')
     template_name='services/candidate-detail.html'
     context={
         'user': user,
+        'jobs': jobs,
     }
     return render(request, template_name, context)
 
@@ -310,10 +324,10 @@ def update_job(request, job_id):
 
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def manage_job(request):
-    applied_jobs = JobApplications.objects.filter(user=request.user)
-    posted_jobs = Services.objects.filter(posted_by=request.user)        
+    applied_jobs = JobApplications.objects.filter(user=request.user).order_by('-id')
+    posted_jobs = Services.objects.filter(posted_by=request.user).order_by('-id')       
     template_name='services/manage-job.html'
     context={
         'applied_jobs': applied_jobs,
@@ -322,7 +336,7 @@ def manage_job(request):
     return render(request, template_name, context)
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def sidebar(request):
     template_name='services/sidebar.html'
     context={}
@@ -383,27 +397,27 @@ def manage_applicant(request, id):
         'applicants': applicants,
     }
     return render(request, template_name, context)
-
+@login_required
 def transactions(request):
     template_name = 'services/transactions.html'
     context ={}
     return render(request, template_name, context)
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def my_profile(request):
     template_name='services/my-profile.html'
     context={}
     return render(request, template_name, context)
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def change_password(request):
     template_name='services/change-password.html'
     context={}
     return render(request, template_name, context)
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def add_category(request):
 
     category_add= CategoryForm()
@@ -423,7 +437,7 @@ def add_category(request):
 
 
 
-@ login_required(login_url='/auth/login/')
+@login_required(login_url='/auth/login/')
 def job_skill(request):
     form = JobSkillForm()
     if request.method == "POST":
@@ -440,10 +454,7 @@ def job_skill(request):
     }
     return render(request, template_name, context)
 
-def review(request):
-    template_name='reviews/review.html'
-    context={}
-    return render(request, template_name, context)
+
 
 @login_required(login_url='/auth/login/')
 def delete_job(request, id):

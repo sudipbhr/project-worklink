@@ -16,7 +16,7 @@
   <div class="container">
     <nav id="navigation" class="navigation navigation-landscape">
       <div class="nav-header">
-        <a class="nav-brand" href="{% url 'home-page' %}">
+        <a class="nav-brand pb-0 mt-2 ml-5" href="{% url 'home-page' %}">
           <img src="{% static 'img/logo.png' %}" class="logo" alt="" />
         </a>
         <div class="nav-toggle"></div>
@@ -37,16 +37,17 @@
           </ul>
         </div>
       </div>
+      
       <div class="nav-menus-wrapper" style="transition-property: none">
         <ul class="nav-menu">
-          <li class="nav-link p-1 active"><a href="{% url 'home-page' %}" class=" ">Home</a></li>
-          <li class="nav-link p-1"><a href="{% url 'about-us' %}" class="">About Us</a></li>
+          <li class="nav-link p-1 {% if request.path == '/' %}active{% endif %}"><a href="{% url 'home-page' %}" class=" ">Home</a></li>
+          <li class="nav-link p-1 {% if request.path == '/about-us/' %}active{% endif %}"><a href="{% url 'about-us' %}" class="">About Us</a></li>
           {% if request.user.is_authenticated %} 
             {% if request.user.role == 'Service Provider' %}
-              <li class="nav-link p-1"><a href="{% url 'service-search' %}" class="">Find Job</a></li>
+              <li class="nav-link p-1 {% if request.path == '/services/' %}active{% endif %}"><a href="{% url 'service-search' %}" class="">Find Job</a></li>
             {% endif %} 
           {% endif %}
-          <li class="nav-link p-1"><a href="{% url 'contact-us' %}" class="">Contact Us</a></li>
+          <li class="nav-link p-1 {% if request.path == '/contact-us/' %}active{% endif %}"><a href="{% url 'contact-us' %}" class="">Contact Us</a></li>
           {% if not request.user.is_authenticated %}
           <li class="float-right">
             <a href="{% url 'login' %}" class="worklink-theme ft-medium">
@@ -94,14 +95,14 @@
                     <p class="ft-bold">New Notifications</p>
                     <a href="#" class="worklink-theme">View all</a>
                   </div>
-                  {% comment %} {% for notification in notifications %}
-                  <a href="{% url 'notification-details' notification.id %}">
-                    <div class="p-1 single-notification">
-                      <p class="fs-sm">{{notification.message | truncatechars:90}} <span class="float-right ft-medium">{{notification.created_at | naturaltime}}</span></p>
-                    </div>
+                  {% for notification in notifications %}
+                  <a href="{% url 'notification-detail' notification.id %}">
+                      <div class="p-1 single-notification">
+                        <p class="fs-sm">{{notification.message | truncatechars:90}} <span class="float-right ft-medium">{{notification.created_at | naturaltime}}</span></p>
+                      </div>
                     </a>
                     <hr>
-                  {% endfor %} {% endcomment %}
+                  {% endfor %} 
                 </div>
               <p class="fs-sm rounded-circle border border-danger px-2 bg-danger text-white" style="margin-top:-15px">{{notifications|length}}</p>
               </div>

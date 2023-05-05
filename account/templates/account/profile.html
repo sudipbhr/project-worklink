@@ -38,7 +38,7 @@
 										<div class="df-1 text-muted"><i class="fas fa-graduation-cap mr-1 text-danger"></i>{{user.experience}} Year Exp.</div>
 									</div>
 									<div class="job_grid_footer px-3 d-flex align-items-center justify-content-between">
-										<div class="df-1 text-muted"><i class="fas fa-briefcase mr-1 text-info"></i>10 jobs completed</div>
+										<div class="df-1 text-muted"><i class="fas fa-briefcase mr-1 text-info"></i>{{jobs|length}} jobs completed</div>
 									</div>
 									<div class="cdt_caps py-5 px-3">
 										<a href="#" class="btn btn-md theme-bg text-light rounded full-width">Download Resume</a>
@@ -88,47 +88,32 @@
 									<h4 class="ft-medium mb-1 fs-md">Experience</h4>
 									<div class="exslio-list mt-3">
 										<ul>
-											<li>
-												<div class="esclio-110 bg-light rounded px-3 py-3">
-													<h4 class="mb-0 ft-medium fs-md">Themezhub Limited</h4>
-													<div class="esclio-110-info full-width mb-2">
-														<span class="text-muted mr-2"><i class="lni lni-map-marker mr-1"></i>Liverpool, UK</span>
-														<span class="text-muted mr-2"><i class="lni lni-laptop-phone mr-1"></i>Web Designer</span>
-														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2010 - 2012</span>
+											{% if jobs %}
+												{% for job in jobs %}
+												<li>
+													<div class="esclio-110 bg-light rounded px-3 py-3">
+														<h4 class="mb-0 ft-medium fs-md">{{job.title}}</h4>
+														<div class="esclio-110-info full-width mb-2">
+															<span class="text-muted mr-2">{{job.location}}</span>
+															<span class="text-muted mr-2">{{job.created_at}}</span>
+														</div>
+														<div class="esclio-110-decs full-width">
+															<p>
+																{% autoescape off %}
+																{{job.description | truncatechars:200}}
+																{% endautoescape %}
+															</p>
+														</div>
+														{{job.reviewed_service.avg_rating}}
 													</div>
-													<div class="esclio-110-decs full-width">
-														<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="worklink-theme">Read More..</a></p>
+												</li>
+												{% endfor %}
+											{% else %}
+													<div class="ml-3">
+														<h6 class="mb-0 ft-medium">No previous job experiences on this platform</h6>
 													</div>
-												</div>
-											</li>
-											
-											<li>
-												<div class="esclio-110 bg-light rounded px-3 py-3">
-													<h4 class="mb-0 ft-medium fs-md">Waft Technology</h4>
-													<div class="esclio-110-info full-width mb-2">
-														<span class="text-muted mr-2"><i class="lni lni-map-marker mr-1"></i>Liverpool, UK</span>
-														<span class="text-muted mr-2"><i class="lni lni-laptop-phone mr-1"></i>Product Designer</span>
-														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2012 - 2014</span>
-													</div>
-													<div class="esclio-110-decs full-width">
-														<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="worklink-theme">Read More..</a></p>
-													</div>
-												</div>
-											</li>
-											
-											<li>
-												<div class="esclio-110 bg-light rounded px-3 py-3">
-													<h4 class="mb-0 ft-medium fs-md">Swap Designd</h4>
-													<div class="esclio-110-info full-width mb-2">
-														<span class="text-muted mr-2"><i class="lni lni-map-marker mr-1"></i>Liverpool, UK</span>
-														<span class="text-muted mr-2"><i class="lni lni-laptop-phone mr-1"></i>UI/UX Designer</span>
-														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2015 - 2021</span>
-													</div>
-													<div class="esclio-110-decs full-width">
-														<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="worklink-theme">Read More..</a></p>
-													</div>
-												</div>
-											</li>
+												
+											{% endif %}
 										</ul>
 									</div>
 								</div>
@@ -137,17 +122,15 @@
 								<div class="abt-cdt d-block full-width">
 									<h4 class="ft-medium mb-1 fs-md">Skills</h4>
 									<ul class="p-0 skills_tag text-left">
-										{% for skill in skills.name.all %}
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill.name}}</span></li>
-										{% endfor %}
-										{% comment %} <li><span class="px-2 py-1 medium skill-bg rounded text-dark">WordPress</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Javascript</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">PHP</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">HTML5</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">MS SQL</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">SQL Development</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Dynamod</span></li>
-										<li><span class="px-2 py-1 medium skill-bg rounded text-dark">Database</span></li> {% endcomment %}
+										{% if skills %}
+											{% for skill in skills.name.all %}
+												<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill.name}}</span></li>
+											{% endfor %}
+										{% else %}
+											<div class="ml-3">
+												<h6 class="mb-0 ft-medium">No skills added yet</h6>
+											</div>
+										{% endif %}
 									</ul>
 								</div>
 								

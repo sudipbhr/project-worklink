@@ -1,11 +1,12 @@
 
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from account.forms import UserProfileForm,UserEducationForm,UserSkillsForm
-from .models import User,UserEducation,UserSkills
+from account.forms import UserProfileForm, UserEducationForm, UserSkillsForm
+from .models import User, UserEducation, UserSkills
 from chat.models import Notification
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from services.models import Services
 
 # Create your views here.
 @login_required(login_url = '/auth/login/')
@@ -21,19 +22,20 @@ def user_profile_edit(request):
         college = request.POST.get('college_university_name') or None
         end_date = request.POST.get('end_date') or None
         edu_description = request.POST.get('edu_description') or None
-        education = UserEducation.objects.create(
-            user = user,
-            level = level,
-            degree = degree,
-            college_university_name = college,
-            end_date = end_date,
-            edu_description = edu_description
-        ) 
-        education.save()
-        messages.success(request, "Education updated successfully")
-
+        if level and degree and college:
+            education = UserEducation.objects.create(
+                user = user,
+                level = level,
+                degree = degree,
+                college_university_name = college,
+                end_date = end_date,
+                edu_description = edu_description
+            )
+            education.save()
+            messages.success(request, "Education added successfully")
+            return redirect('user-profile')
         form = UserProfileForm(request.POST or None, request.FILES ,instance = user)
-        user_education = UserEducationForm(request.POST or None, instance = education)
+        # user_education = UserEducationForm(request.POST or None, instance = education)
         user_skill = UserSkillsForm(request.POST or None, instance = skill)
         document = request.FILES.get('document')
         if document:
@@ -42,9 +44,9 @@ def user_profile_edit(request):
             messages.success(request, "Document uploaded successfully")
             redirect('dashboard')
 
-        if form.is_valid() and user_education.is_valid() and user_skill.is_valid():
+        if form.is_valid() and user_skill.is_valid():
             form.save()
-            user_education.save()
+            # user_education.save()
             user_skill.save()
             messages.success(request, "Profile updated successfully")
             return redirect('user-profile')
@@ -60,16 +62,18 @@ def user_profile_edit(request):
 
 @login_required(login_url = '/auth/login/')
 def user_profile(request):
-    user = get_object_or_404(User, username = request.user.username)
-    # get user education recent first
-    education = UserEducation.objects.filter(user = user).order_by('-end_date')
+    user = get_object_or_404(User, id = request.user.id)
+    education = UserEducation.objects.filter(user_id = user).order_by('-end_date')
+    jobs = Services.objects.filter(job_holder_id=user, status='completed')
     template_name = 'account/profile.html'
     skills = UserSkills.objects.get(user = user)
-    
+    # get or create user skills
+
     context = {
         'user' : user,
         'skills': skills,
-        'education' : education
+        'education' : education,
+        'jobs' : jobs
     }
     return render(request, template_name, context)
 

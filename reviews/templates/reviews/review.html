@@ -1,29 +1,110 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% load static %}
-{% block title %} Dashboard{% endblock %}
-			{% block content %}
-            <div class="container"> 
-             
-              <div class="star-widget">
-              <h3>Review </h3>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked "></span>
-                <span class="fa fa-star checked "></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
+{% block title %} Review |  {{service.title}}{% endblock title %}
+{% block extra_css %}
+<style>
+.rate:hover{
+    color: #ffcc00;
+    cursor: pointer;
+}
+
+</style>
+
+{% endblock extra_css %}
+{% block content %}
+<div class="dashboard-wrap bg-light">
+    {% include 'services/includes/sidebar.html' %}
+    <div class="dashboard-content">
+        <div class="dashboard-tlbar d-block mb-1">
+            <div class="row">
+                <div class="colxl-12 col-lg-12 col-md-12">
+                    <p>Job review for <span class="worklink-theme">{{service.title}}  </span> to <span class="worklink-theme">{{user.get_full_name}}</span></p>
+                </div>
             </div>
-              <div class="form-group text">
-                <h3>Description</h3>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                <button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg">Save </button>
-              </div>
+        </div>
+        
+        <div class="dashboard-widg-bar d-block">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md-8">
+                  <div class="_dashboard_content bg-white rounded mb-4">
+                    <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="_dashboard_content_body ml-2"> 
+                        
+                          <div class="star-widget">
+                          <div><h5>Review </h5></div>
+                          <input type="hidden" name="f_rate">
+                            <span class="fa fa-star rate"><input type="hidden" value="1"></span>
+                            <span class="fa fa-star rate "><input type="hidden" value="2"></span>
+                            <span class="fa fa-star rate "><input type="hidden" value="3"></span>
+                            <span class="fa fa-star rate"><input type="hidden" value="4"></span>
+                            <span class="fa fa-star rate"><input type="hidden" value="5"></span>
+                        </div>
+                          <div class="form-group text col-xl-10 col-lg-10 col-md-10">
+                            <h5>Description</h5>
+                            <textarea class="form-control" rows="2" name="review"></textarea>
+                            <button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg mt-3 mb-3">Save </button>
+                          </div>
+                        </div>
+                        </form>
+                    </div>
+  				</div>
+                </div>
             </div>
-            {% endblock content %}
-          
- 
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script>
+    $(document).ready(function(){
+        $('.rate').click(function(){
+            $(this).addClass('checked');
+            $(this).prevAll().addClass('checked');
+            $(this).nextAll().removeClass('checked');
+
+            //add value to input
+            var rating = $(this).children('input').val();
+            //send this value to rating
+            var review = $(this).parent().next().children('textarea').val();        
 
 
 
+            //add color to stars
+            if(rating == 1){
+                $(this).css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 2){
+                $(this).css('color', '#ffcc00');
+                $(this).prev().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 3){
+                $(this).css('color', '#ffcc00');
+                $(this).prevAll().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 4){
+                $(this).css('color', '#ffcc00');
+                $(this).prevAll().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+            if(rating == 5){
+                $(this).css('color', '#ffcc00');
+                $(this).prevAll().css('color', '#ffcc00');
+                $(this).nextAll().css('color', '#000');
+            }
+                        //send this values to form submit
+            $('input[name="f_rate"]').val(rating);
+            $('textarea[name="review"]').val(review);
 
-
-
+            //submit form with this values on click save button
+            $('button[type="submit"]').click(function(){
+                $('form').submit();
+            })
+        })
+    })
+</script>
+{% endblock extra_js %}

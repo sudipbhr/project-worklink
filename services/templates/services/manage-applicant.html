@@ -35,7 +35,7 @@
 									{% for applicant in applicants%}
 									<!-- Single List -->
 									<div class="dashed-list-wrap bg-white rounded mb-3">
-										<div class="dashed-list-full bg-white rounded p-3 mb-3">
+										<div class="dashed-list-full bg-white rounded p-3">
 											<div class="dashed-list-short d-flex align-items-center">
 												<div class="dashed-list-short-first">
 													<div class="dashed-avater">
@@ -56,6 +56,9 @@
 											</div>
 											<div class="dashed-list-last">
 												<div class="text-left d-flex">
+                                                    {% if applicants.0.service.status == 'completed' %}
+                                                        <a href="{% url 'review' applicant.user.id applicants.0.service.id %}"  class="btn gray ft-medium apply-btn fs-sm rounded mr-3"><i class="fas fa-eye mr-1"></i>Review</a>
+                                                    {% endif %}
 													<a href="{% url 'candidate-detail' applicant.user.id %}"  class="btn gray ft-medium apply-btn fs-sm rounded mr-3"><i class="fas fa-eye mr-1"></i>View Profile</a>
 													<form action="{% url 'manage-applicant' applicant.id %}" method="POST">
                                                         {% csrf_token %}
