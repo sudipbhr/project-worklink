@@ -107,7 +107,12 @@ class UserSkills(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        # get all skills of user
+        skills = self.name.all()
+        # convert skills to string
+        skills = ', '.join([str(skill) for skill in skills])
+        return  skills
+    
 
     class Meta:
         verbose_name_plural = 'User skills'

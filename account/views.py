@@ -66,7 +66,7 @@ def user_profile(request):
     education = UserEducation.objects.filter(user_id = user).order_by('-end_date')
     jobs = Services.objects.filter(job_holder_id=user, status='completed')
     template_name = 'account/profile.html'
-    skills = UserSkills.objects.get(user = user)
+    skills = UserSkills.objects.get_or_create(user = user)
     # get or create user skills
 
     context = {

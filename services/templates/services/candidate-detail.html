@@ -32,16 +32,13 @@
 									</div>
 								</div>
 								
-								<div class="cdt_caps">
+								<div class="cdt_caps mb-5">
 									<div class="job_grid_footer px-3 d-flex align-items-center justify-content-between">
 										<div class="df-1 text-muted"><i class="fas fa-envelope mr-1 text-success"></i>{{user.email}}</div>
 										<div class="df-1 text-muted"><i class="fas fa-graduation-cap mr-1 text-danger"></i>{{user.experience}} Year Exp.</div>
 									</div>
 									<div class="job_grid_footer px-3 d-flex align-items-center justify-content-between">
 										<div class="df-1 text-muted"><i class="fas fa-briefcase mr-1 text-info"></i>{{jobs|length}} jobs completed</div>
-									</div>
-									<div class="cdt_caps py-5 px-3">
-										<a href="#" class="btn btn-md theme-bg text-light rounded full-width">Download Resume</a>
 									</div>
 								</div>								
 							</div>
@@ -74,7 +71,7 @@
 														<span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>{{edu.end_date}}</span>
 													</div>
 													<div class="esclio-110-decs full-width">
-														<p>{{edu.edu_description}}</a></p>
+														{% comment %} <p>{{edu.edu_description}}</a></p> {% endcomment %}
 													</div>
 												</div>
 											</li>
@@ -103,23 +100,15 @@
 																{{job.description | truncatechars:200}}
 																{% endautoescape %}
 															</p>
-															{% if job.reviewed_service.rating == '1' %}
+															{% if job.reviewed_service.rating == 1 %}
 																<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																	<i class="fas fa-star"></i>
-																</div>
-															{% elif job.reviewed_service.rating == '2' %}
-															<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
 																	<i class="fas fa-star filled"></i>
 																	<i class="fas fa-star"></i>
 																	<i class="fas fa-star"></i>
 																	<i class="fas fa-star"></i>
 																	<i class="fas fa-star"></i>
 																</div>
-															{% elif job.reviewed_service.rating == '3' %}
+															{% elif job.reviewed_service.rating == 2 %}
 															<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
 																	<i class="fas fa-star filled"></i>
 																	<i class="fas fa-star filled"></i>
@@ -127,7 +116,7 @@
 																	<i class="fas fa-star"></i>
 																	<i class="fas fa-star"></i>
 																</div>
-															{% elif job.reviewed_service.rating == '4' %}
+															{% elif job.reviewed_service.rating == 3 %}
 															<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
 																	<i class="fas fa-star filled"></i>
 																	<i class="fas fa-star filled"></i>
@@ -135,13 +124,21 @@
 																	<i class="fas fa-star"></i>
 																	<i class="fas fa-star"></i>
 																</div>
-															{% elif job.reviewed_service.rating == '5' %}
+															{% elif job.reviewed_service.rating == 4 %}
 															<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
 																	<i class="fas fa-star filled"></i>
 																	<i class="fas fa-star filled"></i>
 																	<i class="fas fa-star filled"></i>
 																	<i class="fas fa-star filled"></i>
 																	<i class="fas fa-star"></i>
+																</div>
+															{% elif job.reviewed_service.rating == 5 %}
+															<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+																	<i class="fas fa-star filled"></i>
+																	<i class="fas fa-star filled"></i>
+																	<i class="fas fa-star filled"></i>
+																	<i class="fas fa-star filled"></i>
+																	<i class="fas fa-star filled"></i>
 																</div>
 															{% else %}
 															<div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
