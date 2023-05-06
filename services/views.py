@@ -18,6 +18,14 @@ from reviews.models import JobReviews
 
 
 # Create your views here.
+def recommended_jobs(request, user_id):
+    jobs = Services.objects.filter(
+        ~Q(status='complete')
+    )
+    user_skills = UserSkills.objects.filter(user=user_id)
+    
+
+
 
 def send_sms(phone_number, mess):
     account_sid = 'ACb8ae87c4a2773aea0919d8f3c4a73eea'
@@ -33,7 +41,7 @@ def send_sms(phone_number, mess):
 
 def home(request):
     categories = Category.objects.all()[:6]
-    services = Services.objects.all().order_by('-amount')[:8]
+    services = Services.objects.filter(~Q(status='completed')).order_by('-amount')[:8]
     context={
         'categories': categories,
         'services': services,
@@ -65,10 +73,15 @@ def services_search(request):
     paginator = Paginator(services, 9)
     page = request.GET.get('page')
     services = paginator.get_page(page)
+    from .main import recommend
 
-    # from .main import recommend
-    # recommend(request)
+    # loop through the services returned by recommend function
+    recommended_jobs = []
+    if recommend(request) is not None:
+        for service in recommend(request):
+            recommended_jobs.append(service)
     
+
     context={
         'services': services,
         'total_services': services_count,
@@ -76,9 +89,10 @@ def services_search(request):
         'services_filter': services_filter,
         'locations': Services.objects.values_list('location', flat=True).distinct(),
         'ranges': salary_range(),
+        'recommended_jobs': recommended_jobs,
     }
     return render(request, 'services/services-search.html', context)
-
+    
 
 @login_required(login_url='/auth/login/')
 def search(request):
@@ -147,13 +161,6 @@ def service_search_map(request):
 def candidate_detail(request, id):
     user = get_object_or_404(User, id=id)   
     jobs = Services.objects.filter(job_holder=user, status='completed').order_by('-created_at')
-    for job in jobs:
-        review = JobReviews.objects.filter(service=job)
-        if review:
-            for rev in review:
-                print(rev)
-        else:
-            print('no review')
     template_name='services/candidate-detail.html'
     context={
         'user': user,

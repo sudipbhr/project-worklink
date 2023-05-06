@@ -34,7 +34,6 @@
 								 <li class="nav-link  {% if request.path == '/job-skill/' %}active{% endif %}"><a href="{% url 'job-skill' %}"><i class="fas fa-tasks mr-2"></i>Job skill</a></li>
 								 <li class="nav-link {% if request.path == '/user/manage-users/' %}active{% endif %}"><a href="{% url 'manage-users' %}"><i class="fas fa-users mr-2"></i>Manage Users</a></li>
 								{% endif %}
-								 <li class="nav-link {% if request.path == '/transactions/' %}active{% endif %}"><a href="{% url 'transaction' %}"><i class="fas fa-exchange-alt mr-2"></i>Transactions</a></li>
 							</ul>
 							<ul data-submenu-title="My Accounts">
 								{% if request.user.role != 'Admin' %}

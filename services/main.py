@@ -1,70 +1,41 @@
 from .models import Services
-
-# from django.db.models.functions import GroupConcat
-# from django.db.models import CharField, Value
-import numpy as np
-# numpy is a library for working with arrays
-# it also has functions for working in domain of linear algebra, fourier transform, and matrices
-import pandas as pd
-# pandas is a library for data manipulation and analysis
-import matplotlib.pyplot as plt
-# matplotlib.pyplot is a collection of command style functions that make matplotlib work like MATLAB
-# matlab is a programming language and multi-paradigm numerical computing environment
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
-# sklearn is a machine learning library for python
-# sklearn.metrics.pairwise.cosine_similarity is a function that computes the cosine similarity between two vectors
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
-# wordcloud is a library for creating word clouds
-# wordcloud.WordCloud is a class that creates a word cloud
-# wordcloud.STOPWORDS is a set of default stopwords for english language
-# wordcloud.ImageColorGenerator is a class that creates a color function from an image
-import nltk
-# nltk is a library for natural language processing
-import re
-# re is a library for regular expression operations
-import string
-# string is a library for common string operations
-from nltk.corpus import stopwords
-# nltk.corpus is a module that contains a collection of corpus reader classes
-# nltk.corpus.stopwords is a set of stopwords for english language
-import difflib
-from difflib import get_close_matches
-from nltk.stem import SnowballStemmer
-
-
+from django.db.models import Q
+from account.models import User
+from account.models import UserSkills
+from services.models import JobSkills
 
 def recommend(request):
-    # load the data from the database
-    services = Services.objects.all().prefetch_related('skills', 'category')[:3]
-    preprocessed = []
-    for service in services:
-        text = f"{service.title} {','.join(service.description)} {','.join(service.skills.values_list('name', flat=True))} {','.join(service.category.values_list('name', flat=True))}"
-        text = text.lower().translate(str.maketrans('', '', string.punctuation))
-        for word in text.split():
-            preprocessed.append(''.join(word))
+    import numpy as np
+    from sklearn.metrics.pairwise import cosine_similarity
 
-    # # compute TF-IDF scores
-    vectorizer = TfidfVectorizer()
-    tfidf = vectorizer.fit_transform(preprocessed)
+    # Retrieve the user's skill set as a list of skill names
+    user=request.user
+    user_skills = UserSkills.objects.filter(user=user)
+    user_skill_names = list(JobSkills.objects.filter(user_skill__in=user_skills).values_list('name', flat=True).distinct())
+    # Retrieve all Services that require at least one skill from the user's skill set
+    matching_Services = Services.objects.filter(skills__name__in=user_skill_names)
 
+    # Create a matrix where each row represents a Service and each column represents a skill
+    Service_skill_matrix = np.zeros((matching_Services.count(), len(user_skill_names)), dtype=np.float32)
 
-    # # compute pairwise cosine similarity
-    cos_sim = cosine_similarity(tfidf)
-    from account.models import UserSkills
-    # get skills of request.user in skill_name variable
-    skill_name = UserSkills.objects.filter(user=request.user)
-    skills = []
-    for skill in skill_name:
-        skills.append(skill.name.values('name', flat=True)) 
-    print(skills)
-    # # generate recommendations
-    # n_recommendations = 5
-    # recommendations = {}
-    # for i, service in enumerate(services):
-    #     sim_scores = list(enumerate(cos_sim[i]))
-    #     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    #     sim_scores = sim_scores[1:n_recommendations+1]
-    #     service_indices = [j for j, _ in sim_scores]
-    #     recommendations[service] = services.filter(id__in=service_indices)
-        # print(recommendations[service])
+    # Fill in the matrix with the Service's proficiency in each skill
+    for i, Service in enumerate(matching_Services):
+        Service_skill_names = Service.skills.filter(name__in=user_skill_names).values_list('name', flat=True)
+        for j, skill_name in enumerate(user_skill_names):
+            if skill_name in Service_skill_names:
+                Service_skill_matrix[i,j] = 1.0
+
+    # Create a vector representing the user's proficiency in each skill
+    user_skill_vector = np.array([1.0 if skill_name in user_skill_names else 0.0 for skill_name in user_skill_names], dtype=np.float32)
+    if user_skill_vector:
+        # Calculate the cosine similarity between the Service skill matrix and the user skill vector
+        similarity_scores = cosine_similarity(Service_skill_matrix, user_skill_vector.reshape(1, -1))
+        # Sort the Services by similarity score in descending order to obtain a list of recommended Services
+        recommended_Services = [matching_Services[i] for i in np.argsort(similarity_scores.ravel()).tolist()[::-1]]
+        # return distinct recommended Services
+
+        if recommended_Services:
+            return list(set(recommended_Services))
+        else:
+            return None
+    

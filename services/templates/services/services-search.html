@@ -180,11 +180,13 @@
                 
                 <!-- Item Wrap Start -->
                 <div class="col-lg-8 col-md-12 col-sm-12">
-                    
-                    <!-- row -->
+                    {% if recommended_jobs %}
+                        <h4>
+                            Recommended jobs for you
+                        </h4>
+                    {% endif %}
                     <div class="row align-items-center">
-
-                        {% for job in services %}
+                    {% for job in recommended_jobs %}
                         <!-- Single -->
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="job_grid border rounded ">
@@ -192,12 +194,12 @@
                                 <div class="job_grid_thumb mb-2 pt-5 px-3">
                                     <a href="{% url 'service-detail' job.id %}" class="d-block text-center m-auto"><img src="{{ job.image.url}}" class="img-fluid" width="70" alt="" /></a>
                                 </div>
-                                <div class="job_grid_caption text-center pb-3 px-3">
+                                <div class="job_grid_caption text-center pb-1 px-3">
                                     <h4 class="mb-0 ft-medium medium"><a href="{% url 'service-detail' job.id %}" class="text-dark fs-md">{{job.title}}</a></h4>
                                     <div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>{{job.location}}</span></div>
                                 </div>
                                 
-                                <div class="job_grid_footer pb-4 px-3">
+                                <div class="job_grid_footer mb-3 px-3">
                                     <ul class="p-0 skills_tag text-center">
 										{% if job.skills.all|length <= 2%}
 											{% for skill in job.skills.all %}
@@ -210,6 +212,44 @@
 											<li><span class="px-2 py-1 medium theme-bg rounded text-light">+{{job.skills.all|length|add:"-2"}} More</span></li>
 										{% endif %}
 									</ul>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% endfor %}
+
+                    </div>
+                    
+                    <div class="row align-items-center">
+                    
+                        {% for job in services %}
+                        <!-- Single -->
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <div class="job_grid border rounded ">
+                                <div class="position-absolute ab-right"><span class="medium worklink-theme theme-bg-light px-2 py-1 rounded">{{job.duration}} days</span></div>
+                                <div class="job_grid_thumb mb-2 pt-5 px-3">
+                                    <a href="{% url 'service-detail' job.id %}" class="d-block text-center m-auto"><img src="{{ job.image.url}}" class="img-fluid" width="70" alt="" /></a>
+                                </div>
+                                <div class="job_grid_caption text-center pb-1 px-3">
+                                    <h4 class="mb-0 ft-medium medium"><a href="{% url 'service-detail' job.id %}" class="text-dark fs-md">{{job.title}}</a></h4>
+                                    <div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>{{job.location}}</span></div>
+                                </div>
+                                
+                                <div class="job_grid_footer mb-3 px-3">
+                                    <ul class="p-0 skills_tag text-center">
+										{% if job.skills.all|length <= 2%}
+											{% for skill in job.skills.all %}
+											<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill}}</span></li>
+											{% endfor %}
+										{% else %}
+											{% for skill in job.skills.all|slice:":2" %}
+											<li><span class="px-2 py-1 medium skill-bg rounded text-dark">{{skill}}</span></li>
+											{% endfor %}
+											<li><span class="px-2 py-1 medium theme-bg rounded text-light">+{{job.skills.all|length|add:"-2"}} More</span></li>
+										{% endif %}
+									</ul>
+                                    
                                 </div>
                             </div>
                         </div>
