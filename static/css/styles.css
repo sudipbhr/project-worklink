@@ -3462,13 +3462,11 @@ li.login-attri .account-drop a {
 }
 
 .widget-boxed-header h4 a.collapsed:before {
-    content: "\f0da";
     background: #f5f7fb;
     color: #140c40;
 }
 
 .widget-boxed-header h4 a:before {
-    content: "\f0d7";
     position: absolute;
     width: 25px;
     height: 25px;

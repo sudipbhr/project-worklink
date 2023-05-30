@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'reviews',
     'chat',
     'resume',
+    'rest_framework',
 
 ]
 
@@ -65,6 +66,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'worklink.urls'
 
+# rest framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 TEMPLATES = [
     {
@@ -183,4 +192,9 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'login'
+
+
+import os
+if 'WEBSITE_HOSTNAME' in os.environ: # Running on Azure
+    from .azure import *
 

@@ -51,7 +51,7 @@ def home(request):
 
 
 def salary_range():
-    salaries = Services.objects.values_list('amount', flat=True).distinct()
+    salaries = Services.objects.values_list('amount', flat=True).exclude(status= 'complete').distinct()
     low_salary = min(salaries)
     high_salary = max(salaries)
     ranges = []
@@ -76,10 +76,13 @@ def services_search(request):
     from .main import recommend
 
     # loop through the services returned by recommend function
-    recommended_jobs = []
-    if recommend(request) is not None:
-        for service in recommend(request):
-            recommended_jobs.append(service)
+    if request.user.role != 'Admin' or request.user.role != 'Service Seeker':
+        recommended_jobs = []
+        if recommend(request):
+            for service in recommend(request):
+                recommended_jobs.append(service)
+    else:
+        recommended_jobs = []
     
 
     context={
