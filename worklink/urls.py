@@ -27,7 +27,7 @@ urlpatterns = [
     path ('user/', include('account.urls')),
     path('payment/', include('payment.urls')),
     path('reviews/', include('reviews.urls')),
-   
+    path('api-auth/', include('rest_framework.urls'))
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

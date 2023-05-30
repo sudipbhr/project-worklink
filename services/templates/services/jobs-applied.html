@@ -5,7 +5,7 @@
                 <tr>
                     <th scope="col">Title</th>
                     <th scope="col">Applied Date</th>
-                    <th scope="col">Action</th>
+                    {% comment %} <th scope="col">Action</th> {% endcomment %}
                 </tr>
             </thead>
             <tbody>
@@ -20,13 +20,13 @@
                         </div>
                     </td>
                     <td>{{job.applied_on}}</td>
-                    <td>
+                    {% comment %} <td>
                         <div class="dash-action">
                             <a href="#" class="p-2 circle text-info bg-light-info d-inline-flex align-items-center justify-content-center mr-1"><i class="fas fa-eye"></i></a>
                             <a href="#" class="p-2 circle text-success bg-light-success d-inline-flex align-items-center justify-content-center"><i class="fas fa-pen"></i></a>
                             <a href="#" class="p-2 circle text-danger bg-light-danger d-inline-flex align-items-center justify-content-center ml-1"><i class="fas fa-trash"></i></a>
                         </div>
-                    </td>
+                    </td> {% endcomment %}
                 </tr>
                 {% endfor %}
                 

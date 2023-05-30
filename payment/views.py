@@ -16,7 +16,7 @@ def buy_points(request):
         amount = float(amount)
         if amount > request.user.user_balance.balance:
             messages.error(request, 'You do not have enough balance to buy points')
-            return redirect('buy-points')
+            return redirect('load-balance')
         else:
             request.user.user_balance.balance -= amount
             request.user.user_balance.save()

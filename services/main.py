@@ -27,7 +27,7 @@ def recommend(request):
 
     # Create a vector representing the user's proficiency in each skill
     user_skill_vector = np.array([1.0 if skill_name in user_skill_names else 0.0 for skill_name in user_skill_names], dtype=np.float32)
-    if user_skill_vector:
+    if user_skill_vector.all():
         # Calculate the cosine similarity between the Service skill matrix and the user skill vector
         similarity_scores = cosine_similarity(Service_skill_matrix, user_skill_vector.reshape(1, -1))
         # Sort the Services by similarity score in descending order to obtain a list of recommended Services

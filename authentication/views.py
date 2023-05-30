@@ -59,7 +59,6 @@ def user_login(request):
     if request.method == "POST":
         user_email = request.POST["email"]
         user_password = request.POST["password"]
-        remember_me = request.POST.get("remember_me")
         user_exists = User.objects.filter(Q(email=user_email) | Q(phone_number=user_email)).first()
         if user_exists:
             user = authenticate(request, username=user_exists.username, password=user_password)
@@ -143,10 +142,12 @@ def user_register(request):
 def user_verification(request):
     if request.method == "POST":
         otp = request.POST.get("otp")
+        print(otp)
         user = request.POST.get("user")
-        user_otp = UserOTP.objects.filter(user_id=user).first()
+        user_otp = UserOTP.objects.filter(user_id=user).last()
+        print(user_otp.otp)
         if otp == str(user_otp.otp):
-            user_verification = UserVerification.objects.filter(user_id=user).first()
+            user_verification = UserVerification.objects.filter(user_id=user).last()
             user_verification.email_verified = True
             user_verification.save()
             messages.success(request, "User verified successfully")
