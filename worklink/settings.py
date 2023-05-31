@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
-    'django_filters',
     'services',
     'account',
     'authentication',
@@ -103,14 +102,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
 
-    # mysql database
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'worklink',
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306',
+        # mysql database
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.mysql',
+        #     'NAME': 'worklink',
+        #     'USER': 'root',
+        #     'PASSWORD': '',
+        #     'HOST': '127.0.0.1',
+        #     'PORT': '3306',
 
     }
 }
@@ -156,12 +155,12 @@ USE_TZ = False
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS=[
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_URL ='/media/'
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -176,7 +175,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
-SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 
 # session expire on browser close
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -194,7 +193,5 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'login'
 
 
-import os
-if 'WEBSITE_HOSTNAME' in os.environ: # Running on Azure
+if 'WEBSITE_HOSTNAME' in os.environ:  # Running on Azure
     from .azure import *
-
