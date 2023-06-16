@@ -32,7 +32,7 @@
 								{% if request.user.role == 'Admin' %}
 								 <li class="nav-link  {% if request.path == '/add-category/' %}active{% endif %}"><a href="{% url 'add-category' %}"><i class="fa fa-plus-circle mr-2"></i>Add Category</a></li>
 								 <li class="nav-link  {% if request.path == '/job-skill/' %}active{% endif %}"><a href="{% url 'job-skill' %}"><i class="fas fa-tasks mr-2"></i>Job skill</a></li>
-								 <li class="nav-link {% if request.path == '/user/manage-users/' %}active{% endif %}"><a href="{% url 'manage-users' %}"><i class="fas fa-users mr-2"></i>Manage Users</a></li>
+								 {% comment %} <li class="nav-link {% if request.path == '/user/manage-users/' %}active{% endif %}"><a href="{% url 'manage-users' %}"><i class="fas fa-users mr-2"></i>Manage Users</a></li> {% endcomment %}
 								{% endif %}
 							</ul>
 							<ul data-submenu-title="My Accounts">

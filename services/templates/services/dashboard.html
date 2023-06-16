@@ -93,7 +93,7 @@
 							<div class="modal-body">
 								<p>You can upload any legal document to prove your identity.</p>
 								</p>
-								<form action="{% url 'edit-user-profile' %}" method="post" enctype="multipart/form-data">
+								{% comment %} <form action="{% url 'edit-user-profile' %}" method="post" enctype="multipart/form-data"> {% endcomment %}
 									{% csrf_token %}
 								<input type="file" name="document">
 							</div>
