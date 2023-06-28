@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'chat',
     'resume',
     'rest_framework',
+    'twilio',
 
 ]
 
