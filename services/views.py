@@ -78,10 +78,13 @@ def services_search(request):
 
     # loop through the services returned by recommend function
     if request.user.role != 'Admin' or request.user.role != 'Service Seeker':
-        recommended_jobs = []
-        if recommend(request):
-            for service in recommend(request):
-                recommended_jobs.append(service)
+        user = request.user
+        user_skills = UserSkills.objects.filter(user=user)
+        user_skill_names = list(JobSkills.objects.filter(
+            user_skill__in=user_skills).values_list('name', flat=True).distinct())
+        # Retrieve all Services that require at least one skill from the user's skill set
+        recommended_jobs = Services.objects.filter(
+            skills__name__in=user_skill_names)
     else:
         recommended_jobs = []
 
