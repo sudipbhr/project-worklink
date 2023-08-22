@@ -37,7 +37,9 @@
 							</ul>
 							<ul data-submenu-title="My Accounts">
 								{% if request.user.role != 'Admin' %}
-								 	<li class="nav-link {% if request.path == '/user/detail/' %}active{% endif %}"><a href="{% url 'user-profile' %}"><i class="fas fa-user mr-2"></i>My Profile </a></li>
+								 	<li class="nav-link {% if request.path == '/user/detail/' %}active{% endif %}">
+										<a href="{% url 'profile' %}"><i class="fas fa-user mr-2"></i>My Profile </a>
+									</li>
 								{% endif %}
 								 <li class="nav-link {% if request.path == '/auth/change-password/' %}active{% endif %}"><a href="{% url 'change-password' %}"><i class="fas fa-lock mr-2"></i>Change Password</a></li>
 								 <li class="nav-link {% if request.path == '/auth/logout/' %}active{% endif %}"><a href="{% url 'logout' %}"><i class="fas fa-power-off mr-2"></i>Log Out</a></li>
