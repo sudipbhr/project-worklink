@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-ho6r$=l(zy(bd+=e7#5ycu@pke9xtcu$jms395lu_*!f=hd2iy
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['20.193.232.216', 'sudip57.com.np']
 
 
 # Application definition
@@ -102,8 +102,12 @@ WSGI_APPLICATION = 'worklink.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'worklink',
+	'USER': 'sudip',
+	'PASSWORD': 'sbhandari598',
+	'HOST': '20.193.232.216',
+	'PORT': '',
 
         # mysql database
         # 'default': {
